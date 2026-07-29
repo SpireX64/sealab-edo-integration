@@ -1,10 +1,29 @@
 import { JSONRPCClient, type JSONRPCRequest, type SendRequest } from "json-rpc-2.0";
 import { v4 as uuid } from "uuid";
 
-/** Конфигурация SabyTMS-клиента */
-export type SabyTmsClientConfig = {
-    host: string;
+export enum SabyEnv {
+    /** Работа в боевой среде */
+    Prod = 'Prod',
+    /** Работа в тестовой среде */
+    Test = 'Test',
 }
+
+type SabyApiTarget = 'auth' | 'service'
+
+type TSabyApiUrls = Readonly<Record<SabyApiTarget, string>>;
+
+const apiMap: Record<SabyEnv, TSabyApiUrls> = {
+    [SabyEnv.Prod]: {
+        auth: "https://tms.saby.ru/auth/service/",
+        service: "https://tms.saby.ru/service/",
+    },
+    [SabyEnv.Test]: {
+        auth: "https://tms.sabyd.ru/auth/service/",
+        service: "https://tms.sabyd.ru/auth/service/",
+    },
+}
+
+type SabyClientParams = { api: SabyApiTarget }
 
 function getHeaders(token: string | undefined) {
     const headers: Record<string, string> = {
@@ -18,15 +37,16 @@ function getHeaders(token: string | undefined) {
     return headers;
 }
 
+const getSabyApiUrl = (env: SabyEnv, target: SabyApiTarget) => apiMap[env][target]
 const sabyParams = (params: object) => ({ "Параметр": params })
 
 export class SabyTmsClient {
-    private readonly _rpc: JSONRPCClient;
+    private readonly _rpc: JSONRPCClient<SabyClientParams>;
 
     private _sessionToken: string | undefined
 
     public constructor(
-        private readonly _config: SabyTmsClientConfig,
+        private readonly _env: SabyEnv,
     ) {
         this._rpc = new JSONRPCClient(
             this._sendRequest.bind(this) as SendRequest<any>,
@@ -56,7 +76,7 @@ export class SabyTmsClient {
         const token: string = await this._rpc.request("СБИС.Аутентифицировать", sabyParams({
             "Логин": login,
             "Пароль": password,
-        }))
+        }), { api: 'auth' })
 
         this._sessionToken = token;
 
@@ -68,8 +88,8 @@ export class SabyTmsClient {
         this._sessionToken = undefined;
     }
 
-    private async _sendRequest(req: JSONRPCRequest) {
-        const resp = await fetch(this._config.host, {
+    private async _sendRequest(req: JSONRPCRequest, params: SabyClientParams) {
+        const resp = await fetch(getSabyApiUrl(this._env, params.api), {
             method: 'POST',
             headers: getHeaders(this._sessionToken),
             body: JSON.stringify(req),
