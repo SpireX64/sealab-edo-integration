@@ -8,11 +8,11 @@ export type SabyTmsClientConfig = {
 
 function getHeaders(token: string | undefined) {
     const headers: Record<string, string> = {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json-rpc;charset=utf-8;",
     }
 
     if (typeof token === "string" && token.length > 0) {
-        headers["Authorization"] = `Bearer ${token}`
+        headers["X-SBISSessionID"] = token;
     }
 
     return headers;
