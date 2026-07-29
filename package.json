@@ -1,4 +1,10 @@
 {
   "name": "saby-tms-client",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "json-rpc-2.0": "^1.7.1"
+  },
+  "devDependencies": {
+    "typescript": "^5"
+  }
 }
