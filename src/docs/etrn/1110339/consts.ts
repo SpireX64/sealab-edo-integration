@@ -108,6 +108,33 @@ export function formatMassDeterminationMethod(method: MassDeterminationMethod): 
     }
 }
 
+// ─── InfrastructureOwnerMatchesShipper ─────────────────────
+
+/**
+ * Признак совпадения лица, которое является владельцем инфраструктуры
+ * пункта погрузки, с грузоотправителем.
+ * (СовпГОВ, таб-5.20)
+ */
+export enum InfraOwnerMatchesShipper {
+    /** Совпадает: владелец инфраструктуры является грузоотправителем */
+    Matches = 1,
+    /** Не совпадает: владелец инфраструктуры не является грузоотправителем */
+    NotMatches = 2,
+    /** Не совпадает: владелец инфраструктуры неизвестен */
+    Unknown = 3,
+}
+
+export function formatInfrastructureOwnerMatchesShipper(value: InfraOwnerMatchesShipper): string {
+    switch (value) {
+        case InfraOwnerMatchesShipper.Matches:
+            return "1"
+        case InfraOwnerMatchesShipper.NotMatches:
+            return "2"
+        case InfraOwnerMatchesShipper.Unknown:
+            return "3"
+    }
+}
+
 // ─── SignerStatus ──────────────────────────────────────────
 
 /**

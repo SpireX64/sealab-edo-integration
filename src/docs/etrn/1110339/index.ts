@@ -16,6 +16,7 @@ export {
     ShipperNoteReason,
     MassDeterminationMethod,
     SignerStatus,
+    InfraOwnerMatchesShipper,
 } from './consts'
 
 // Общие типы
