@@ -1,0 +1,35 @@
+/**
+ * Идентификационные сведения о лице, имеющем отношение к перевозке (об участнике перевозки)
+ * (ИдСвТип, таб-5.35)
+ *
+ * Агрегирует типы из таблиц 5.25–5.28.
+ */
+
+import { IssuerType } from '../consts'
+import { formatLegalEntityInfo } from './5.25-LegalEntityInfo'
+import type { TLegalEntityInfo } from './5.25-LegalEntityInfo'
+import { formatSoleProprietorInfo } from './5.26-SoleProprietorInfo'
+import type { TSoleProprietorInfo } from './5.26-SoleProprietorInfo'
+import { formatForeignEntityInfo } from './5.27-ForeignEntityInfo'
+import type { TForeignEntityInfo } from './5.27-ForeignEntityInfo'
+import { formatIndividualInfo } from './5.28-IndividualInfo'
+import type { TIndividualInfo } from './5.28-IndividualInfo'
+
+export type TIdentificationDetails =
+    | TLegalEntityInfo
+    | TSoleProprietorInfo
+    | TForeignEntityInfo
+    | TIndividualInfo
+
+export function formatIdentificationDetails(data: TIdentificationDetails) {
+    switch (data.type) {
+        case IssuerType.LegalEntity:
+            return formatLegalEntityInfo(data)
+        case IssuerType.SoleProprietor:
+            return formatSoleProprietorInfo(data)
+        case IssuerType.ForeignEntity:
+            return formatForeignEntityInfo(data)
+        case IssuerType.Individual:
+            return formatIndividualInfo(data)
+    }
+}

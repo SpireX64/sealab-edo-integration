@@ -1,0 +1,47 @@
+/**
+ * Транспортная Накладная - Информация Грузоотправителя
+ * (ЭТрН, 1110339) (таб-5.2)
+ */
+
+import { Document } from '../../shared'
+import { DOC_TYPE_ETRN } from '../consts'
+import { formatShipperWaybill } from './data/5.3-ShipperWaybill'
+import type { TShipperWaybill } from './data/5.3-ShipperWaybill'
+import { formatSettlementDoc } from './data/5.45-SettlementDoc'
+import type { TSettlementDoc } from './data/5.45-SettlementDoc'
+import { formatSignerInfo } from './data/5.23-SignerInfo'
+import type { TSignerInfo } from './data/5.23-SignerInfo'
+
+export type TDocument111339 = TShipperWaybill & {
+    /**
+     * Наименование экономического субъекта, составляющего файл обмена информации грузоотправителя.
+     * (maxlen=1000)
+     * @example 'Общество с ограниченной ответственностью "ОСНОва"'
+     */
+    issuer: string;
+
+    /**
+     * Основание, по которому экономический субъект является составителем
+     * файла обмена информации грузоотправителя.
+     * (таб-5.45)
+     */
+    issuerAuthorityDoc?: TSettlementDoc
+
+    /**
+     * Сведения о лице, подписывающем файл обмена информации грузоотправителя.
+     * (таб-5.23)
+     */
+    signer: TSignerInfo
+}
+
+export const Document111339 = (data: TDocument111339) =>
+    Document({
+        type: DOC_TYPE_ETRN,
+        subtype: "111339",
+    }, 
+    {
+        "НаимЭкСубСост": data.issuer,
+        "ОснДовОргСост": data.issuerAuthorityDoc && formatSettlementDoc(data.issuerAuthorityDoc),
+        "Подписант": formatSignerInfo(data.signer),
+        "СодИнфГО": formatShipperWaybill(data)
+    })
