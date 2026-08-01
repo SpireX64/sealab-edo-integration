@@ -17,7 +17,7 @@ export function Document<T extends object>({
                 "Тип": type,
                 "Подтип": subtype,
                 "Подстановка": { 
-                    [subtype]: { "Файл": content },
+                    [subtype]: content,
                 }
             }
         }

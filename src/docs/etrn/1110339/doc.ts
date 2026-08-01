@@ -40,8 +40,12 @@ export const Document111339 = (data: TDocument111339) =>
         subtype: "111339",
     }, 
     {
-        "НаимЭкСубСост": data.issuer,
-        "ОснДовОргСост": data.issuerAuthorityDoc && formatSettlementDoc(data.issuerAuthorityDoc),
-        "Подписант": formatSignerInfo(data.signer),
-        "СодИнфГО": formatShipperWaybill(data)
+        "Файл": {
+            "Документ": {
+                "НаимЭкСубСост": data.issuer,
+                "ОснДовОргСост": data.issuerAuthorityDoc && formatSettlementDoc(data.issuerAuthorityDoc),
+                "Подписант": formatSignerInfo(data.signer),
+                "СодИнфГО": formatShipperWaybill(data)
+            }
+        }
     })
