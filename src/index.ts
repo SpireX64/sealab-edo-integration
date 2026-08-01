@@ -24,6 +24,7 @@ const apiMap: Record<SabyEnv, TSabyApiUrls> = {
 }
 
 type SabyClientParams = { api: SabyApiTarget }
+type SabyJrpcClient = JSONRPCClient<SabyClientParams>
 
 function getHeaders(token: string | undefined) {
     const headers: Record<string, string> = {
@@ -41,7 +42,7 @@ const getSabyApiUrl = (env: SabyEnv, target: SabyApiTarget) => apiMap[env][targe
 const sabyParams = (params: object) => ({ "Параметр": params })
 
 export class SabyTmsClient {
-    private readonly _rpc: JSONRPCClient<SabyClientParams>;
+    private readonly _rpc: SabyJrpcClient;
 
     private _sessionToken: string | undefined
 
