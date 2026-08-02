@@ -3,7 +3,7 @@
  * (Подписант, таб-5.23)
  */
 
-import { SignerStatus, formatSignerStatus } from '../consts'
+import { ShipperSignerStatus, formatSignerStatus } from '../consts'
 import { formatPersonFullName } from '../types'
 import type { TPersonFullName } from '../types'
 import { formatPowerOfAttorney } from './5.24-PowerOfAttorney'
@@ -15,7 +15,7 @@ export type TSignerInfo = {
      * Может принимать значение 3 или 6, если иное не предусмотрено
      * законодательством РФ в области электронной подписи.
      */
-    status: SignerStatus
+    status: ShipperSignerStatus
 
     /**
      * Идентифицирующие сведения об информационной системе,
@@ -48,8 +48,8 @@ export type TSignerInfo = {
 
 export function formatSignerInfo(data: TSignerInfo) {
     const needsPOA =
-        (data.status === SignerStatus.ShipperElectronicPOA ||
-         data.status === SignerStatus.LoaderElectronicPOA) &&
+        (data.status === ShipperSignerStatus.ShipperElectronicPOA ||
+         data.status === ShipperSignerStatus.LoaderElectronicPOA) &&
         !data.storageSystemUrl
 
     if (needsPOA && !data.powerOfAttorney) {

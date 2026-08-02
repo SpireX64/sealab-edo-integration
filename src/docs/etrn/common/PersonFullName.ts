@@ -1,0 +1,36 @@
+/**
+ * Фамилия, имя, отчество физического лица
+ * (ФИОТип, общий тип для документов ЭТрН)
+ */
+
+export type TPersonFullName = {
+    /** Имя */
+    firstName: string;
+
+    /** Фамилия */
+    lastName: string;
+
+    /** Отчество (при наличии) */
+    middleName?: string | undefined;
+}
+
+/**
+ * Форматирует ФИО в строку «Фамилия Имя Отчество».
+ * Используется в 1110339 (таб-5.15, 5.19, 5.23, 5.26, 5.27, 5.28).
+ */
+export function formatPersonFullName({firstName, lastName, middleName}: TPersonFullName) {
+    const name = `${lastName} ${firstName}`
+    return middleName ? `${name} ${middleName}` : name
+}
+
+/**
+ * Форматирует ФИО в структуру с отдельными полями.
+ * Используется в 1110340 (таб-7.8, 7.16).
+ */
+export function formatPersonFullNameFields({firstName, lastName, middleName}: TPersonFullName) {
+    return {
+        "Фамилия": lastName,
+        "Имя": firstName,
+        "Отчество": middleName,
+    }
+}

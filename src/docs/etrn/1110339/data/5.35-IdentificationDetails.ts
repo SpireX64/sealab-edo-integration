@@ -10,8 +10,8 @@ import { formatLegalEntityInfo } from './5.25-LegalEntityInfo'
 import type { TLegalEntityInfo } from './5.25-LegalEntityInfo'
 import { formatSoleProprietorInfo } from './5.26-SoleProprietorInfo'
 import type { TSoleProprietorInfo } from './5.26-SoleProprietorInfo'
-import { formatForeignEntityInfo } from './5.27-ForeignEntityInfo'
 import type { TForeignEntityInfo } from './5.27-ForeignEntityInfo'
+import { formatForeignEntityNotRegistered } from '../../common/ForeignEntityNotRegistered'
 import { formatIndividualInfo } from './5.28-IndividualInfo'
 import type { TIndividualInfo } from './5.28-IndividualInfo'
 
@@ -28,7 +28,7 @@ export function formatIdentificationDetails(data: TIdentificationDetails) {
         case IssuerType.SoleProprietor:
             return formatSoleProprietorInfo(data)
         case IssuerType.ForeignEntity:
-            return formatForeignEntityInfo(data)
+            return { "СвИнНеУч": formatForeignEntityNotRegistered(data) }
         case IssuerType.Individual:
             return formatIndividualInfo(data)
     }

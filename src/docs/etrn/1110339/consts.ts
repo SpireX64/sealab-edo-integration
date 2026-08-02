@@ -3,19 +3,9 @@
  */
 
 // ─── IssuerType ────────────────────────────────────────────
+// Реэкспорт общего типа из docs/etrn/common
 
-export enum IssuerType {
-    /** Физическое лицо (ФЛ) */
-    Individual = "ФЛ",
-    /** Юридическое лицо (ЮЛ) */
-    LegalEntity = "ЮЛ",
-    /** Индивидуальный предприниматель (ИП) */
-    SoleProprietor = "ИП",
-    /** Иностранное лицо, не состоящее в налоговых органах как налогоплательщик */
-    ForeignEntity = "ИН",
-    /** Орган исполнительной власти */
-    ExecutiveAuthority = "ОИВ",
-}
+export { IssuerType } from '../common/IssuerType'
 
 // ─── VehicleOwnershipType ──────────────────────────────────
 
@@ -141,7 +131,7 @@ export function formatInfrastructureOwnerMatchesShipper(value: InfraOwnerMatches
  * Статус подписанта
  * (СтатПодп, таб-5.23)
  */
-export enum SignerStatus {
+export enum ShipperSignerStatus {
     /** Лицо, действующее от имени грузоотправителя без доверенности */
     ShipperWithoutPOA = 1,
     /** Лицо, действующее от имени грузоотправителя на основании электронной доверенности */
@@ -156,19 +146,19 @@ export enum SignerStatus {
     LoaderPaperPOA = 6,
 }
 
-export function formatSignerStatus(status: SignerStatus): string {
+export function formatSignerStatus(status: ShipperSignerStatus): string {
     switch (status) {
-        case SignerStatus.ShipperWithoutPOA:
+        case ShipperSignerStatus.ShipperWithoutPOA:
             return "лицо, действующее от имени грузоотправителя без доверенности"
-        case SignerStatus.ShipperElectronicPOA:
+        case ShipperSignerStatus.ShipperElectronicPOA:
             return "лицо, действующее от имени грузоотправителя на основании электронной доверенности"
-        case SignerStatus.ShipperPaperPOA:
+        case ShipperSignerStatus.ShipperPaperPOA:
             return "лицо, действующее от имени грузоотправителя на основании бумажной доверенности"
-        case SignerStatus.LoaderWithoutPOA:
+        case ShipperSignerStatus.LoaderWithoutPOA:
             return "лицо, действующее от имени лица, осуществляющего погрузку груза в транспортное средство, без доверенности"
-        case SignerStatus.LoaderElectronicPOA:
+        case ShipperSignerStatus.LoaderElectronicPOA:
             return "лицо, действующее от имени лица, осуществляющего погрузку груза в транспортное средство, на основании электронной доверенности"
-        case SignerStatus.LoaderPaperPOA:
+        case ShipperSignerStatus.LoaderPaperPOA:
             return "лицо, действующее от имени лица, осуществляющего погрузку груза в транспортное средство, на основании бумажной доверенности"
     }
 }

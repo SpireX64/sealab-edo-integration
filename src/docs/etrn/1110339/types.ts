@@ -14,17 +14,9 @@ export type TRange = {
 }
 
 // ─── TPersonFullName ───────────────────────────────────────
+// Реэкспорт общего типа из docs/etrn/common
 
-export type TPersonFullName = {
-    firstName: string;
-    lastName: string;
-    middleName?: string | undefined;
-}
-
-export function formatPersonFullName({firstName, lastName, middleName}: TPersonFullName) {
-    const name = `${lastName} ${firstName}`
-    return middleName ? `${name} ${middleName}` : name
-}
+export { type TPersonFullName, formatPersonFullName } from '../common/PersonFullName'
 
 // ─── TForeignCurrencyInfo ──────────────────────────────────
 // Реэкспорт общего типа из docs/etrn/common
