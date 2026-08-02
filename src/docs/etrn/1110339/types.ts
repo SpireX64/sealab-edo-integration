@@ -3,8 +3,6 @@
  * не привязанные к конкретной таблице спецификации.
  */
 
-import { formatDate } from '../../../helpers'
-
 // ─── TRange ────────────────────────────────────────────────
 
 /** Диапазон значений (min/max) */
@@ -29,45 +27,10 @@ export function formatPersonFullName({firstName, lastName, middleName}: TPersonF
 }
 
 // ─── TForeignCurrencyInfo ──────────────────────────────────
+// Реэкспорт общего типа из docs/etrn/common
 
-/**
- * Сведения об иностранной валюте
- * (используется в РазмШтр и других типах)
- */
-export type TForeignCurrencyInfo = {
-    /**
-     * Код валюты по ОКВ.
-     * (3 символа)
-     */
-    currencyCode: string
+export { type TForeignCurrencyInfo, formatForeignCurrencyInfo } from '../common/ForeignCurrencyInfo'
 
-    /**
-     * Наименование валюты по ОКВ.
-     * (1-100 символов)
-     */
-    currencyName: string
-
-    /**
-     * Дата, на которую определяется курс валюты.
-     */
-    exchangeRateDate?: Date
-
-    /**
-     * Курс валюты.
-     * (Число, 10.4)
-     */
-    exchangeRate?: number
-}
-
-export function formatForeignCurrencyInfo(data: TForeignCurrencyInfo | undefined) {
-    if (!data) return {}
-    return {
-        "КодОКВ": data.currencyCode,
-        "НаимОКВ": data.currencyName,
-        "ДатаКурсВал": data.exchangeRateDate && formatDate(data.exchangeRateDate),
-        "КурсВал": data.exchangeRate?.toFixed(4),
-    }
-}
 
 // ─── TAddress / Адреса ─────────────────────────────────────
 
