@@ -7,8 +7,8 @@
 import { CarrierSignerStatus, formatCarrierSignerStatus } from '../consts'
 import { formatPersonFullNameFields } from './7.16-FullName'
 import type { TPersonFullName } from './7.16-FullName'
-import { formatCarrierPowerOfAttorney } from './7.9-PowerOfAttorney'
-import type { TCarrierPowerOfAttorney } from './7.9-PowerOfAttorney'
+import { formatPowerOfAttorney } from './7.9-PowerOfAttorney'
+import type { TPowerOfAttorney } from './7.9-PowerOfAttorney'
 
 export type TCarrierSigner = {
     /**
@@ -45,7 +45,7 @@ export type TCarrierSigner = {
      * Обязателен при СтатПодп = 2 и отсутствии storageSystemUrl.
      * (таб-7.9)
      */
-    powerOfAttorney?: TCarrierPowerOfAttorney
+    powerOfAttorney?: TPowerOfAttorney
 }
 
 export function formatCarrierSigner(data: TCarrierSigner) {
@@ -65,6 +65,6 @@ export function formatCarrierSigner(data: TCarrierSigner) {
         "ИдСистХран": data.storageSystemUrl,
         "Должн": data.position,
         "ФИО": formatPersonFullNameFields(data.fullName),
-        "СвДовер": data.powerOfAttorney && formatCarrierPowerOfAttorney(data.powerOfAttorney),
+        "СвДовер": data.powerOfAttorney && formatPowerOfAttorney(data.powerOfAttorney),
     }
 }

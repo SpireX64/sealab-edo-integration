@@ -6,7 +6,4 @@
  * Реэкспорт общего типа.
  */
 
-export {
-    type TPowerOfAttorney as TCarrierPowerOfAttorney,
-    formatPowerOfAttorney as formatCarrierPowerOfAttorney,
-} from '../../common/PowerOfAttorney'
+export { type TPowerOfAttorney, formatPowerOfAttorney } from '../../common/PowerOfAttorney'

@@ -15,7 +15,7 @@ export {
     ReaddressingAuthority,
     ShipperNoteReason,
     MassDeterminationMethod,
-    ShipperSignerStatus as SignerStatus,
+    ShipperSignerStatus,
     InfraOwnerMatchesShipper,
 } from './consts'
 

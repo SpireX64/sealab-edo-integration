@@ -7,8 +7,8 @@ import { formatDateTimeWithUtc, mapArrayIfNotEmpty } from '../../../../helpers'
 import { CarrierNoteReason, formatCarrierNoteReason } from '../consts'
 import { formatCommercialAct } from './7.13-CommercialAct'
 import type { TCommercialAct } from './7.13-CommercialAct'
-import { formatPenaltyCalculation } from './7.7-PenaltyCalculation'
-import type { TPenaltyCalculation } from './7.7-PenaltyCalculation'
+import { formatPenaltyInfo } from './7.7-PenaltyCalculation'
+import type { TPenaltyInfo } from './7.7-PenaltyCalculation'
 import { formatInfoField } from './7.12-InfoField'
 import type { TInfoField } from './7.12-InfoField'
 
@@ -40,7 +40,7 @@ export type TCarrierNote = {
      * Расчет и размер штрафа.
      * (таб-7.7)
      */
-    penaltyCalculation?: TPenaltyCalculation[]
+    penaltyCalculation?: TPenaltyInfo[]
 
     /**
      * Информационное поле.
@@ -58,7 +58,7 @@ export function formatCarrierNote(data: TCarrierNote) {
         "ОбстОтмет": formatCarrierNoteReason(data.circumstances),
         "ОтмАктВзв": data.weighingActNote,
         "СвАкт": mapArrayIfNotEmpty(data.commercialActs, formatCommercialAct),
-        "РазмШтр": mapArrayIfNotEmpty(data.penaltyCalculation, formatPenaltyCalculation),
+        "РазмШтр": mapArrayIfNotEmpty(data.penaltyCalculation, formatPenaltyInfo),
         "ИнфПол": mapArrayIfNotEmpty(data.infoField, formatInfoField),
     }
 }
