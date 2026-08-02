@@ -7,10 +7,8 @@ import {
     InfraOwnerMatchesShipper,
     formatInfrastructureOwnerMatchesShipper,
 } from '../consts'
-import { formatPartyDetails } from './5.29-PartyDetails'
-import type { TPartyDetails } from './5.29-PartyDetails'
-import { formatIssuerIdentity } from './5.36-IssuerIdentity'
-import type { TIssuerIdentity } from './5.36-IssuerIdentity'
+import { formatPartyDetails, type TPartyDetails } from './5.29-PartyDetails';
+import { formatIssuerIdentity, type TIssuerIdentity } from './5.36-IssuerIdentity';
 
 export type TInfrastructureOwnerInfo =
     | {

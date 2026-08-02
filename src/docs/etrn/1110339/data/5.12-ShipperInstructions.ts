@@ -4,14 +4,10 @@
  */
 
 import { formatFlag, formatDateTimeWithUtc } from '../../../../helpers'
-import { formatRouteInfo } from './5.32-RouteInfo'
-import type { TRouteInfo } from './5.32-RouteInfo'
-import { formatReaddressingInfo } from './5.13-ReaddressingInfo'
-import type { TReaddressingInfo } from './5.13-ReaddressingInfo'
-import { formatClimateMode } from './5.14-ClimateMode'
-import type { TClimateMode } from './5.14-ClimateMode'
-import { formatInfoField } from './5.44-InfoField'
-import type { TInfoField } from './5.44-InfoField'
+import { formatRouteInfo, type TRouteInfo } from './5.32-RouteInfo';
+import { formatReaddressingInfo, type TReaddressingInfo } from './5.13-ReaddressingInfo';
+import { formatClimateMode, type TClimateMode } from './5.14-ClimateMode';
+import { formatInfoField, type TInfoField } from './5.44-InfoField';
 
 export type TShipperInstructions = {
     /**

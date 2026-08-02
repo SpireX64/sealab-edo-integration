@@ -4,8 +4,7 @@
  */
 
 import { mapArrayIfNotEmpty } from '../../../../helpers'
-import { formatSettlementDoc } from './5.45-SettlementDoc'
-import type { TSettlementDoc } from './5.45-SettlementDoc'
+import { formatSettlementDoc, type TSettlementDoc } from './5.45-SettlementDoc';
 
 export type TAccompaningDocs = {
     /**

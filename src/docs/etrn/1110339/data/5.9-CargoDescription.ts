@@ -4,20 +4,13 @@
  */
 
 import { formatFlag } from '../../../../helpers'
-import { formatDimensionsInfo } from './5.39-DimensionsInfo'
-import type { TDimensionsInfo } from './5.39-DimensionsInfo'
-import { formatDangerousGoodsInfo } from './5.33-DangerousGoodsInfo'
-import type { TDangerousGoodsInfo } from './5.33-DangerousGoodsInfo'
-import { formatContainerInfo } from './5.34-ContainerInfo'
-import type { TContainerInfo } from './5.34-ContainerInfo'
-import { formatWeightInfo } from './5.41-WeightInfo'
-import type { TWeightInfo } from './5.41-WeightInfo'
-import { formatDeclaredValueInfo } from './5.40-DeclaredValueInfo'
-import type { TDeclaredValueInfo } from './5.40-DeclaredValueInfo'
-import { formatIdentificationDetails } from './5.35-IdentificationDetails'
-import type { TIdentificationDetails } from './5.35-IdentificationDetails'
-import { formatGovSystemInfo } from './5.10-GovSystemInfo'
-import type { TGovSystemInfo } from './5.10-GovSystemInfo'
+import { formatDimensionsInfo, type TDimensionsInfo } from './5.39-DimensionsInfo';
+import { formatDangerousGoodsInfo, type TDangerousGoodsInfo } from './5.33-DangerousGoodsInfo';
+import { formatContainerInfo, type TContainerInfo } from './5.34-ContainerInfo';
+import { formatCargoWeight, type TCargoWeight } from './5.41-WeightInfo';
+import { formatDeclaredValueInfo, type TDeclaredValueInfo } from './5.40-DeclaredValueInfo';
+import { formatIdentificationDetails, type TIdentificationDetails } from './5.35-IdentificationDetails';
+import { formatGovSystemInfo, type TGovSystemInfo } from './5.10-GovSystemInfo';
 
 export type TCargoDescription = {
     /**
@@ -111,7 +104,7 @@ export type TCargoDescription = {
     /**
      * Плановая масса груза, в килограммах.
      */
-    plannedWeight: TWeightInfo
+    plannedWeight: TCargoWeight
 
     /**
      * Объявленная стоимость (ценность) груза.
@@ -156,7 +149,7 @@ export function formatCargoDescription(data: TCargoDescription) {
         "Габар": data.dimensions && formatDimensionsInfo(data.dimensions),
         "СвОпГруз": data.dangerousGoods && formatDangerousGoodsInfo(data.dangerousGoods),
         "СвКонтейн": data.containers && formatContainerInfo(data.containers),
-        "ПлМасГруз": formatWeightInfo(data.plannedWeight),
+        "ПлМасГруз": formatCargoWeight(data.plannedWeight),
         "ЦеннГруз": data.declaredValue && formatDeclaredValueInfo(data.declaredValue),
         "ЗакУсл": data.customerInfo && formatIdentificationDetails(data.customerInfo),
         "СвГосСист": data.stateTrackingInfo && formatGovSystemInfo(data.stateTrackingInfo),

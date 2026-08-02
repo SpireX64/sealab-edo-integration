@@ -4,12 +4,9 @@
  */
 
 import { mapArrayIfNotEmpty } from '../../../../helpers'
-import { formatVehicleParams } from './5.37-VehicleParams'
-import type { TVehicleParams } from './5.37-VehicleParams'
-import { formatSpecialDrivingCondition } from './5.31-SpecialDrivingCondition'
-import type { TSpecialDrivingCondition } from './5.31-SpecialDrivingCondition'
-import { formatInfoField } from './5.44-InfoField'
-import type { TInfoField } from './5.44-InfoField'
+import { formatVehicleParams, type TVehicleParams } from './5.37-VehicleParams';
+import { formatSpecialDrivingCondition, type TSpecialDrivingCondition } from './5.31-SpecialDrivingCondition';
+import { formatInfoField, type TInfoField } from './5.44-InfoField';
 
 export type TVehicleInfo = {
     /** Транспортное средство (в том числе тягач) */

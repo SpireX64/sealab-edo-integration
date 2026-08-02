@@ -3,12 +3,9 @@
  * (СвГруз, таб-5.8)
  */
 
-import { formatCargoDescription } from './5.9-CargoDescription'
-import type { TCargoDescription } from './5.9-CargoDescription'
-import { formatDeclaredValueInfo } from './5.40-DeclaredValueInfo'
-import type { TDeclaredValueInfo } from './5.40-DeclaredValueInfo'
-import { formatInfoField } from './5.44-InfoField'
-import type { TInfoField } from './5.44-InfoField'
+import { formatCargoDescription, type TCargoDescription } from './5.9-CargoDescription';
+import { formatDeclaredValueInfo, type TDeclaredValueInfo } from './5.40-DeclaredValueInfo';
+import { formatInfoField, type TInfoField } from './5.44-InfoField';
 
 export type TCargoInfo = {
     /** Описание груза */

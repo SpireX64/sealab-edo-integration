@@ -73,30 +73,9 @@ export function formatShipperNoteReason(reason: ShipperNoteReason | string): str
 }
 
 // ─── MassDeterminationMethod ──────────────────────────────
+// Реэкспорт общего типа из docs/etrn/common
 
-/**
- * Метод определения массы груза
- * (МетОпрМасс, таб-5.17)
- */
-export enum MassDeterminationMethod {
-    /** Взвешивание по общей массе */
-    TotalWeight = "01",
-    /** Взвешивание поосно */
-    AxleWeight = "02",
-    /** Расчетная масса груза */
-    Calculated = "03",
-}
-
-export function formatMassDeterminationMethod(method: MassDeterminationMethod): string {
-    switch (method) {
-        case MassDeterminationMethod.TotalWeight:
-            return "Взвешивание по общей массе"
-        case MassDeterminationMethod.AxleWeight:
-            return "Взвешивание поосно"
-        case MassDeterminationMethod.Calculated:
-            return "Расчетная масса груза"
-    }
-}
+export { MassDeterminationMethod, formatMassDeterminationMethod } from '../common/MassDeterminationMethod'
 
 // ─── InfrastructureOwnerMatchesShipper ─────────────────────
 

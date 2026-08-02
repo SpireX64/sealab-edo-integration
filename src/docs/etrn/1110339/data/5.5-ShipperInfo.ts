@@ -3,10 +3,8 @@
  * (СвГО, таб-5.5)
  */
 
-import { formatPartyDetails } from './5.29-PartyDetails'
-import type { TPartyDetails } from './5.29-PartyDetails'
-import { formatSettlementDoc } from './5.45-SettlementDoc'
-import type { TSettlementDoc } from './5.45-SettlementDoc'
+import { formatPartyDetails, type TPartyDetails } from './5.29-PartyDetails';
+import { formatSettlementDoc, type TSettlementDoc } from './5.45-SettlementDoc';
 
 export type TShipperInfo = {
     /** Флаг, указывающий, что грузоотправитель является экспедитором */

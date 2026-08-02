@@ -4,8 +4,7 @@
  */
 
 import { formatDate } from '../../../../helpers'
-import { formatIssuerIdentity } from './5.36-IssuerIdentity'
-import type { TIssuerIdentity } from './5.36-IssuerIdentity'
+import { formatIssuerIdentity, type TIssuerIdentity } from './5.36-IssuerIdentity';
 
 export type TSettlementDoc = {
     /**

@@ -4,10 +4,8 @@
  */
 
 import { ReaddressingAuthority, formatReaddressingAuthority } from '../consts'
-import { formatContacts } from './5.48-Contacts'
-import type { TContacts } from './5.48-Contacts'
-import { formatSettlementDoc } from './5.45-SettlementDoc'
-import type { TSettlementDoc } from './5.45-SettlementDoc'
+import { formatContacts, type TContacts } from './5.48-Contacts';
+import { formatSettlementDoc, type TSettlementDoc } from './5.45-SettlementDoc';
 
 export type TReaddressingInfo = {
     /** Лицо, по указанию которого может осуществляться переадресовка */

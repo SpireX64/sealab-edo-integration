@@ -5,10 +5,8 @@
 
 import { VehicleOwnershipType, IssuerType } from '../consts'
 import { mapArrayIfNotEmpty } from '../../../../helpers'
-import { formatVehicleSpecs } from './5.38-VehicleSpecs'
-import type { TVehicleSpecs } from './5.38-VehicleSpecs'
-import { formatSettlementDoc } from './5.45-SettlementDoc'
-import type { TSettlementDoc } from './5.45-SettlementDoc'
+import { formatVehicleSpecs, type TVehicleSpecs } from './5.38-VehicleSpecs';
+import { formatSettlementDoc, type TSettlementDoc } from './5.45-SettlementDoc';
 
 export type TVehicleParams = {
     /**

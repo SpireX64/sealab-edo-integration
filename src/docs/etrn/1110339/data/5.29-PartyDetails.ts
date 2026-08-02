@@ -2,14 +2,10 @@
  * (УчастникТрНТип, таб-5.29)
  */
 
-import { formatIdentificationDetails } from './5.35-IdentificationDetails'
-import type { TIdentificationDetails } from './5.35-IdentificationDetails'
-import { formatParticipantInfo } from './5.30-ParticipantInfo'
-import type { TParticipantInfo } from './5.30-ParticipantInfo'
-import { formatAddress } from '../types'
-import type { TAddress } from '../types'
-import { formatContacts } from './5.48-Contacts'
-import type { TContacts } from './5.48-Contacts'
+import { formatIdentificationDetails, type TIdentificationDetails } from './5.35-IdentificationDetails';
+import { formatParticipantInfo, type TParticipantInfo } from './5.30-ParticipantInfo';
+import { formatAddress, type TAddress } from '../types';
+import { formatContacts, type TContacts } from './5.48-Contacts';
 
 export type TPartyDetails = {
     /**

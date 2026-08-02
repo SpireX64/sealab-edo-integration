@@ -6,16 +6,11 @@
 
 import { formatDateTimeWithUtc } from '../../../../helpers'
 import { MassDeterminationMethod, formatMassDeterminationMethod } from '../consts'
-import { formatConcreteAddress } from './5.49-ConcreteAddress'
-import type { TConcreteAddress } from './5.49-ConcreteAddress'
-import { formatLoadingPersonInfo } from './5.18-LoadingPersonInfo'
-import type { TLoadingPersonInfo } from './5.18-LoadingPersonInfo'
-import { formatInfrastructureOwnerInfo } from './5.20-InfrastructureOwnerInfo'
-import type { TInfrastructureOwnerInfo } from './5.20-InfrastructureOwnerInfo'
-import { formatSettlementDoc } from './5.45-SettlementDoc'
-import type { TSettlementDoc } from './5.45-SettlementDoc'
-import { formatInfoField } from './5.44-InfoField'
-import type { TInfoField } from './5.44-InfoField'
+import { formatConcreteAddress, type TConcreteAddress } from './5.49-ConcreteAddress';
+import { formatLoadingPersonInfo, type TLoadingPersonInfo } from './5.18-LoadingPersonInfo';
+import { formatInfrastructureOwnerInfo, type TInfrastructureOwnerInfo } from './5.20-InfrastructureOwnerInfo';
+import { formatSettlementDoc, type TSettlementDoc } from './5.45-SettlementDoc';
+import { formatInfoField, type TInfoField } from './5.44-InfoField';
 
 export type TLoadingInfo = {
     /**

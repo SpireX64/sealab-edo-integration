@@ -4,10 +4,8 @@
  */
 
 import { formatDate, mapArrayIfNotEmpty } from '../../../../helpers'
-import { formatPersonFullName } from '../types'
-import type { TPersonFullName } from '../types'
-import { formatSettlementDoc } from './5.45-SettlementDoc'
-import type { TSettlementDoc } from './5.45-SettlementDoc'
+import { formatPersonFullName, type TPersonFullName } from '../types';
+import { formatSettlementDoc, type TSettlementDoc } from './5.45-SettlementDoc';
 
 export type TDriverInfo = {
     /**

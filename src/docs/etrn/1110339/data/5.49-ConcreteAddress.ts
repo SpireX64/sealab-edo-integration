@@ -3,10 +3,8 @@
  * (АдресПользТип, таб-5.49)
  */
 
-import { formatAddress } from '../types'
-import type { TAddress } from '../types'
-import { formatCoordinates } from './5.42-Coordinates'
-import type { TCoordinates } from './5.42-Coordinates'
+import { formatAddress, type TAddress } from '../types';
+import { formatCoordinates, type TCoordinates } from './5.42-Coordinates';
 
 export type TConcreteAddress = {
     /** Глобальный номер места нахождения (GLN места) */

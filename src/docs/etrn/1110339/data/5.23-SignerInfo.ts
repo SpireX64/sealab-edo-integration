@@ -4,10 +4,8 @@
  */
 
 import { ShipperSignerStatus, formatSignerStatus } from '../consts'
-import { formatPersonFullName } from '../types'
-import type { TPersonFullName } from '../types'
-import { formatPowerOfAttorney } from './5.24-PowerOfAttorney'
-import type { TPowerOfAttorney } from './5.24-PowerOfAttorney'
+import { formatPersonFullName, type TPersonFullName } from '../types';
+import { formatPowerOfAttorney, type TPowerOfAttorney } from './5.24-PowerOfAttorney';
 
 export type TSignerInfo = {
     /**

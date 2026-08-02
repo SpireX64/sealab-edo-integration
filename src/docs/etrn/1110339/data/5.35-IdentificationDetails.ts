@@ -6,14 +6,11 @@
  */
 
 import { IssuerType } from '../consts'
-import { formatLegalEntityInfo } from './5.25-LegalEntityInfo'
-import type { TLegalEntityInfo } from './5.25-LegalEntityInfo'
-import { formatSoleProprietorInfo } from './5.26-SoleProprietorInfo'
-import type { TSoleProprietorInfo } from './5.26-SoleProprietorInfo'
+import { formatLegalEntityInfo, type TLegalEntityInfo } from './5.25-LegalEntityInfo';
+import { formatSoleProprietorInfo, type TSoleProprietorInfo } from './5.26-SoleProprietorInfo';
 import type { TForeignEntityInfo } from './5.27-ForeignEntityInfo'
 import { formatForeignEntityNotRegistered } from '../../common/ForeignEntityNotRegistered'
-import { formatIndividualInfo } from './5.28-IndividualInfo'
-import type { TIndividualInfo } from './5.28-IndividualInfo'
+import { formatIndividualInfo, type TIndividualInfo } from './5.28-IndividualInfo';
 
 export type TIdentificationDetails =
     | TLegalEntityInfo

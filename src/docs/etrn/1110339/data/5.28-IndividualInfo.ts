@@ -4,8 +4,7 @@
  */
 
 import { IssuerType } from '../consts'
-import { formatPersonFullName } from '../types'
-import type { TPersonFullName } from '../types'
+import { formatPersonFullName, type TPersonFullName } from '../types';
 
 export type TIndividualInfo = {
     type: IssuerType.Individual

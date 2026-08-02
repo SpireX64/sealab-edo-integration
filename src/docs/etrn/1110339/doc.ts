@@ -5,12 +5,9 @@
 
 import { Document } from '../../shared'
 import { DOC_TYPE_ETRN } from '../consts'
-import { formatShipperWaybill } from './data/5.3-ShipperWaybill'
-import type { TShipperWaybill } from './data/5.3-ShipperWaybill'
-import { formatSettlementDoc } from './data/5.45-SettlementDoc'
-import type { TSettlementDoc } from './data/5.45-SettlementDoc'
-import { formatSignerInfo } from './data/5.23-SignerInfo'
-import type { TSignerInfo } from './data/5.23-SignerInfo'
+import { formatShipperWaybill, type TShipperWaybill } from './data/5.3-ShipperWaybill';
+import { formatSettlementDoc, type TSettlementDoc } from './data/5.45-SettlementDoc';
+import { formatSignerInfo, type TSignerInfo } from './data/5.23-SignerInfo';
 
 export type TDocument111339 = TShipperWaybill & {
     /**

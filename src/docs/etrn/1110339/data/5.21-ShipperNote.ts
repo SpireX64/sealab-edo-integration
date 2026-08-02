@@ -5,12 +5,9 @@
 
 import { formatDateTimeWithUtc, mapArrayIfNotEmpty } from '../../../../helpers'
 import { ShipperNoteReason, formatShipperNoteReason } from '../consts'
-import { formatSettlementDoc } from './5.45-SettlementDoc'
-import type { TSettlementDoc } from './5.45-SettlementDoc'
-import { formatPenaltyInfo } from './5.22-PenaltyInfo'
-import type { TPenaltyInfo } from './5.22-PenaltyInfo'
-import { formatInfoField } from './5.44-InfoField'
-import type { TInfoField } from './5.44-InfoField'
+import { formatSettlementDoc, type TSettlementDoc } from './5.45-SettlementDoc';
+import { formatPenaltyInfo, type TPenaltyInfo } from './5.22-PenaltyInfo';
+import { formatInfoField, type TInfoField } from './5.44-InfoField';
 
 export type TShipperNote = {
     /** Дата и время отметки (UTC) */

@@ -17,7 +17,25 @@
 - **Numeric enums**: integer values (e.g., `OptionA = 1`)
 - **Mapper**: `format` + EnumName (e.g., `formatMyEnum`) for string enums that map to Russian text
 
-### 1.4 XML Tags
+### 1.5 Imports
+
+**Типы и runtime-сущности объединяются в одном импорте.** Если из одного модуля импортируется и тип, и функция — используется один `import` со встроенным `type`:
+
+```ts
+// ✅ Правильно: один импорт для типа и runtime
+import { formatFoo, type TFoo } from './Foo'
+
+// ✅ Правильно: import type когда импортируются ТОЛЬКО типы
+import type { TFoo, TBar } from './types'
+
+// ❌ Неправильно: два отдельных импорта из одного модуля
+import { formatFoo } from './Foo'
+import type { TFoo } from './Foo'
+```
+
+Это уменьшает размер блока импортов и использует `import type` по назначению — для гарантии что импорт будет удалён из скомпилированного JS.
+
+### 1.6 XML Tags
 - Russian tag names, matching the specification tables exactly
 - Example: `"НаимГр"` — exact spec tag, not `"cargoName"`
 

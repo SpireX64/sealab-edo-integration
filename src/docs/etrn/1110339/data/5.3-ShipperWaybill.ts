@@ -4,34 +4,20 @@
  */
 
 import { formatDate, mapArrayIfNotEmpty } from '../../../../helpers'
-import { formatOrderFile } from './5.4-OrderFile'
-import type { TOrderFile } from './5.4-OrderFile'
-import { formatShipperInfo } from './5.5-ShipperInfo'
-import type { TShipperInfo } from './5.5-ShipperInfo'
-import { formatTransportCustomerInfo } from './5.6-TransportCustomerInfo'
-import type { TTransportCustomerInfo } from './5.6-TransportCustomerInfo'
-import { formatConsigneeInfo } from './5.7-ConsigneeInfo'
-import type { TConsigneeInfo } from './5.7-ConsigneeInfo'
-import { formatPartyDetails } from './5.29-PartyDetails'
-import type { TPartyDetails } from './5.29-PartyDetails'
-import { formatCargoInfo } from './5.8-CargoInfo'
-import type { TCargoInfo } from './5.8-CargoInfo'
-import { formatAccompaningDocs } from './5.11-AccompaningDocs'
-import type { TAccompaningDocs } from './5.11-AccompaningDocs'
-import { formatShipperInstructions } from './5.12-ShipperInstructions'
-import type { TShipperInstructions } from './5.12-ShipperInstructions'
-import { formatDriverInfo } from './5.15-DriverInfo'
-import type { TDriverInfo } from './5.15-DriverInfo'
-import { formatVehicleInfo } from './5.16-VehicleInfo'
-import type { TVehicleInfo } from './5.16-VehicleInfo'
-import { formatLoadingInfo } from './5.17-LoadingInfo'
-import type { TLoadingInfo } from './5.17-LoadingInfo'
-import { formatShipperNote } from './5.21-ShipperNote'
-import type { TShipperNote } from './5.21-ShipperNote'
-import { formatWaybillCorrection } from './5.43-WaybillCorrection'
-import type { TWaybillCorrection } from './5.43-WaybillCorrection'
-import { formatInfoField } from './5.44-InfoField'
-import type { TInfoField } from './5.44-InfoField'
+import { formatOrderFile, type TOrderFile } from './5.4-OrderFile';
+import { formatShipperInfo, type TShipperInfo } from './5.5-ShipperInfo';
+import { formatTransportCustomerInfo, type TTransportCustomerInfo } from './5.6-TransportCustomerInfo';
+import { formatConsigneeInfo, type TConsigneeInfo } from './5.7-ConsigneeInfo';
+import { formatPartyDetails, type TPartyDetails } from './5.29-PartyDetails';
+import { formatCargoInfo, type TCargoInfo } from './5.8-CargoInfo';
+import { formatAccompaningDocs, type TAccompaningDocs } from './5.11-AccompaningDocs';
+import { formatShipperInstructions, type TShipperInstructions } from './5.12-ShipperInstructions';
+import { formatDriverInfo, type TDriverInfo } from './5.15-DriverInfo';
+import { formatVehicleInfo, type TVehicleInfo } from './5.16-VehicleInfo';
+import { formatLoadingInfo, type TLoadingInfo } from './5.17-LoadingInfo';
+import { formatShipperNote, type TShipperNote } from './5.21-ShipperNote';
+import { formatWaybillCorrection, type TWaybillCorrection } from './5.43-WaybillCorrection';
+import { formatInfoField, type TInfoField } from './5.44-InfoField';
 
 export type TShipperWaybill = {
     waybill: {

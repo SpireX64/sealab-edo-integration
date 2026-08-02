@@ -3,10 +3,8 @@
  * (СвЗак, таб-5.6)
  */
 
-import { formatPartyDetails } from './5.29-PartyDetails'
-import { formatSettlementDoc } from './5.45-SettlementDoc'
-import type { TPartyDetails } from './5.29-PartyDetails'
-import type { TSettlementDoc } from './5.45-SettlementDoc'
+import { formatPartyDetails, type TPartyDetails } from './5.29-PartyDetails';
+import { formatSettlementDoc, type TSettlementDoc } from './5.45-SettlementDoc';
 
 export type TTransportCustomerInfo = {
     /** 

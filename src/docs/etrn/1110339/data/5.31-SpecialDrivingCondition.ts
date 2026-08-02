@@ -4,8 +4,7 @@
  */
 
 import { formatDate } from '../../../../helpers'
-import { formatRouteInfo } from './5.32-RouteInfo'
-import type { TRouteInfo } from './5.32-RouteInfo'
+import { formatRouteInfo, type TRouteInfo } from './5.32-RouteInfo';
 
 export type TSpecialDrivingCondition = {
     /**
