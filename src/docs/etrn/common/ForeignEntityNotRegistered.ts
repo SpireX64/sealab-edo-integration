@@ -3,11 +3,10 @@
  * в качестве налогоплательщика
  * (СвИнНеУчТрНТип, общий тип для документов ЭТрН)
  *
- * Используется в таб-5.27 (1110339) и таб-7.10 (1110340).
+ * Используется в таб-5.27 (1110339), таб-7.10 (1110340) и таб-13.11 (1110341).
  */
 
-import { formatForeignPersonIdDocument } from './ForeignPersonIdDocument'
-import type { TForeignPersonIdDocument } from './ForeignPersonIdDocument'
+import { formatForeignPersonIdDocument, type TForeignPersonIdDocument } from './ForeignPersonIdDocument';
 
 export type TForeignEntityNotRegistered =
     | {

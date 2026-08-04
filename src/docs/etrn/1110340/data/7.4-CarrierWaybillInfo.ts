@@ -4,12 +4,9 @@
  */
 
 import { mapArrayIfNotEmpty } from '../../../../helpers'
-import { formatCarrierReservations } from './7.5-CarrierReservations'
-import type { TCarrierReservations } from './7.5-CarrierReservations'
-import { formatCarrierNote } from './7.6-CarrierNote'
-import type { TCarrierNote } from './7.6-CarrierNote'
-import { formatInfoField } from './7.12-InfoField'
-import type { TInfoField } from './7.12-InfoField'
+import { formatCarrierReservations, type TCarrierReservations } from './7.5-CarrierReservations';
+import { formatCarrierNote, type TCarrierNote } from './7.6-CarrierNote';
+import { formatInfoField, type TInfoField } from './7.12-InfoField';
 
 export type TCarrierWaybillInfo = {
     /**

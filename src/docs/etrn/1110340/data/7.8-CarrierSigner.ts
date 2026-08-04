@@ -5,10 +5,8 @@
  */
 
 import { CarrierSignerStatus, formatCarrierSignerStatus } from '../consts'
-import { formatPersonFullNameFields } from './7.16-FullName'
-import type { TPersonFullName } from './7.16-FullName'
-import { formatPowerOfAttorney } from './7.9-PowerOfAttorney'
-import type { TPowerOfAttorney } from './7.9-PowerOfAttorney'
+import { formatPersonFullNameFields, type TPersonFullName } from './7.16-FullName';
+import { formatPowerOfAttorney, type TPowerOfAttorney } from './7.9-PowerOfAttorney';
 
 export type TCarrierSigner = {
     /**

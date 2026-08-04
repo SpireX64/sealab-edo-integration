@@ -5,8 +5,7 @@
 
 import { formatDateTimeWithUtc, mapArrayIfNotEmpty } from '../../../../helpers'
 import { CarrierCargoConditionNote, formatCarrierCargoConditionNote } from '../consts'
-import { formatInfoField } from './7.12-InfoField'
-import type { TInfoField } from './7.12-InfoField'
+import { formatInfoField, type TInfoField } from './7.12-InfoField';
 
 export type TCarrierReservations = {
     /**

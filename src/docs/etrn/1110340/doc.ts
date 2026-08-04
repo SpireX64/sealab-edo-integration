@@ -3,15 +3,11 @@
  * (ЭТрН, 1110340) (таб-7.2)
  */
 
-import { Document } from '../../shared'
-import { DOC_TYPE_ETRN } from '../consts'
+import { Document, DocumentType } from '../../shared'
 import { formatDateTimeWithUtc } from '../../../helpers'
-import { formatShipperFileId } from './data/7.3-ShipperFileId'
-import type { TShipperFileId } from './data/7.3-ShipperFileId'
-import { formatCarrierWaybillInfo } from './data/7.4-CarrierWaybillInfo'
-import type { TCarrierWaybillInfo } from './data/7.4-CarrierWaybillInfo'
-import { formatCarrierSigner } from './data/7.8-SignerInfo'
-import type { TCarrierSigner } from './data/7.8-SignerInfo'
+import { formatShipperFileId, type TShipperFileId } from './data/7.3-ShipperFileId';
+import { formatCarrierWaybillInfo, type TCarrierWaybillInfo } from './data/7.4-CarrierWaybillInfo';
+import { formatCarrierSigner, type TCarrierSigner } from './data/7.8-CarrierSigner';
 
 export type TDocument1110340 = {
     /**
@@ -46,7 +42,7 @@ export const Document1110340 = (data: TDocument1110340) => {
     const dt = formatDateTimeWithUtc(data.documentDateTime)
 
     return Document({
-        type: DOC_TYPE_ETRN,
+        type: DocumentType.ETRN,
         subtype: "1110340",
     }, 
     {

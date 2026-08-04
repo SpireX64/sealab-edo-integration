@@ -5,8 +5,7 @@
  * Используется в таб-5.22 (1110339) и таб-7.7 (1110340).
  */
 
-import { formatForeignCurrencyInfo } from './ForeignCurrencyInfo'
-import type { TForeignCurrencyInfo } from './ForeignCurrencyInfo'
+import { formatForeignCurrencyInfo, type TForeignCurrencyInfo } from './ForeignCurrencyInfo';
 
 export type TPenaltyInfo = {
     /**

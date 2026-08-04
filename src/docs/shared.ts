@@ -1,7 +1,15 @@
+export enum DocumentType {
+    /** ЭТрН - Транспортная накладная */
+    ETRN = "ЭтРН",
+    /** ЭЗЗ - Заказ заявка на перевозку */
+    EZZ = "ЗаказЗаявка",
+    /** ЭПЛ - Путевой лист */
+    EPL = "ЭПЛ"
+}
 
 export type TDocumentMeta = {
     version?: string;
-    type: string;
+    type: DocumentType;
     subtype: string;
 }
 

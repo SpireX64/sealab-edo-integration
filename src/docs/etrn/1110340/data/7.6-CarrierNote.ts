@@ -5,12 +5,9 @@
 
 import { formatDateTimeWithUtc, mapArrayIfNotEmpty } from '../../../../helpers'
 import { CarrierNoteReason, formatCarrierNoteReason } from '../consts'
-import { formatCommercialAct } from './7.13-CommercialAct'
-import type { TCommercialAct } from './7.13-CommercialAct'
-import { formatPenaltyInfo } from './7.7-PenaltyCalculation'
-import type { TPenaltyInfo } from './7.7-PenaltyCalculation'
-import { formatInfoField } from './7.12-InfoField'
-import type { TInfoField } from './7.12-InfoField'
+import { formatCommercialAct, type TCommercialAct } from './7.13-CommercialAct';
+import { formatPenaltyInfo, type TPenaltyInfo } from './7.7-PenaltyCalculation';
+import { formatInfoField, type TInfoField } from './7.12-InfoField';
 
 export type TCarrierNote = {
     /**

@@ -3,8 +3,7 @@
  * (ЭТрН, 1110339) (таб-5.2)
  */
 
-import { Document } from '../../shared'
-import { DOC_TYPE_ETRN } from '../consts'
+import { Document, DocumentType } from '../../shared'
 import { formatShipperWaybill, type TShipperWaybill } from './data/5.3-ShipperWaybill';
 import { formatSettlementDoc, type TSettlementDoc } from './data/5.45-SettlementDoc';
 import { formatSignerInfo, type TSignerInfo } from './data/5.23-SignerInfo';
@@ -33,7 +32,7 @@ export type TDocument111339 = TShipperWaybill & {
 
 export const Document111339 = (data: TDocument111339) =>
     Document({
-        type: DOC_TYPE_ETRN,
+        type: DocumentType.ETRN,
         subtype: "111339",
     }, 
     {

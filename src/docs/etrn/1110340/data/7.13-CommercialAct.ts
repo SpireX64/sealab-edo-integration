@@ -4,8 +4,7 @@
  */
 
 import { formatDate, mapArrayIfNotEmpty } from '../../../../helpers'
-import { formatIssuerRequisites } from './7.11-IssuerRequisites'
-import type { TIssuerRequisites } from './7.11-IssuerRequisites'
+import { formatIssuerRequisites, type TIssuerRequisites } from './7.11-IssuerRequisites';
 
 export type TCommercialAct = {
     /**
@@ -17,7 +16,8 @@ export type TCommercialAct = {
 
     /**
      * Номер документа.
-     * При отсутствии указывается: «Без номера».
+     * Обязателен при отсутствии {id}.
+     * При отсутствии номера указывается: «Без номера».
      * (1-255 символов)
      */
     number?: string
@@ -49,10 +49,10 @@ export type TCommercialAct = {
 }
 
 export function formatCommercialAct(data: TCommercialAct) {
-    if (!data.id && (!data.name || !data.date)) {
+    if (!data.id && (!data.name || !data.number || !data.date)) {
         throw new TypeError(
             "Требуется указать идентификатор документа (id) " +
-            "либо наименование (name) и дату (date)"
+            "либо наименование (name), номер (number) и дату (date)"
         )
     }
 

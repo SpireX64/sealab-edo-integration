@@ -3,8 +3,8 @@
  * (ИнфПолТип, общий тип для документов ЭТрН)
  */
 
-import { formatTextInfo } from './TextInfo'
-import type { TTextInfo } from './TextInfo'
+import { mapArrayIfNotEmpty } from '../../../helpers'
+import { formatTextInfo, type TTextInfo } from './TextInfo';
 
 export type TInfoField = {
     /**
@@ -22,6 +22,6 @@ export type TInfoField = {
 export function formatInfoField(data: TInfoField) {
     return {
         "ИдФайлИнфПол": data.fileId,
-        "ТекстИнф": data.textInfo?.map(formatTextInfo),
+        "ТекстИнф": mapArrayIfNotEmpty(data.textInfo, formatTextInfo),
     }
 }
