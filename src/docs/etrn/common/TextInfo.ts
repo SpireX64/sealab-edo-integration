@@ -14,12 +14,12 @@ export type TTextInfo = {
      * Значение.
      * (1-2000 символов)
      */
-    value: string
+    content: string
 }
 
 export function formatTextInfo(data: TTextInfo) {
     return {
         "Идентиф": data.id,
-        "Значение": data.value,
+        "Значение": data.content,
     }
 }

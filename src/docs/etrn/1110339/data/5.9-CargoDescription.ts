@@ -75,7 +75,7 @@ export type TCargoDescription = {
      * Другая необходимая информация о грузе
      * (1-1000 символов)
      */
-    extraInfo?: string
+    additionalDetails?: string
 
     /**
      * Маркировка
@@ -144,7 +144,7 @@ export function formatCargoDescription(data: TCargoDescription) {
         "Объем": data.volume?.toFixed(3),
         "КолМестГр": String(data.packageCount),
         "УчГосСист": formatFlag(data.isStateTracked),
-        "ДрОГруз": data.extraInfo,
+        "ДрОГруз": data.additionalDetails,
         "Марк": data.marking,
         "Габар": data.dimensions && formatDimensionsInfo(data.dimensions),
         "СвОпГруз": data.dangerousGoods && formatDangerousGoodsInfo(data.dangerousGoods),

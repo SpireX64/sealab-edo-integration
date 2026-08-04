@@ -12,12 +12,12 @@ export type TPowerOfAttorney = {
     /**
      * Дата совершения доверенности.
      */
-    date: Date
+    executionDate: Date
 
     /**
      * Номер доверенности: порядковый.
      */
-    number?: number
+    serialNumber?: number
 
     /**
      * Номер доверенности: идентификатор файла доверенности.
@@ -38,8 +38,8 @@ export type TPowerOfAttorney = {
 
 export function formatPowerOfAttorney(data: TPowerOfAttorney) {
     return {
-        "ДатаДовер": formatDate(data.date),
-        "НомерДовер": data.number,
+        "ДатаДовер": formatDate(data.executionDate),
+        "НомерДовер": data.serialNumber,
         "ИдентДовер": data.fileId,
         "СведСистОтм": data.revocationSystemUrl,
     }

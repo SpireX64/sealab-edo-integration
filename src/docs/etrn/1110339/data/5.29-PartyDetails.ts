@@ -12,7 +12,7 @@ export type TPartyDetails = {
      * Информация для участника документооборота.
      * (таб-5.30)
      */
-    info?: TParticipantInfo
+    participantInfo?: TParticipantInfo
 
     /** Идентификационные сведения о лице, имеющем отношение к перевозке */
     partyId: TIdentificationDetails
@@ -25,13 +25,13 @@ export type TPartyDetails = {
 }
 
 export function formatPartyDetails({
-    info,
+    participantInfo,
     partyId,
     address,
     contacts,
 }: TPartyDetails) {
     return {
-        "ИнфДляУчаст": info && formatParticipantInfo(info),
+        "ИнфДляУчаст": participantInfo && formatParticipantInfo(participantInfo),
         "ИдСв": formatIdentificationDetails(partyId),
         "Адрес": address && formatAddress(address),
         "Контакт": formatContacts(contacts),

@@ -16,12 +16,12 @@ export type TInfoField = {
     /**
      * Текстовая информация.
      */
-    textInfo?: TTextInfo[]
+    textEntries?: TTextInfo[]
 }
 
 export function formatInfoField(data: TInfoField) {
     return {
         "ИдФайлИнфПол": data.fileId,
-        "ТекстИнф": mapArrayIfNotEmpty(data.textInfo, formatTextInfo),
+        "ТекстИнф": mapArrayIfNotEmpty(data.textEntries, formatTextInfo),
     }
 }

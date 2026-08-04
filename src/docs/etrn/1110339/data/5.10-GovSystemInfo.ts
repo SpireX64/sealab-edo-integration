@@ -21,7 +21,7 @@ export type TGovSystemInfo = {
      * Иная информация о товаре, подлежащем учету в государственной системе
      * (1-1000 символов)
      */
-    extraInfo?: string
+    additionalDetails?: string
 
     /**
      * Идентификационный номер учетной единицы в государственной системе
@@ -30,11 +30,11 @@ export type TGovSystemInfo = {
     unitIds: string[]
 }
 
-export function formatGovSystemInfo({ systemName, accountingUnit, extraInfo, unitIds }: TGovSystemInfo) {
+export function formatGovSystemInfo({ systemName, accountingUnit, additionalDetails, unitIds }: TGovSystemInfo) {
     return {
         "НаимГосСист": systemName,
         "УчетЕд": accountingUnit,
-        "ИнаяИнф": extraInfo,
+        "ИнаяИнф": additionalDetails,
         "ИдНомУчетЕд": unitIds,
     }
 }

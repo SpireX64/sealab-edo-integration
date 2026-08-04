@@ -33,14 +33,9 @@ export type TDocument1110341 = {
     carrierAcceptanceFileId: TCarrierAcceptanceFileId
 
     /**
-     * Дата формирования файла обмена информации грузополучателя.
+     * Дата и время формирования файла обмена информации грузополучателя.
      */
-    date: Date
-
-    /**
-     * Время формирования файла обмена информации грузополучателя.
-     */
-    time: Date
+    createdAt: Date
 
     /**
      * Содержание транспортной накладной, информация грузополучателя.
@@ -64,8 +59,8 @@ export const Document1110341 = (data: TDocument1110341) => Document({
             "НаимЭконСубСост": data.compilerName,
             "ОснДоверОргСост": data.compilerAuthority && formatDocumentRequisites(data.compilerAuthority),
             "ИдИнфПрвПрием": formatCarrierAcceptanceFileId(data.carrierAcceptanceFileId),
-            "ДатИнфГП": formatDate(data.date),
-            "ВрИнфГП": formatTime(data.time),
+            "ДатИнфГП": formatDate(data.createdAt),
+            "ВрИнфГП": formatTime(data.createdAt),
             "СодИнфГП": formatConsigneeReceiptInfo(data.consigneeInfo),
             "Подписант": formatConsigneeSigner(data.signer),
         }

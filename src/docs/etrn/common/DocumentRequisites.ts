@@ -22,17 +22,17 @@ export type TDocumentRequisites = {
      * При отсутствии номера указывается: «Без номера».
      * (1-255 символов)
      */
-    number?: string
+    documentNumber?: string
 
     /**
      * Дата документа.
      * Обязателен при отсутствии {id}.
      */
-    date?: Date
+    documentDate?: Date
 
     /**
      * Идентификатор файла документа (в том числе регистрационный номер).
-     * Обязателен при отсутствии {name} и {number} и {date}.
+     * Обязателен при отсутствии {name} и {documentNumber} и {documentDate}.
      * (1-255 символов)
      */
     id?: string
@@ -41,7 +41,7 @@ export type TDocumentRequisites = {
      * Дополнительные сведения.
      * (1-2000 символов)
      */
-    additionalInfo?: string
+    additionalDetails?: string
 
     /**
      * Идентифицирующие реквизиты сторон, составивших документ.
@@ -50,19 +50,19 @@ export type TDocumentRequisites = {
 }
 
 export function formatDocumentRequisites(data: TDocumentRequisites) {
-    if (!data.id && (!data.name || !data.number || !data.date)) {
+    if (!data.id && (!data.name || !data.documentNumber || !data.documentDate)) {
         throw new TypeError(
             "Требуется указать идентификатор документа (id) " +
-            "либо наименование (name), номер (number) и дату (date)"
+            "либо наименование (name), номер (documentNumber) и дату (documentDate)"
         )
     }
 
     return {
         "НаимДок": data.name,
-        "НомерДок": data.number ?? "Без номера",
-        "ДатаДок": data.date && formatDate(data.date),
+        "НомерДок": data.documentNumber ?? "Без номера",
+        "ДатаДок": data.documentDate && formatDate(data.documentDate),
         "ИдДок": data.id,
-        "ДопСведДок": data.additionalInfo,
+        "ДопСведДок": data.additionalDetails,
         "ИдРекСост": mapArrayIfNotEmpty(data.issuerRequisites, formatIssuerRequisites),
     }
 }

@@ -13,7 +13,7 @@ export type TCarrierNote = {
     /**
      * Дата и время отметки.
      */
-    dateTime: Date
+    notedAt: Date
 
     /**
      * Описание обстоятельств, послуживших основанием для отметки.
@@ -47,7 +47,7 @@ export type TCarrierNote = {
 }
 
 export function formatCarrierNote(data: TCarrierNote) {
-    const dt = formatDateTimeWithUtc(data.dateTime)
+    const dt = formatDateTimeWithUtc(data.notedAt)
 
     return {
         "ДатВрОтмет": dt.dateTime,

@@ -27,14 +27,14 @@ export type TSettlementDoc = {
      * 
      * Обязателен, если не указан {id}
      */
-    number?: string
+    documentNumber?: string
 
     /**
      * Дата документа
      * 
      * Обязателен, если не указан {id}
      */
-    date?: Date
+    documentDate?: Date
 
     /** Идентифицирующие реквизиты сторон, составивших документ */
     partyDetails: readonly TIssuerIdentity[]
@@ -43,8 +43,8 @@ export type TSettlementDoc = {
     extra?: string
 }
 
-export function formatSettlementDoc({id, name, number, date, partyDetails, extra}: TSettlementDoc) {
-    if (!id && !name && !number && !date) {
+export function formatSettlementDoc({id, name, documentNumber, documentDate, partyDetails, extra}: TSettlementDoc) {
+    if (!id && !name && !documentNumber && !documentDate) {
         throw new TypeError("Требуется указать данные о документе или идентификатор его файла")
     }
 
@@ -55,8 +55,8 @@ export function formatSettlementDoc({id, name, number, date, partyDetails, extra
     return {
         "ИдДок": id,
         "НаимДок": name,
-        "НомерДок": number ?? "Без номера",
-        "ДатаДок": date && formatDate(date),
+        "НомерДок": documentNumber ?? "Без номера",
+        "ДатаДок": documentDate && formatDate(documentDate),
         "ИдРекСост": partyDetails.map(formatIssuerIdentity),
         "ДопСведДок": extra,
     }

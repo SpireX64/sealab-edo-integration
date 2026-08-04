@@ -32,7 +32,7 @@ export type {
 
 // Типы таблиц
 export type { TShipperWaybill } from './data/5.3-ShipperWaybill'
-export type { TOrderFile, TOrderFileId } from './data/5.4-OrderFile'
+export type { TOrderFile } from './data/5.4-OrderFile'
 export type { TShipperInfo } from './data/5.5-ShipperInfo'
 export type { TConsigneeInfo } from './data/5.7-ConsigneeInfo'
 export type { TCargoInfo } from './data/5.8-CargoInfo'

@@ -17,6 +17,28 @@
 - **Numeric enums**: integer values (e.g., `OptionA = 1`)
 - **Mapper**: `format` + EnumName (e.g., `formatMyEnum`) for string enums that map to Russian text
 
+### 1.4 Field Naming
+
+Имена полей должны описывать **смысл значения**, а не его тип:
+
+```ts
+// ❌ Плохо: имя описывает тип, а не смысл
+dateTime: Date        // какая дата?
+string: string        // какая строка?
+array: TItem[]        // какой массив?
+number: number        // какое число?
+
+// ✅ Хорошо: имя отражает смысл
+createdAt: Date       // дата формирования
+compilerName: string  // наименование составителя
+items: TItem[]        // элементы
+correctionNumber: number  // номер исправления
+```
+
+**Для полей типа `Date`** дополнительно:
+- Одиночная дата-время события использует суффикс `At`: `createdAt`, `sentAt`, `signedAt`, `notedAt`
+- Если событие уже описано составным префиксом, добавляется суффикс `DateTime`: `plannedArrivalDateTime`, `actualDepartureDateTime`
+
 ### 1.5 Imports
 
 **Типы и runtime-сущности объединяются в одном импорте.** Если из одного модуля импортируется и тип, и функция — используется один `import` со встроенным `type`:
@@ -78,6 +100,24 @@ Use `formatFlag(value, shift?)` from `helpers.ts`. Returns `undefined` if value 
 | `formatTime(date)` | `"HH:MM:SS"` | Time only |
 | `formatDateTimeUTC(date)` | `"DD.MM.YYYYTHH:MM:SS±HH:MM"` | DateTime with UTC offset |
 | `formatDateTimeWithUtc(date)` | `{ dateTime: "…", utc: "0"\|"1" }` | DateTime + UTC flag pair |
+
+### 2.4.1 Слияние даты и времени
+
+Если спецификация содержит два отдельных XML-тега — дату и время одного и того же события (например, `<ДатИнфГО>` + `<ВрИнфГО>`) — в типе это **одно поле** `Date`, а в форматтере — два вызова `formatDate` и `formatTime` от одного значения:
+
+```ts
+// Тип: одно поле
+dateTime: Date
+
+// Форматтер: два XML-тега от одного Date
+"ДатИнфГО": formatDate(data.dateTime),
+"ВрИнфГО": formatTime(data.dateTime),
+```
+
+Критерии слияния:
+- Оба поля относятся к одному и тому же событию/файлу
+- В описании полей совпадает объект (например, «Дата формирования **файла обмена информации грузоотправителя**» и «Время формирования **файла обмена информации грузоотправителя**»)
+- Поля всегда идут парой в XML
 
 **Pattern for DateTime + UTC flag pairs:** use `formatDateTimeWithUtc` — it returns both values in one call, detecting UTC from the Date's timezone offset.
 ```ts

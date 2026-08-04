@@ -12,24 +12,24 @@ export type TForeignPersonIdDocument = {
      * Вид документа.
      * (1-1000 символов)
      */
-    type: string
+    documentType: string
 
     /**
      * Номер документа.
      * (1-100 символов)
      */
-    number: string
+    documentNumber: string
 
     /**
      * Дата выдачи документа.
      */
-    date: Date
+    issueDate: Date
 }
 
 export function formatForeignPersonIdDocument(data: TForeignPersonIdDocument) {
     return {
-        "ВидДок": data.type,
-        "НомДок": data.number,
-        "ДатаДок": formatDate(data.date),
+        "ВидДок": data.documentType,
+        "НомДок": data.documentNumber,
+        "ДатаДок": formatDate(data.issueDate),
     }
 }

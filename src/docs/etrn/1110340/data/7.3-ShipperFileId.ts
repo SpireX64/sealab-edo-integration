@@ -8,11 +8,11 @@ import { type TFileId } from '../../common/FileId';
 
 export type TShipperFileId = TFileId
 
-export function formatShipperFileId({ fileId, date, time, signBase64 }: TShipperFileId) {
+export function formatShipperFileId({ fileId, createdAt, signBase64 }: TShipperFileId) {
     return {
         "ИдФайлИнфГО": fileId,
-        "ДатФайлИнфГО": formatDate(date),
-        "ВрФайлИнфГО": formatTime(time),
+        "ДатФайлИнфГО": formatDate(createdAt),
+        "ВрФайлИнфГО": formatTime(createdAt),
         "ЭП": signBase64,
     }
 }

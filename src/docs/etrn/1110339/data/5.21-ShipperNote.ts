@@ -11,7 +11,7 @@ import { formatInfoField, type TInfoField } from './5.44-InfoField';
 
 export type TShipperNote = {
     /** Дата и время отметки (UTC) */
-    dateTime: Date
+    notedAt: Date
 
     /**
      * Описание обстоятельств, послуживших основанием для отметки.
@@ -33,7 +33,7 @@ export type TShipperNote = {
 }
 
 export function formatShipperNote(data: TShipperNote) {
-    const dt = formatDateTimeWithUtc(data.dateTime)
+    const dt = formatDateTimeWithUtc(data.notedAt)
 
     return {
         "ДатВрОтмет": dt.dateTime,

@@ -14,7 +14,7 @@ export type TConsigneeNote = {
     /**
      * Дата и время отметки.
      */
-    dateTime: Date
+    notedAt: Date
 
     /**
      * Описание обстоятельств, послуживших основанием для отметки.
@@ -49,7 +49,7 @@ export type TConsigneeNote = {
 }
 
 export function formatConsigneeNote(data: TConsigneeNote) {
-    const dt = formatDateTimeWithUtc(data.dateTime)
+    const dt = formatDateTimeWithUtc(data.notedAt)
 
     return {
         "ДатВрОтмет": dt.dateTime,
