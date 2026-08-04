@@ -5,7 +5,7 @@
  */
 
 import { formatDate } from '../../../../helpers'
-import { formatPersonFullName, type TPersonFullName } from './5.42-PersonFullName';
+import { formatPersonFullNameFields, type TPersonFullName } from './5.42-PersonFullName';
 
 export type TPaperPOA = {
     /**
@@ -39,6 +39,6 @@ export function formatPaperPOA(data: TPaperPOA) {
         "ДатаДовер": formatDate(data.issueDate),
         "ВнНомДовер": data.internalNumber ?? "б/н",
         "СвИдДовер": data.principalInfo,
-        "ФИО": data.signerFullName && formatPersonFullName(data.signerFullName),
+        "ФИО": data.signerFullName && formatPersonFullNameFields(data.signerFullName),
     }
 }

@@ -16,7 +16,7 @@ export type TRange = {
 // ─── TPersonFullName ───────────────────────────────────────
 // Реэкспорт общего типа из docs/etrn/common
 
-export { type TPersonFullName, formatPersonFullName } from '../common/PersonFullName'
+export { type TPersonFullName, formatPersonFullName } from '../../common/PersonFullName'
 
 // ─── TForeignCurrencyInfo ──────────────────────────────────
 // Реэкспорт общего типа из docs/etrn/common
@@ -38,7 +38,7 @@ export type { TRussianAddress }
  */
 export type TRussianAddressInfo = TRussianAddress
 
-import type { TForeignAddressInfo } from '../common/ForeignAddressInfo'
+import type { TForeignAddressInfo } from '../../common/ForeignAddressInfo'
 
 export type { TForeignAddressInfo }
 

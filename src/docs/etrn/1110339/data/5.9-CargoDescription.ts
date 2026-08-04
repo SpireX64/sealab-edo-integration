@@ -4,7 +4,7 @@
  */
 
 import { formatFlag } from '../../../../helpers'
-import { formatDimensionsInfo, type TDimensionsInfo } from './5.39-DimensionsInfo';
+import { formatDimensions, type TDimensions } from './5.39-DimensionsInfo';
 import { formatDangerousGoodsInfo, type TDangerousGoodsInfo } from './5.33-DangerousGoodsInfo';
 import { formatContainerInfo, type TContainerInfo } from './5.34-ContainerInfo';
 import { formatCargoWeight, type TCargoWeight } from './5.41-WeightInfo';
@@ -87,7 +87,7 @@ export type TCargoDescription = {
      * Габариты груза, в метрах.
      * Заполняется при перевозке крупногабаритного груза.
      */
-    dimensions?: TDimensionsInfo
+    dimensions?: TDimensions
 
     /**
      * Сведения об опасном грузе.
@@ -146,7 +146,7 @@ export function formatCargoDescription(data: TCargoDescription) {
         "УчГосСист": formatFlag(data.isStateTracked),
         "ДрОГруз": data.additionalDetails,
         "Марк": data.marking,
-        "Габар": data.dimensions && formatDimensionsInfo(data.dimensions),
+        "Габар": data.dimensions && formatDimensions(data.dimensions),
         "СвОпГруз": data.dangerousGoods && formatDangerousGoodsInfo(data.dangerousGoods),
         "СвКонтейн": data.containers && formatContainerInfo(data.containers),
         "ПлМасГруз": formatCargoWeight(data.plannedWeight),

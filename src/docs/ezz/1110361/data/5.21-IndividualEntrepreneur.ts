@@ -3,7 +3,7 @@
  * (СвИПТип, таб-5.21)
  */
 
-import { formatPersonFullName, type TPersonFullName } from './5.42-PersonFullName';
+import { formatPersonFullNameFields, type TPersonFullName } from './5.42-PersonFullName';
 
 export type TIndividualEntrepreneur = {
     /**
@@ -37,6 +37,6 @@ export function formatIndividualEntrepreneur(data: TIndividualEntrepreneur) {
         "ИННФЛ": data.inn,
         "ОГРНИП": data.ogrnip,
         "ИныеСвед": data.otherInfo,
-        "ФИО": formatPersonFullName(data.fullName),
+        "ФИО": formatPersonFullNameFields(data.fullName),
     }
 }

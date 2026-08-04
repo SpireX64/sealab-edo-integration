@@ -1,6 +1,9 @@
 /**
  * Текстовая информация
- * (ТекстИнфТип, общий тип для документов ЭТрН)
+ * (ТекстИнфТип)
+ *
+ * Общий тип для документов ЭТрН (1110339, 1110340, 1110341)
+ * и ЭЗЗ (1110361).
  */
 
 export type TTextInfo = {
@@ -8,7 +11,7 @@ export type TTextInfo = {
      * Идентификатор.
      * (1-50 символов)
      */
-    id: string
+    identifier: string
 
     /**
      * Значение.
@@ -19,7 +22,7 @@ export type TTextInfo = {
 
 export function formatTextInfo(data: TTextInfo) {
     return {
-        "Идентиф": data.id,
+        "Идентиф": data.identifier,
         "Значение": data.content,
     }
 }

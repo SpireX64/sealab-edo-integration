@@ -5,4 +5,4 @@
  * Реэкспорт общего типа.
  */
 
-export { type TForeignPersonIdDocument, formatForeignPersonIdDocument } from '../../common/ForeignPersonIdDocument'
+export { type TForeignPersonIdDocument, formatForeignPersonIdDocument } from '../../../common/ForeignPersonIdDocument'

@@ -7,6 +7,6 @@
  */
 
 export {
-    formatForeignAddressInfo,
     type TForeignAddressInfo,
-} from '../../common/ForeignAddressInfo'
+    formatForeignAddressInfo,
+} from '../../../common/ForeignAddressInfo'

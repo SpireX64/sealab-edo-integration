@@ -2,18 +2,18 @@
  * Координаты места
  * (КоордТип)
  *
- * Общий тип для документов 1110339 (таб-5.42) и 1110341 (таб-13.13).
+ * Общий тип для документов ЭТрН (1110339, 1110341) и ЭЗЗ (1110361).
  */
 
 const REGEX_COORDINATE = /^(\d{2,3})\.\d{1,13}$/
 
-function validateCoordinate(name: 'lat' | 'lng', value: string): string {
+function validateCoordinate(name: 'latitude' | 'longitude', value: string): string {
     const match = REGEX_COORDINATE.exec(value)
 
     if (match) {
         const angle = parseInt(match[1] as string)
-        const angleMinMax = (name === 'lat' ? 90 : 180)
-        if (Math.sign(angle) < angleMinMax) {
+        const angleMax = name === 'latitude' ? 90 : 180
+        if (Math.abs(angle) <= angleMax) {
             return value
         }
     }
@@ -29,8 +29,9 @@ export type TCoordinates = {
      * - ХХ — градусы в диапазоне от -90 до 90
      * - УУУУУУУУУУУУУ — минуты и секунды, представленные как
      *   десятичные доли с точностью до 13 знаков
+     * (15-17 символов)
      */
-    lat: string
+    latitude: string
 
     /**
      * Долгота в формате: <ХXХ.УУУУУУУУУУУУУ>
@@ -39,13 +40,14 @@ export type TCoordinates = {
      * - ХXХ — градусы в диапазоне от -180 до 180
      * - УУУУУУУУУУУУУ — минуты и секунды, представленные как
      *   десятичные доли с точностью до 13 знаков
+     * (16-18 символов)
      */
-    lng: string
+    longitude: string
 }
 
-export function formatCoordinates({ lat, lng }: TCoordinates) {
+export function formatCoordinates(data: TCoordinates) {
     return {
-        "Широта": validateCoordinate('lat', lat),
-        "Долгота": validateCoordinate('lng', lng),
+        "Широта": validateCoordinate('latitude', data.latitude),
+        "Долгота": validateCoordinate('longitude', data.longitude),
     }
 }

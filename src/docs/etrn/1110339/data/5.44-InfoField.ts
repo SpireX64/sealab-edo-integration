@@ -5,4 +5,4 @@
  * Реэкспорт общего типа.
  */
 
-export { type TInfoField, formatInfoField } from '../../common/InfoField'
+export { type TInfoField, formatInfoField } from '../../../common/InfoField'

@@ -5,4 +5,4 @@
  * Реэкспорт общего типа.
  */
 
-export { type TTextInfo, formatTextInfo } from '../../common/TextInfo'
+export { type TTextInfo, formatTextInfo } from '../../../common/TextInfo'

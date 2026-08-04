@@ -3,7 +3,7 @@
  * (СвФЛТип, таб-5.24)
  */
 
-import { formatPersonFullName, type TPersonFullName } from './5.42-PersonFullName';
+import { formatPersonFullNameFields, type TPersonFullName } from './5.42-PersonFullName';
 
 export type TIndividual = {
     /**
@@ -29,6 +29,6 @@ export function formatIndividual(data: TIndividual) {
     return {
         "ИННФЛ": data.inn,
         "ИныеСвед": data.otherInfo,
-        "ФИО": formatPersonFullName(data.fullName),
+        "ФИО": formatPersonFullNameFields(data.fullName),
     }
 }

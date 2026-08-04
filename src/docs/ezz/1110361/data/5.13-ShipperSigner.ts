@@ -13,7 +13,7 @@ import {
 } from '../consts'
 import { formatElectronicPOA, type TElectronicPOA } from './5.14-ElectronicPOA';
 import { formatPaperPOA, type TPaperPOA } from './5.15-PaperPOA';
-import { formatPersonFullName, type TPersonFullName } from './5.42-PersonFullName';
+import { formatPersonFullNameFields, type TPersonFullName } from './5.42-PersonFullName';
 
 export type TShipperSigner = {
     /**
@@ -92,7 +92,7 @@ export function formatShipperSigner(data: TShipperSigner) {
         "ТипПодпис": data.signatureType && formatSignatureType(data.signatureType),
         "СпосПодтПолном": formatAuthorityConfirmationMethod(data.authorityConfirmationMethod),
         "ДопСведПодп": data.additionalInfo,
-        "ФИО": data.fullName && formatPersonFullName(data.fullName),
+        "ФИО": data.fullName && formatPersonFullNameFields(data.fullName),
         "СвДоверЭл": mapArrayIfNotEmpty(data.electronicPOAs, formatElectronicPOA),
         "СвДоверБум": mapArrayIfNotEmpty(data.paperPOAs, formatPaperPOA),
     }

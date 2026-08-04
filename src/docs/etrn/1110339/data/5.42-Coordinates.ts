@@ -8,4 +8,4 @@
 export {
     formatCoordinates,
     type TCoordinates,
-} from '../../common/Coordinates'
+} from '../../../common/Coordinates'

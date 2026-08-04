@@ -6,6 +6,6 @@
  */
 
 export {
-    formatForeignPersonIdDocument,
     type TForeignPersonIdDocument,
-} from '../../common/ForeignPersonIdDocument'
+    formatForeignPersonIdDocument,
+} from '../../../common/ForeignPersonIdDocument'

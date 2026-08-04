@@ -5,4 +5,4 @@
  * Реэкспорт общего типа.
  */
 
-export { type TPersonFullName, formatPersonFullNameFields } from '../../common/PersonFullName'
+export { type TPersonFullName, formatPersonFullNameFields } from '../../../common/PersonFullName'

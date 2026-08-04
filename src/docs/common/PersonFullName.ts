@@ -1,6 +1,9 @@
 /**
  * Фамилия, имя, отчество физического лица
- * (ФИОТип, общий тип для документов ЭТрН)
+ * (ФИОТип)
+ *
+ * Общий тип для документов ЭТрН (1110339, 1110340, 1110341)
+ * и ЭЗЗ (1110361).
  */
 
 export type TPersonFullName = {
@@ -16,7 +19,7 @@ export type TPersonFullName = {
 
 /**
  * Форматирует ФИО в строку «Фамилия Имя Отчество».
- * Используется в 1110339 (таб-5.15, 5.19, 5.23, 5.26, 5.27, 5.28).
+ * Используется в 1110339 (таб-5.15, 5.19, 5.23, 5.26, 5.28).
  */
 export function formatPersonFullName({firstName, lastName, middleName}: TPersonFullName) {
     const name = `${lastName} ${firstName}`
@@ -25,7 +28,8 @@ export function formatPersonFullName({firstName, lastName, middleName}: TPersonF
 
 /**
  * Форматирует ФИО в структуру с отдельными полями.
- * Используется в 1110340 (таб-7.8, 7.16).
+ * Используется в 1110340 (таб-7.8, 7.16), 1110341 (13.9)
+ * и ЭЗЗ 1110361 (5.13, 5.15, 5.21, 5.24).
  */
 export function formatPersonFullNameFields({firstName, lastName, middleName}: TPersonFullName) {
     return {

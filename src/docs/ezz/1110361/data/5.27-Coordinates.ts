@@ -3,31 +3,4 @@
  * (КоордТип, таб-5.27)
  */
 
-export type TCoordinates = {
-    /**
-     * Широта.
-     * Формат: <ХХ.УУУУУУУУУУУУУ> в WGS 84,
-     * ХХ — градусы (-90 до 90),
-     * УУУУУУУУУУУУУ — минуты и секунды как десятичные доли
-     * с точностью до 13 знаков.
-     * (15-17 символов)
-     */
-    latitude: string
-
-    /**
-     * Долгота.
-     * Формат: <ХXХ.УУУУУУУУУУУУУ> в WGS 84,
-     * ХXХ — градусы (-180 до 180),
-     * УУУУУУУУУУУУУ — минуты и секунды как десятичные доли
-     * с точностью до 13 знаков.
-     * (16-18 символов)
-     */
-    longitude: string
-}
-
-export function formatCoordinates(data: TCoordinates) {
-    return {
-        "Широта": data.latitude,
-        "Долгота": data.longitude,
-    }
-}
+export { type TCoordinates, formatCoordinates } from '../../../common/Coordinates'
