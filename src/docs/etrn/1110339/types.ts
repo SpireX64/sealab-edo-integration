@@ -26,47 +26,27 @@ export { type TForeignCurrencyInfo, formatForeignCurrencyInfo } from '../common/
 
 // ─── TAddress / Адреса ─────────────────────────────────────
 
+import type { TRussianAddress } from '../common/RussianAddress'
+
+export type { TRussianAddress }
+
 /**
  * Адрес в Российской Федерации
  * (АдрРФТип, таб-5.51)
+ *
+ * Устаревший алиас для TRussianAddress.
  */
-export type TRussianAddressInfo = {
-    /** Индекс */
-    postalCode: string
-    /** Код региона */
-    regionCode: string // (2 символа)
-    /** Район */
-    district?: string
-    /** Город */
-    city?: string
-    /** Населенный пункт */
-    settlement?: string
-    /** Улица */
-    street?: string
-    /** Номер дома  */
-    house?: string
-    /** Корпус */
-    building?: string
-    /** Номер квартиры */
-    apartment?: string
-}
+export type TRussianAddressInfo = TRussianAddress
 
-/**
- * Информация об адресе, в том числе об адресе за пределами территории Российской Федерации
- * (АдрИнфТип, таб-5.52)
- */
-export type TGenericAddressInfo = {
-    /** Код страны */
-    countryCode: string // 3 символа
-    /** Полный адрес текстом */
-    addressText: string // 1000 символов
-}
+import type { TForeignAddressInfo } from '../common/ForeignAddressInfo'
+
+export type { TForeignAddressInfo }
 
 export type TFiasId = string
 
 export type TAddress =
     | TRussianAddressInfo
-    | TGenericAddressInfo
+    | TForeignAddressInfo
     | TFiasId
 
 export function formatAddress(address: TAddress) {

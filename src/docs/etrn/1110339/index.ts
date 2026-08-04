@@ -25,7 +25,7 @@ export type {
     TPersonFullName,
     TForeignCurrencyInfo,
     TRussianAddressInfo,
-    TGenericAddressInfo,
+    TForeignAddressInfo,
     TFiasId,
     TAddress,
 } from './types'
