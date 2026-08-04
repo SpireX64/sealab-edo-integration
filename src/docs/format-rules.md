@@ -13,9 +13,42 @@
 - **Placement**: Immediately after the type definition
 
 ### 1.3 Enums
-- **String enums**: value = key (e.g., `Value = "Value"`)
 - **Numeric enums**: integer values (e.g., `OptionA = 1`)
-- **Mapper**: `format` + EnumName (e.g., `formatMyEnum`) for string enums that map to Russian text
+- **String enums**: значение **всегда равно ключу** (e.g., `Value = "Value"`). Любое отличие значения от ключа (русский текст, цифры) реализуется через `format*`-функцию.
+- **Numeric enums**: integer values (e.g., `OptionA = 1`)
+- **Mapper**: `format` + EnumName (e.g., `formatMyEnum`) для перевода ключа enum в значение XML-тега
+
+### 1.3.1 Dictionary Constants (Справочники / словари)
+
+Для больших справочников (коды тары, классификаторы стран, etc.) используется `Object.freeze({} as const)` вместо `enum`:
+
+```ts
+// dict/ContainerType.ts
+export const ContainerType = Object.freeze({
+    /** Без тары */
+    WithoutContainer: "00",
+    /** Цистерна */
+    Tank: "AA",
+    // ...
+} as const)
+```
+
+Поле, использующее справочник, имеет тип `string` и ссылается на справочник через JSDoc `@see`:
+
+```ts
+/**
+ * Вид тары.
+ * (2 символа)
+ *
+ * @see ContainerType
+ */
+containerType: string
+```
+
+Это позволяет:
+- Передавать произвольную строку (в том числе коды, отсутствующие в справочнике)
+- Получать автодополнение известных значений через IDE, но без жёсткого ограничения типа
+- Хранить справочник отдельно от `consts.ts` в `dict/`
 
 ### 1.4 Field Naming
 
