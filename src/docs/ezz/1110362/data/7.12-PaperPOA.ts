@@ -1,15 +1,44 @@
 /**
  * Сведения о доверенности в бумажном виде,
  * используемой для подтверждения полномочий
- * (таб-7.12)
- *
- * TODO: поля уточняются.
+ * (СвДоверБум, таб-7.12)
  */
 
-import { TODO } from '../../../shared'
+import { formatDate } from '../../../../helpers'
+import { formatPersonFullNameFields, type TPersonFullName } from './7.38-PersonFullName';
 
-export type TPaperPOA = TODO
+export type TPaperPOA = {
+    /**
+     * Дата совершения доверенности.
+     */
+    issueDate: Date
 
-export function formatPaperPOA(_data: TPaperPOA) {
-    return TODO
+    /**
+     * Внутренний регистрационный номер доверенности.
+     * При отсутствии номера принимает значение: без номера (б/н).
+     * (1-50 символов)
+     */
+    internalNumber: string
+
+    /**
+     * Сведения, идентифицирующие доверителя.
+     * (1-1000 символов)
+     */
+    principalInfo?: string
+
+    /**
+     * Фамилия, имя, отчество (при наличии) лица,
+     * подписавшего доверенность.
+     * (таб-7.38)
+     */
+    signerFullName?: TPersonFullName
+}
+
+export function formatPaperPOA(data: TPaperPOA) {
+    return {
+        "ДатаДовер": formatDate(data.issueDate),
+        "ВнНомДовер": data.internalNumber ?? "б/н",
+        "СвИдДовер": data.principalInfo,
+        "ФИО": data.signerFullName && formatPersonFullNameFields(data.signerFullName),
+    }
 }
