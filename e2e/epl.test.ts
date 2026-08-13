@@ -1,14 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { Document1110380 } from "./fixtures/epl";
 import { eplFixture } from "./fixtures/epl";
-import { CERT_THUMBPRINT, createClient, EPL_CREDENTIALS, EPL_ORGANIZATION } from "./helpers";
+import { EplAction } from "../src/index";
+import { CERT_THUMBPRINT, createClient, EPL_CREDENTIALS } from "./helpers";
 
 describe("ЭПЛ Т1 (обстоятельства и особенности рейса)", () => {
     it("проходит цикл: генерация → запись → подготовка", async () => {
         const client = createClient();
         try {
             console.log("[ЭПЛ] 0. Логин:", EPL_CREDENTIALS.login);
-            const sessionId = await client.login(EPL_CREDENTIALS.login, EPL_CREDENTIALS.password);
+            const sessionId = await client.login(EPL_CREDENTIALS);
             console.log("[ЭПЛ] 0. Ответ СБИС.Аутентифицировать:", JSON.stringify(sessionId));
 
             // 1. Генерация вложения из конструктора документа
@@ -21,12 +22,7 @@ describe("ЭПЛ Т1 (обстоятельства и особенности р�
 
             // 2. Создание нового документа (Т1)
             console.log("[ЭПЛ] 2. Запись документа (СБИС.ЗаписатьДокумент)...");
-            const card = await client.writeDocument({
-                organization: EPL_ORGANIZATION,
-                attachment,
-                regulationName: "ЭПЛ",
-                documentType: "Waybill",
-            });
+            const card = await client.writeDocument(attachment);
             console.log("[ЭПЛ] 2. Ответ СБИС.ЗаписатьДокумент:", JSON.stringify(card));
 
             expect(card.Идентификатор).toBeTypeOf("string");
@@ -34,9 +30,8 @@ describe("ЭПЛ Т1 (обстоятельства и особенности р�
 
             // 3. Подготовка действия (подписи)
             console.log("[ЭПЛ] 3. Подготовка действия (СБИС.ПодготовитьДействие)...");
-            const prepared = await client.prepareAction({
-                identifier: card.Идентификатор,
-                action: "Отправить",
+            const prepared = await client.prepareAction(card, {
+                action: EplAction.Send,
                 comment: "e2e-тест saby-tms-client",
                 certificateThumbprint: CERT_THUMBPRINT,
             });

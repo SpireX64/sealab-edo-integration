@@ -1,14 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { Document111339 } from "./fixtures/etrn";
 import { etrnFixture } from "./fixtures/etrn";
-import { CERT_THUMBPRINT, createClient, ETRN_CREDENTIALS, ETRN_ORGANIZATION } from "./helpers";
+import { EtRnAction } from "../src/index";
+import { CERT_THUMBPRINT, createClient, ETRN_CREDENTIALS } from "./helpers";
 
 describe("ЭТрН Т1 (грузоотправитель)", () => {
     it("проходит цикл: генерация → запись → подготовка → чтение → статусы", async () => {
         const client = createClient();
         try {
             console.log("[ЭТрН] 0. Логин:", ETRN_CREDENTIALS.login);
-            const sessionId = await client.login(ETRN_CREDENTIALS.login, ETRN_CREDENTIALS.password);
+            const sessionId = await client.login(ETRN_CREDENTIALS);
             console.log("[ЭТрН] 0. Ответ СБИС.Аутентифицировать:", JSON.stringify(sessionId));
 
             // 1. Генерация вложения из конструктора документа
@@ -25,12 +26,7 @@ describe("ЭТрН Т1 (грузоотправитель)", () => {
 
             // 2. Создание нового документа (Т1)
             console.log("[ЭТрН] 2. Запись документа (СБИС.ЗаписатьДокумент)...");
-            const card = await client.writeDocument({
-                organization: ETRN_ORGANIZATION,
-                attachment,
-                regulationName: "Транспортная накладная",
-                documentType: "ConsignmentNote",
-            });
+            const card = await client.writeDocument(attachment);
             console.log("[ЭТрН] 2. Ответ СБИС.ЗаписатьДокумент:", JSON.stringify(card));
 
             expect(card.Идентификатор).toBeTypeOf("string");
@@ -38,9 +34,8 @@ describe("ЭТрН Т1 (грузоотправитель)", () => {
 
             // 3. Подготовка действия (подписи) — получение хеша
             console.log("[ЭТрН] 3. Подготовка действия (СБИС.ПодготовитьДействие)...");
-            const prepared = await client.prepareAction({
-                identifier: card.Идентификатор,
-                action: "Погружен",
+            const prepared = await client.prepareAction(card, {
+                action: EtRnAction.Loaded,
                 comment: "e2e-тест saby-tms-client",
                 certificateThumbprint: CERT_THUMBPRINT,
             });
@@ -48,16 +43,13 @@ describe("ЭТрН Т1 (грузоотправитель)", () => {
 
             // 4. Чтение карточки документа
             console.log("[ЭТрН] 4. Чтение документа (СБИС.ПрочитатьДокумент)...");
-            const read = await client.readDocument(card.Идентификатор, "Расширение,ЭПД");
+            const read = await client.readDocument(card, "Расширение,ЭПД");
             console.log("[ЭТрН] 4. Ответ СБИС.ПрочитатьДокумент:", JSON.stringify(read));
             expect(read.Идентификатор).toBe(card.Идентификатор);
 
             // 5. Список изменений по созданному документу
             console.log("[ЭТрН] 5. Список изменений (СБИС.СписокИзменений)...");
-            const changes = await client.listChanges({
-                "Тип": "ConsignmentNote",
-                "ИдентификаторДокумента": card.Идентификатор,
-            });
+            const changes = await client.listChanges(card);
             console.log("[ЭТрН] 5. Ответ СБИС.СписокИзменений:", JSON.stringify(changes));
             expect(changes).toBeDefined();
         } finally {

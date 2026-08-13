@@ -6,12 +6,10 @@
  * Postman-коллекций; их можно переопределить через переменные окружения.
  */
 
-import { SabyEnv, SabyTmsClient } from "../src/index";
+import { SabyEnv, SabyTmsClient, organization } from "../src/index";
+import type { TLoginCredentials } from "../src/index";
 
-export type TCredentials = {
-    login: string;
-    password: string;
-};
+export type TCredentials = TLoginCredentials;
 
 function env(name: string, fallback: string): string {
     const value = process.env[name];
@@ -28,36 +26,24 @@ export function createClient(): SabyTmsClient {
 export const ETRN_CREDENTIALS: TCredentials = {
     login: env("SABY_ETRN_LOGIN", "@demo52330401"),
     password: env("SABY_ETRN_PASSWORD", "@demo52330401"),
+    organization: organization({ inn: "931563254629" }),
 };
-
-/** Реквизиты организации-инициатора (НашаОрганизация) для ЭТрН. */
-export const ETRN_ORGANIZATION = {
-    "СвФЛ": { "ИНН": "931563254629" },
-} as const;
 
 // ─── ЭПЛ (1110380) ─────────────────────────────────────────────────────────
 
 export const EPL_CREDENTIALS: TCredentials = {
     login: env("SABY_EPL_LOGIN", "@demo52330401"),
     password: env("SABY_EPL_PASSWORD", "@demo52330401"),
+    organization: organization({ inn: "2145492416", kpp: "214501001" }),
 };
-
-/** Реквизиты организации-инициатора (НашаОрганизация) для ЭПЛ. */
-export const EPL_ORGANIZATION = {
-    "СвЮЛ": { "ИНН": "2145492416", "КПП": "214501001" },
-} as const;
 
 // ─── ЭЗЗ (1110361) ─────────────────────────────────────────────────────────
 
 export const EZZ_CREDENTIALS: TCredentials = {
     login: env("SABY_EZZ_LOGIN", "@demo52330401"),
     password: env("SABY_EZZ_PASSWORD", "@demo52330401"),
+    organization: organization({ inn: "931563254629" }),
 };
-
-/** Реквизиты организации-инициатора (НашаОрганизация) для ЭЗЗ. */
-export const EZZ_ORGANIZATION = {
-    "СвФЛ": { "ИНН": "931563254629" },
-} as const;
 
 /**
  * Отпечаток сертификата КЭП для подготовки подписи.

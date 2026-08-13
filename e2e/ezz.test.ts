@@ -1,14 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { Document1110361 } from "./fixtures/ezz";
 import { ezzFixture } from "./fixtures/ezz";
-import { CERT_THUMBPRINT, createClient, EZZ_CREDENTIALS, EZZ_ORGANIZATION } from "./helpers";
+import { EzzAction } from "../src/index";
+import { CERT_THUMBPRINT, createClient, EZZ_CREDENTIALS } from "./helpers";
 
 describe("ЭЗЗ Т1 (заказчик)", () => {
     it("проходит цикл: генерация → запись → подготовка", async () => {
         const client = createClient();
         try {
             console.log("[ЭЗЗ] 0. Логин:", EZZ_CREDENTIALS.login);
-            const sessionId = await client.login(EZZ_CREDENTIALS.login, EZZ_CREDENTIALS.password);
+            const sessionId = await client.login(EZZ_CREDENTIALS);
             console.log("[ЭЗЗ] 0. Ответ СБИС.Аутентифицировать:", JSON.stringify(sessionId));
 
             // 1. Генерация вложения из конструктора документа
@@ -21,12 +22,7 @@ describe("ЭЗЗ Т1 (заказчик)", () => {
 
             // 2. Создание нового документа (Т1)
             console.log("[ЭЗЗ] 2. Запись документа (СБИС.ЗаписатьДокумент)...");
-            const card = await client.writeDocument({
-                organization: EZZ_ORGANIZATION,
-                attachment,
-                regulationName: "Заказ на перевозку",
-                documentType: "TransportOrder",
-            });
+            const card = await client.writeDocument(attachment);
             console.log("[ЭЗЗ] 2. Ответ СБИС.ЗаписатьДокумент:", JSON.stringify(card));
 
             expect(card.Идентификатор).toBeTypeOf("string");
@@ -34,9 +30,8 @@ describe("ЭЗЗ Т1 (заказчик)", () => {
 
             // 3. Подготовка действия (подписи)
             console.log("[ЭЗЗ] 3. Подготовка действия (СБИС.ПодготовитьДействие)...");
-            const prepared = await client.prepareAction({
-                identifier: card.Идентификатор,
-                action: "Отправить",
+            const prepared = await client.prepareAction(card, {
+                action: EzzAction.Send,
                 comment: "e2e-тест saby-tms-client",
                 certificateThumbprint: CERT_THUMBPRINT,
             });

@@ -6,7 +6,7 @@ describe("СБИС.Аутентифицировать", () => {
         const client = createClient();
         try {
             console.log("[АУТ] Логин:", ETRN_CREDENTIALS.login);
-            const sessionId = await client.login(ETRN_CREDENTIALS.login, ETRN_CREDENTIALS.password);
+            const sessionId = await client.login(ETRN_CREDENTIALS);
             console.log("[АУТ] Ответ СБИС.Аутентифицировать:", JSON.stringify(sessionId));
 
             expect(sessionId).toBeTypeOf("string");

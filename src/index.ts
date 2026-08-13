@@ -7,6 +7,25 @@
 // Клиент
 export { SabyEnv, SabyTmsClient } from "./client";
 
+// Справочники и фабрики
+export { organization } from "./organization";
+export type {
+    TEntrepreneurOrganization,
+    TIndividualOrganization,
+    TLegalOrganization,
+    TOrganization,
+    TOrganizationInput,
+} from "./organization";
+
+export { DOCUMENT_TYPE_TO_SABY, EtRnAction, EplAction, EzzAction } from "./saby";
+export type {
+    SabyDocumentType,
+    TEplAction,
+    TEtRnAction,
+    TEzzAction,
+    TSabyAction,
+} from "./saby";
+
 // Типы клиента
 export type {
     TAttachmentFile,
@@ -14,13 +33,12 @@ export type {
     TDocumentCard,
     TDocumentCardAttachment,
     TDocumentState,
-    TExecuteActionParams,
+    TExecuteActionOptions,
     TGeneratedAttachment,
-    TListChangesFilter,
-    TOrganization,
-    TPrepareActionParams,
-    TWriteAttachmentParams,
-    TWriteDocumentParams,
+    TListChangesOptions,
+    TLoginCredentials,
+    TPrepareActionOptions,
+    TWriteDocumentOptions,
 } from "./types";
 
 // Документы и их типы
