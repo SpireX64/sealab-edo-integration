@@ -7,26 +7,46 @@ export enum DocumentType {
     EPL = "ЭПЛ"
 }
 
-export type TDocumentMeta = {
+export type TDocumentMeta<TSubtype extends string = string> = {
     version?: string;
     type: DocumentType;
-    subtype: string;
+    subtype: TSubtype;
 }
 
-export function Document<T extends object>({
-    type,
-    subtype,
-    version = "5.01",
-}: TDocumentMeta, content: T) {
+/**
+ * Структура вложения (титула) документа, формируемая
+ * конструктором {@link Document}.
+ *
+ * @typeParam TSubstitution - тип содержимого «Подстановка».
+ */
+export type TDocumentAttachment<TSubstitution = Record<string, unknown>> = {
+    "Документ": {
+        "Вложение": {
+            "ВерсияФормата": string;
+            "Тип": DocumentType;
+            "Подтип": string;
+            "Подстановка": TSubstitution;
+        };
+    };
+};
+
+export function Document<TContent extends object, const TSubtype extends string>(
+    {
+        type,
+        subtype,
+        version = "5.01",
+    }: TDocumentMeta<TSubtype>,
+    content: TContent,
+): TDocumentAttachment<Record<TSubtype, TContent>> {
+    const substitution = { [subtype]: content } as Record<TSubtype, TContent>
+
     return {
         "Документ": {
             "Вложение": {
                 "ВерсияФормата": version,
                 "Тип": type,
                 "Подтип": subtype,
-                "Подстановка": { 
-                    [subtype]: content,
-                }
+                "Подстановка": substitution,
             }
         }
     }
