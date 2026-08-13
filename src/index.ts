@@ -41,5 +41,8 @@ export type {
     TWriteDocumentOptions,
 } from "./types";
 
+// Саб-клиенты (сотрудники, ТС, подпись)
+export * from "./api";
+
 // Документы и их типы
 export * from "./docs";

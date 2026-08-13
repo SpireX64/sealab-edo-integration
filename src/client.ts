@@ -2,6 +2,10 @@ import { JSONRPCClient, type JSONRPCRequest, type JSONRPCResponse, type SendRequ
 import { v4 as uuid } from "uuid";
 import { DOCUMENT_TYPE_TO_SABY } from "./saby";
 import type { TOrganization } from "./organization";
+import { EmployeesApi } from "./api/employees";
+import { VehiclesApi } from "./api/vehicles";
+import { SignApi } from "./api/sign";
+import type { ISabyTransport } from "./api/types";
 import type {
     TDocumentAttachment,
     TDocumentCard,
@@ -53,13 +57,22 @@ function getHeaders(token: string | undefined) {
 const getSabyApiUrl = (env: SabyEnv, target: SabyApiTarget) => apiMap[env][target]
 const sabyParams = (params: object) => ({ "Параметр": params })
 
-export class SabyTmsClient {
+export class SabyTmsClient implements ISabyTransport {
     private readonly _rpc: SabyJrpcClient;
 
     private _sessionToken: string | undefined
 
     /** Организация-инициатор, заданная при авторизации. */
     private _organization: TOrganization | undefined
+
+    /** Саб-клиент работы с сотрудниками. */
+    public readonly employees: EmployeesApi;
+
+    /** Саб-клиент работы с транспортными средствами. */
+    public readonly vehicles: VehiclesApi;
+
+    /** Саб-клиент подписания документов (Госключ / МЧД / доверие). */
+    public readonly sign: SignApi;
 
     public constructor(
         private readonly _env: SabyEnv,
@@ -68,6 +81,27 @@ export class SabyTmsClient {
             this._sendRequest.bind(this) as SendRequest<any>,
             uuid,
         )
+
+        this.employees = new EmployeesApi(this);
+        this.vehicles = new VehiclesApi(this);
+        this.sign = new SignApi(this);
+    }
+
+    /**
+     * Организация-инициатор, заданная при {@link SabyTmsClient#login}.
+     * Реализует {@link ISabyTransport.organization} для саб-клиентов.
+     */
+    public get organization(): TOrganization | undefined {
+        return this._organization;
+    }
+
+    /**
+     * Выполняет JSON-RPC запрос к сервисному эндпоинту.
+     * Реализует {@link ISabyTransport.request} — единственный «шов»,
+     * который саб-клиенты используют для своих запросов.
+     */
+    public request<T = unknown>(method: string, params: object): Promise<T> {
+        return this._serviceRequest<T>(method, params);
     }
 
     /**
