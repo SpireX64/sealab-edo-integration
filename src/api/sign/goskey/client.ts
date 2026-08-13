@@ -5,6 +5,7 @@ import type {
     TGoskeyProvider,
     TLinkedProvider,
 } from "./types";
+import { formatGoskeyOperationInput } from "./format";
 
 /**
  * Подписание документов через «Госключ».
@@ -46,18 +47,7 @@ export class GoskeyApi {
     public async createOperation(input: TGoskeyOperationInput): Promise<TGoskeyOperation> {
         return this._client.request<TGoskeyOperation>(
             "sabyCryptoOperation.Create",
-            {
-                "Params": {
-                    "Operation": input.operation ?? "createDetachedSign",
-                    "CertificateType": input.certificateType ?? "Госключ",
-                    "GoskeySignatureKind": input.signatureKind,
-                    "DocumentID": input.documentId,
-                    "Files": input.files.map((f) => ({ "AttachmentID": f.attachmentId })),
-                    "GoskeyOgrn": input.ogrn,
-                    "GoskeyOgrnip": input.ogrnip,
-                    "GoskeyHeadSnils": input.headSnils,
-                },
-            },
+            { "Params": formatGoskeyOperationInput(input) },
         );
     }
 

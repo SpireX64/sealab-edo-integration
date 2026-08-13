@@ -1,3 +1,4 @@
+import type { TDocumentCard } from "../../../types";
 import type { GoskeySignatureKind } from "./consts";
 
 /** Внешний провайдер привязки (соцсеть/ЕСИА). */
@@ -23,11 +24,14 @@ export type TGoskeyOperationInput = {
     /** Вид подписи. */
     signatureKind: GoskeySignatureKind;
 
-    /** Идентификатор документа (из `СписокИзменений`). */
-    documentId: string;
+    /** Карточка документа (из `writeDocument`/`readDocument`). */
+    card: TDocumentCard;
 
-    /** Файлы вложения для подписания. */
-    files: { attachmentId: string }[];
+    /**
+     * Идентификаторы вложений для подписания.
+     * По умолчанию — все вложения карточки (`card.Вложение`).
+     */
+    attachmentIds?: string[];
 
     /** ОГРН юридического лица (для КЭПЮЛ). */
     ogrn?: string;
