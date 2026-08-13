@@ -9,9 +9,15 @@ export { SabyEnv, SabyTmsClient } from "./client";
 
 // Типы клиента
 export type {
+    TAttachmentFile,
     TDocumentAttachment,
+    TDocumentCard,
+    TDocumentCardAttachment,
+    TDocumentState,
     TExecuteActionParams,
-    TListChangesParams,
+    TGeneratedAttachment,
+    TListChangesFilter,
+    TOrganization,
     TPrepareActionParams,
     TWriteAttachmentParams,
     TWriteDocumentParams,

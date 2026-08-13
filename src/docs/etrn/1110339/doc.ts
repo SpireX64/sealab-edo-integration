@@ -33,7 +33,7 @@ export type TDocument111339 = TShipperWaybill & {
 export const Document111339 = (data: TDocument111339) =>
     Document({
         type: DocumentType.ETRN,
-        subtype: "111339",
+        subtype: "1110339",
     }, 
     {
         "Файл": {

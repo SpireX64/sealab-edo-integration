@@ -1,9 +1,11 @@
-import { JSONRPCClient, type JSONRPCRequest, type SendRequest } from "json-rpc-2.0";
+import { JSONRPCClient, type JSONRPCRequest, type JSONRPCResponse, type SendRequest } from "json-rpc-2.0";
 import { v4 as uuid } from "uuid";
 import type {
     TDocumentAttachment,
+    TDocumentCard,
     TExecuteActionParams,
-    TListChangesParams,
+    TGeneratedAttachment,
+    TListChangesFilter,
     TPrepareActionParams,
     TWriteAttachmentParams,
     TWriteDocumentParams,
@@ -27,7 +29,7 @@ const apiMap: Record<SabyEnv, TSabyApiUrls> = {
     },
     [SabyEnv.Test]: {
         auth: "https://tms.sabyd.ru/auth/service/",
-        service: "https://tms.sabyd.ru/auth/service/",
+        service: "https://tms.sabyd.ru/service/",
     },
 }
 
@@ -102,7 +104,7 @@ export class SabyTmsClient {
      *
      * @see СБИС.СгенерироватьВложение
      */
-    public generateAttachment(attachment: TDocumentAttachment): Promise<unknown> {
+    public generateAttachment(attachment: TDocumentAttachment): Promise<TGeneratedAttachment> {
         return this._serviceRequest("СБИС.СгенерироватьВложение", attachment)
     }
 
@@ -111,12 +113,15 @@ export class SabyTmsClient {
      *
      * @see СБИС.ЗаписатьДокумент
      */
-    public writeDocument(params: TWriteDocumentParams): Promise<unknown> {
+    public writeDocument(params: TWriteDocumentParams): Promise<TDocumentCard> {
         return this._serviceRequest("СБИС.ЗаписатьДокумент", {
-            "НашаОрганизация": params.organization,
-            "Вложение": params.attachment,
-            "Регламент": { "Название": params.regulationName },
-            "Тип": params.documentType,
+            "Документ": {
+                "НашаОрганизация": params.organization,
+                "Вложение": params.attachment,
+                "Регламент": { "Название": params.regulationName },
+                "Тип": params.documentType,
+                ...params.extra,
+            },
         })
     }
 
@@ -125,10 +130,12 @@ export class SabyTmsClient {
      *
      * @see СБИС.ЗаписатьВложение
      */
-    public writeAttachment(params: TWriteAttachmentParams): Promise<unknown> {
+    public writeAttachment(params: TWriteAttachmentParams): Promise<TDocumentCard> {
         return this._serviceRequest("СБИС.ЗаписатьВложение", {
-            "Идентификатор": params.identifier,
-            "Вложение": params.attachment,
+            "Документ": {
+                "Идентификатор": params.identifier,
+                "Вложение": params.attachment,
+            },
         })
     }
 
@@ -138,12 +145,26 @@ export class SabyTmsClient {
      * @see СБИС.ПодготовитьДействие
      */
     public prepareAction(params: TPrepareActionParams): Promise<unknown> {
+        const action: Record<string, unknown> = {
+            "Название": params.action,
+        }
+        if (params.comment !== undefined) {
+            action["Комментарий"] = params.comment
+        }
+        if (params.certificateThumbprint !== undefined) {
+            action["Сертификат"] = { "Отпечаток": params.certificateThumbprint }
+        }
+
+        const stage: Record<string, unknown> = { "Действие": action }
+        if (params.stageName !== undefined) {
+            stage["Название"] = params.stageName
+        }
+
         return this._serviceRequest("СБИС.ПодготовитьДействие", {
-            "Идентификатор": params.identifier,
-            "Действие": params.action,
-            "Этап": params.stage,
-            "ОтпечатокПодписи": params.certificateThumbprint,
-            "Комментарий": params.comment,
+            "Документ": {
+                "Идентификатор": params.identifier,
+                "Этап": stage,
+            },
         })
     }
 
@@ -154,10 +175,11 @@ export class SabyTmsClient {
      */
     public executeAction(params: TExecuteActionParams): Promise<unknown> {
         return this._serviceRequest("СБИС.ВыполнитьДействие", {
-            "Идентификатор": params.identifier,
-            "Действие": params.action,
-            "Этап": params.stage,
-            "Ключ": params.keyType ? { "Тип": params.keyType } : undefined,
+            "Документ": {
+                "Идентификатор": params.identifier,
+                "Этап": params.stage,
+                "Ключ": params.keyType ? { "Тип": params.keyType } : undefined,
+            },
         })
     }
 
@@ -166,8 +188,8 @@ export class SabyTmsClient {
      *
      * @see СБИС.СписокИзменений
      */
-    public listChanges(params: TListChangesParams = {}): Promise<unknown> {
-        return this._serviceRequest("СБИС.СписокИзменений", params)
+    public listChanges(filter: TListChangesFilter = {}): Promise<unknown> {
+        return this._serviceRequest("СБИС.СписокИзменений", { "Фильтр": filter })
     }
 
     /**
@@ -175,10 +197,13 @@ export class SabyTmsClient {
      *
      * @see СБИС.ПрочитатьДокумент
      */
-    public readDocument(identifier: string): Promise<unknown> {
-        return this._serviceRequest("СБИС.ПрочитатьДокумент", {
-            "Идентификатор": identifier,
-        })
+    public readDocument(identifier: string, extraFields?: string): Promise<TDocumentCard> {
+        const document: Record<string, unknown> = { "Идентификатор": identifier }
+        if (extraFields !== undefined) {
+            document["ДопПоля"] = extraFields
+        }
+
+        return this._serviceRequest("СБИС.ПрочитатьДокумент", { "Документ": document })
     }
 
     public dispose(): void {
@@ -187,22 +212,26 @@ export class SabyTmsClient {
     }
 
     private _serviceRequest<T = unknown>(method: string, params: object): Promise<T> {
-        return this._rpc.request(method, sabyParams(params), { api: 'service' }) as Promise<T>
+        return this._rpc.request(method, params, { api: 'service' }) as Promise<T>
     }
 
-    private async _sendRequest(req: JSONRPCRequest, params: SabyClientParams) {
+    private async _sendRequest(req: JSONRPCRequest, params: SabyClientParams): Promise<void> {
         const resp = await fetch(getSabyApiUrl(this._env, params.api), {
             method: 'POST',
             headers: getHeaders(this._sessionToken),
             body: JSON.stringify(req),
         });
 
-        if (!resp.ok) {
-            return Promise.reject(new Error(resp.statusText));
+        // Saby возвращает JSON-RPC ошибку с HTTP-статусом 500.
+        // Парсим тело всегда, чтобы json-rpc-2.0 доставил реальное сообщение
+        // ошибки, а не обезличенный HTTP statusText.
+        let json: JSONRPCResponse | JSONRPCResponse[];
+        try {
+            json = (await resp.json()) as JSONRPCResponse | JSONRPCResponse[];
+        } catch {
+            throw new Error(resp.statusText || `Ошибка запроса (HTTP ${resp.status})`);
         }
 
-        const json = await resp.json();
         this._rpc.receive(json);
-        return json;
     }
 }
