@@ -17,6 +17,14 @@ export function formatTime(date: Date) {
     return [hh,mm,ss].join(':');
 }
 
+/**
+ * Форматирует дату/время в виде строки "ДД.ММ.ГГГГ ЧЧ:ММ:СС".
+ * Используется для полей вида «ПериодС» / «ПериодПо» (доверие подписи).
+ */
+export function formatDateTime(date: Date): string {
+    return `${formatDate(date)} ${formatTime(date)}`;
+}
+
 export function mapArrayIfNotEmpty<T, R>(
     arr: readonly T[] | undefined,
     mapItem: (item: T) => R,
