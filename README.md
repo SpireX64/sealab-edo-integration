@@ -29,6 +29,18 @@ npm install git+https://gitlab.dev-seaportal.ru/development/saby-tms-client.git#
 
 После установки npm автоматически выполнит сборку пакета, поэтому вручную собирать ничего не нужно.
 
+По HTTPS для приватного репозитория используйте токен:
+
+```bash
+npm install git+https://<token-name>:<token>@gitlab.dev-seaportal.ru/development/saby-tms-client.git#dev
+```
+
+Или указать данные авторизации в `.npmrc`:
+```
+//gitlab.dev-seaportal.ru/:username=<LOGIN>
+//gitlab.dev-seaportal.ru/:_password=<BASE64_PASSWORD>
+```
+
 ---
 
 ## Требования
