@@ -7,10 +7,23 @@ export enum DocumentType {
     EPL = "ЭПЛ"
 }
 
+export enum DocumentStructure {
+    File = "File",
+    List = 'Array',
+}
+
 export type TDocumentMeta<TSubtype extends string = string> = {
     version?: string;
     type: DocumentType;
     subtype: TSubtype;
+    structure?: DocumentStructure
+}
+
+export type TDocumentContent<TSubstitution = Record<string, unknown>> = {
+    "ВерсияФормата": string;
+    "Тип": DocumentType;
+    "Подтип": string;
+    "Подстановка": TSubstitution;
 }
 
 /**
@@ -21,12 +34,7 @@ export type TDocumentMeta<TSubtype extends string = string> = {
  */
 export type TDocumentAttachment<TSubstitution = Record<string, unknown>> = {
     "Документ": {
-        "Вложение": {
-            "ВерсияФормата": string;
-            "Тип": DocumentType;
-            "Подтип": string;
-            "Подстановка": TSubstitution;
-        };
+        "Вложение": TDocumentContent<TSubstitution> | TDocumentContent<TSubstitution>[];
     };
 };
 
@@ -35,20 +43,43 @@ export function Document<TContent extends object, const TSubtype extends string>
         type,
         subtype,
         version = "5.01",
+        structure = DocumentStructure.List,
     }: TDocumentMeta<TSubtype>,
     content: TContent,
-): TDocumentAttachment<Record<TSubtype, TContent>> {
-    const substitution = { [subtype]: content } as Record<TSubtype, TContent>
+): TDocumentAttachment<unknown> {
+    switch (structure) {
+        case DocumentStructure.File:
+            return {
+                "Документ": {
+                    "Вложение": {
+                        "ВерсияФормата": version,
+                        "Тип": type,
+                        "Подтип": subtype,
+                        "Подстановка": {
+                            [subtype]: {
+                                "ВерсФорм": version,
+                                "Файл": content,
+                            },
+                        },
+                    },
+                },
+            };
 
-    return {
-        "Документ": {
-            "Вложение": {
-                "ВерсияФормата": version,
-                "Тип": type,
-                "Подтип": subtype,
-                "Подстановка": substitution,
+
+        case DocumentStructure.List:
+            return {
+                "Документ": {
+                    "Вложение": [
+                        {
+                            "ВерсияФормата": version,
+                            "Тип": type,
+                            "Подтип": subtype,
+                            // @ts-ignore
+                            "Подстановка": content,
+                        }
+                    ]
+                }
             }
-        }
     }
 }
 

@@ -74,12 +74,10 @@ export const Document1110383 = (data: TDocument1110383) => {
         type: DocumentType.EPL,
         subtype: "1110383",
     }, {
-        "Файл": {
-            "Документ": {
-                ...identification,
-                "СодИнфВыезд": formatDepartureContent(data.content),
-                "ПодпИнфВыезд": formatDepartureSigner(data.signer),
-            }
+        "Документ": {
+            ...identification,
+            "СодИнфВыезд": formatDepartureContent(data.content),
+            "ПодпИнфВыезд": formatDepartureSigner(data.signer),
         }
     })
 }

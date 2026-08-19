@@ -37,11 +37,9 @@ export const Document1110381 = (data: TDocument1110381) => Document({
     type: DocumentType.EPL,
     subtype: "1110381",
 }, {
-    "Файл": {
-        "Документ": {
-            "ИдИнфСоб": formatShipperFileId(data.shipperFileId),
-            "СодИнфМО": formatMedicalExamContent(data.content),
-            "ПодпИнфМО": formatMedicalExamSigner(data.signer),
-        }
+    "Документ": {
+        "ИдИнфСоб": formatShipperFileId(data.shipperFileId),
+        "СодИнфМО": formatMedicalExamContent(data.content),
+        "ПодпИнфМО": formatMedicalExamSigner(data.signer),
     }
 })

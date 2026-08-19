@@ -3,12 +3,20 @@
  * (ЭТрН, 1110340) (таб-7.2)
  */
 
-import { Document, DocumentType } from '../../shared'
+import { Document, DocumentStructure, DocumentType } from '../../shared'
+import { formatDateTimeWithUtc } from '../../../helpers'
 import { formatShipperFileId, type TShipperFileId } from './data/7.3-ShipperFileId';
 import { formatCarrierWaybillInfo, type TCarrierWaybillInfo } from './data/7.4-CarrierWaybillInfo';
 import { formatCarrierSigner, type TCarrierSigner } from './data/7.8-CarrierSigner';
 
 export type TDocument1110340 = {
+    /**
+     * Дата и время формирования файла обмена информации перевозчика
+     * о приеме груза к перевозке.
+     * UTC-флаг вычисляется автоматически по таймзоне Date.
+     */
+    documentDateTime: Date
+
     /**
      * Идентификация файла обмена информации грузоотправителя.
      * (таб-7.3)
@@ -31,17 +39,19 @@ export type TDocument1110340 = {
 }
 
 export const Document1110340 = (data: TDocument1110340) => {
+    const dt = formatDateTimeWithUtc(data.documentDateTime)
+
     return Document({
         type: DocumentType.ETRN,
         subtype: "1110340",
-    }, 
-    {
-        "Файл": {
-            "Документ": {
-                "ИдИнфГО": formatShipperFileId(data.shipperFileId),
-                "СодИнфПрвПрием": formatCarrierWaybillInfo(data.carrierInfo),
-                "Подписант": formatCarrierSigner(data.signer),
-            }
+        structure: DocumentStructure.File,
+    }, {
+        "Документ": {
+            "ДатИнфПрвПрием": dt.dateTime,
+            "НалКоорТочВрИнфПрв": dt.utc,
+            "ИдИнфГО": formatShipperFileId(data.shipperFileId),
+            "СодИнфПрвПрием": formatCarrierWaybillInfo(data.carrierInfo),
+            "Подписант": formatCarrierSigner(data.signer),
         }
     })
 }

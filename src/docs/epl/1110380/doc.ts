@@ -65,15 +65,13 @@ export const Document1110380 = (data: TDocument1110380) => {
         type: DocumentType.EPL,
         subtype: "1110380",
     }, {
-        "Файл": {
-            "Документ": {
-                "НомерПЛ": data.number,
-                "ДатаПЛ": data.issueDate && formatDate(data.issueDate),
-                "ПризнНачРейс": formatTripStartSign(data.tripStartSign),
-                "УИДПЛПред": data.previousWaybillId,
-                "СодИнфСоб": formatWaybillContent(data.content),
-                "ПодпИнфСоб": formatWaybillSigner(data.signer),
-            }
+        "Документ": {
+            "НомерПЛ": data.number,
+            "ДатаПЛ": data.issueDate && formatDate(data.issueDate),
+            "ПризнНачРейс": formatTripStartSign(data.tripStartSign),
+            "УИДПЛПред": data.previousWaybillId,
+            "СодИнфСоб": formatWaybillContent(data.content),
+            "ПодпИнфСоб": formatWaybillSigner(data.signer),
         }
     })
 }

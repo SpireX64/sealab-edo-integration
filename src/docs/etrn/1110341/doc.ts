@@ -3,7 +3,7 @@
  * (ЭТрН, 1110341) (таб-13.2)
  */
 
-import { Document, DocumentType } from '../../shared'
+import { Document, DocumentStructure, DocumentType } from '../../shared'
 import { formatDate, formatTime } from '../../../helpers'
 import { formatCarrierAcceptanceFileId, type TCarrierAcceptanceFileId } from './data/13.3-CarrierAcceptanceFileId';
 import { formatConsigneeReceiptInfo, type TConsigneeReceiptInfo } from './data/13.4-ConsigneeReceiptInfo';
@@ -53,16 +53,15 @@ export type TDocument1110341 = {
 export const Document1110341 = (data: TDocument1110341) => Document({
     type: DocumentType.ETRN,
     subtype: "1110341",
+    structure: DocumentStructure.File
 }, {
-    "Файл": {
-        "Документ": {
-            "НаимЭконСубСост": data.compilerName,
-            "ОснДоверОргСост": data.compilerAuthority && formatDocumentRequisites(data.compilerAuthority),
-            "ИдИнфПрвПрием": formatCarrierAcceptanceFileId(data.carrierAcceptanceFileId),
-            "ДатИнфГП": formatDate(data.createdAt),
-            "ВрИнфГП": formatTime(data.createdAt),
-            "СодИнфГП": formatConsigneeReceiptInfo(data.consigneeInfo),
-            "Подписант": formatConsigneeSigner(data.signer),
-        }
+    "Документ": {
+        "НаимЭконСубСост": data.compilerName,
+        "ОснДоверОргСост": data.compilerAuthority && formatDocumentRequisites(data.compilerAuthority),
+        "ИдИнфПрвПрием": formatCarrierAcceptanceFileId(data.carrierAcceptanceFileId),
+        "ДатИнфГП": formatDate(data.createdAt),
+        "ВрИнфГП": formatTime(data.createdAt),
+        "СодИнфГП": formatConsigneeReceiptInfo(data.consigneeInfo),
+        "Подписант": formatConsigneeSigner(data.signer),
     }
 })

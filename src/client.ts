@@ -149,10 +149,13 @@ export class SabyTmsClient implements ISabyTransport {
     public async generateAttachment(attachment: TDocumentAttachment): Promise<TGeneratedAttachment> {
         const generated = await this._serviceRequest<TGeneratedAttachment>("СБИС.СгенерироватьВложение", attachment);
 
+        let inner: any = attachment.Документ.Вложение;
+        if (Array.isArray(inner)) inner = inner[0]
+
         return {
             ...generated,
-            "Тип": attachment.Документ.Вложение.Тип,
-            "Подтип": attachment.Документ.Вложение.Подтип,
+            "Тип": inner.Тип,
+            "Подтип": inner.Подтип,
         };
     }
 
@@ -169,6 +172,8 @@ export class SabyTmsClient implements ISabyTransport {
      * @see СБИС.ЗаписатьДокумент
      */
     public writeDocument(attachment: TGeneratedAttachment, options: TWriteDocumentOptions = {}): Promise<TDocumentCard> {
+        attachment.Тип
+
         const meta = DOCUMENT_TYPE_TO_SABY[attachment.Тип];
         if (!meta) {
             throw new Error(`Неизвестный тип вложения: ${String(attachment.Тип)}. Ожидается результат generateAttachment(...).`);

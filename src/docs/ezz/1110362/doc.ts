@@ -56,15 +56,13 @@ export const Document1110362 = (data: TDocument1110362) => Document({
     type: DocumentType.EZZ,
     subtype: "1110362",
 }, {
-    "Файл": {
-        "Документ": {
-            "ДатИнфГО": formatDate(data.createdAt),
-            "ВрИнфГО": formatTime(data.createdAt),
-            "НаимЭкСубСост": data.compilerName,
-            "ОснДовОргСост": data.compilerAuthority && formatDocumentRequisites(data.compilerAuthority),
-            "ИдИнфГО": formatShipperFileId(data.shipperFileId),
-            "СодИнфПрв": formatCarrierContent(data.content),
-            "ПодпИнфПрв": formatCarrierSigner(data.signer),
-        }
+    "Документ": {
+        "ДатИнфГО": formatDate(data.createdAt),
+        "ВрИнфГО": formatTime(data.createdAt),
+        "НаимЭкСубСост": data.compilerName,
+        "ОснДовОргСост": data.compilerAuthority && formatDocumentRequisites(data.compilerAuthority),
+        "ИдИнфГО": formatShipperFileId(data.shipperFileId),
+        "СодИнфПрв": formatCarrierContent(data.content),
+        "ПодпИнфПрв": formatCarrierSigner(data.signer),
     }
 })
