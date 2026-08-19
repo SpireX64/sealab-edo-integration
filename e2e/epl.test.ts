@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Document1110380 } from "./fixtures/epl";
 import { eplFixture } from "./fixtures/epl";
-import { EplAction } from "../src/index";
+import { EplAction, mapDocument1110380 } from "../src/index";
 import { CERT_THUMBPRINT, createClient, EPL_CREDENTIALS } from "./helpers";
 
 describe("ЭПЛ Т1 (обстоятельства и особенности рейса)", () => {
@@ -14,7 +14,7 @@ describe("ЭПЛ Т1 (обстоятельства и особенности р�
 
             // 1. Генерация вложения из конструктора документа
             console.log("[ЭПЛ] 1. Генерация вложения (СБИС.СгенерироватьВложение)...");
-            const attachment = await client.generateAttachment(Document1110380(eplFixture));
+            const attachment = await client.generateAttachment(mapDocument1110380(Document1110380(eplFixture)));
             console.log("[ЭПЛ] 1. Ответ СБИС.СгенерироватьВложение:", JSON.stringify(attachment));
 
             expect(attachment.Вложение.length).toBeGreaterThan(0);

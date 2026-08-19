@@ -18,7 +18,6 @@ import {
 } from "../../src/docs/ezz/1110361";
 
 export const ezzFixture: TDocument1110361 = {
-    createdAt: new Date("2026-08-13T10:00:00+03:00"),
     compilerName: 'Общество с ограниченной ответственностью "Ромашка"',
 
     content: {

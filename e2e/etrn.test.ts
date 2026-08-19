@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Document111339 } from "./fixtures/etrn";
 import { etrnFixture } from "./fixtures/etrn";
-import { EtRnAction } from "../src/index";
+import { EtRnAction, mapDocument1110339 } from "../src/index";
 import { CERT_THUMBPRINT, createClient, ETRN_CREDENTIALS } from "./helpers";
 
 describe("ЭТрН Т1 (грузоотправитель)", () => {
@@ -14,7 +14,7 @@ describe("ЭТрН Т1 (грузоотправитель)", () => {
 
             // 1. Генерация вложения из конструктора документа
             console.log("[ЭТрН] 1. Генерация вложения (СБИС.СгенерироватьВложение)...");
-            const attachment = await client.generateAttachment(Document111339(etrnFixture));
+            const attachment = await client.generateAttachment(mapDocument1110339(Document111339(etrnFixture)));
             console.log("[ЭТрН] 1. Ответ СБИС.СгенерироватьВложение:", JSON.stringify(attachment));
 
             expect(attachment.Вложение.length).toBeGreaterThan(0);

@@ -21,27 +21,29 @@ export function createClient(): SabyTmsClient {
     return new SabyTmsClient(SabyEnv.Test);
 }
 
+const credentials = '@demo42346363'
+
 // ─── ЭТрН (1110339) ─────────────────────────────────────────────────────────
 
 export const ETRN_CREDENTIALS: TCredentials = {
-    login: env("SABY_ETRN_LOGIN", "@demo52330401"),
-    password: env("SABY_ETRN_PASSWORD", "@demo52330401"),
+    login: env("SABY_ETRN_LOGIN", credentials),
+    password: env("SABY_ETRN_PASSWORD", credentials),
     organization: organization({ inn: "931563254629" }),
 };
 
 // ─── ЭПЛ (1110380) ─────────────────────────────────────────────────────────
 
 export const EPL_CREDENTIALS: TCredentials = {
-    login: env("SABY_EPL_LOGIN", "@demo52330401"),
-    password: env("SABY_EPL_PASSWORD", "@demo52330401"),
+    login: env("SABY_EPL_LOGIN", credentials),
+    password: env("SABY_EPL_PASSWORD", credentials),
     organization: organization({ inn: "2145492416", kpp: "214501001" }),
 };
 
 // ─── ЭЗЗ (1110361) ─────────────────────────────────────────────────────────
 
 export const EZZ_CREDENTIALS: TCredentials = {
-    login: env("SABY_EZZ_LOGIN", "@demo52330401"),
-    password: env("SABY_EZZ_PASSWORD", "@demo52330401"),
+    login: env("SABY_EZZ_LOGIN", credentials),
+    password: env("SABY_EZZ_PASSWORD", credentials),
     organization: organization({ inn: "931563254629" }),
 };
 
