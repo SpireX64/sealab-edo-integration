@@ -332,6 +332,14 @@ export class SabyTmsClient implements ISabyTransport {
             body: JSON.stringify(req),
         });
 
+        // 401 — сессия отсутствует или истекла. Без авторизации не выполнится
+        // ни один запрос, поэтому отклоняем все ожидающие (включая текущий).
+        if (resp.status === 401) {
+            const message = "Не выполнена авторизация";
+            this._rpc.rejectAllPendingRequests(message);
+            throw new Error(message);
+        }
+
         // Saby возвращает JSON-RPC ошибку с HTTP-статусом 500.
         // Парсим тело всегда, чтобы json-rpc-2.0 доставил реальное сообщение
         // ошибки, а не обезличенный HTTP statusText.
