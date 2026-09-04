@@ -3,7 +3,7 @@
  * (ЭТрН, 1110339) (таб-5.2)
  */
 
-import { Document, DocumentStructure, DocumentType } from '../../shared'
+import { fileNode, type TFileXmlMeta } from '../../shared'
 import { formatShipperWaybill, type TShipperWaybill } from './data/5.3-ShipperWaybill';
 import { formatSettlementDoc, type TSettlementDoc } from './data/5.45-SettlementDoc';
 import { formatSignerInfo, type TSignerInfo } from './data/5.23-SignerInfo';
@@ -30,16 +30,10 @@ export type TDocument111339 = TShipperWaybill & {
     signer: TSignerInfo
 }
 
-export const Document111339 = (data: TDocument111339) =>
-    Document({
-        type: DocumentType.ETRN,
-        subtype: "1110339",
-        structure: DocumentStructure.File,
-    }, {
-        "Документ": {
-            "НаимЭкСубСост": data.issuer,
-            "ОснДовОргСост": data.issuerAuthorityDoc && formatSettlementDoc(data.issuerAuthorityDoc),
-            "Подписант": formatSignerInfo(data.signer),
-            "СодИнфГО": formatShipperWaybill(data)
-        }
-    });
+export const Document111339 = (data: TDocument111339, meta: TFileXmlMeta = {}) =>
+    fileNode("1110339", "5.01", {
+        "НаимЭкСубСост": data.issuer,
+        "ОснДовОргСост": data.issuerAuthorityDoc && formatSettlementDoc(data.issuerAuthorityDoc),
+        "Подписант": formatSignerInfo(data.signer),
+        "СодИнфГО": formatShipperWaybill(data)
+    }, meta);

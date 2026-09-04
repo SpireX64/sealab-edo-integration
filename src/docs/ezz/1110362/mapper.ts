@@ -13,6 +13,7 @@
  */
 
 import { DocumentType, type TDocumentAttachment } from '../../shared';
+import type { XmlNode } from '../../../helpers';
 
 type Substitution = Record<string, unknown>;
 
@@ -64,12 +65,6 @@ type TDocumentXml = {
     "ПодпИнфПрв"?: TSignerXml;
 };
 
-type TAttachmentList = {
-    "ВерсияФормата": string;
-    "Тип": DocumentType;
-    "Подтип": string;
-    "Подстановка": { "Документ": TDocumentXml };
-};
 
 // ─── Вспомогательные конвертеры ─────────────────────────────────────────────
 
@@ -119,11 +114,9 @@ function mapOwnershipDocs(docs: Record<string, unknown>[] | undefined): Record<s
  * Конвертирует вложение ЭЗЗ 1110362 из XML-тегов в семантические ключи,
  * принимаемые `СБИС.СгенерироватьВложение`.
  */
-export function mapDocument1110362(attachment: TDocumentAttachment): TDocumentAttachment {
-    const list = attachment["Документ"]["Вложение"];
-    const source = (Array.isArray(list) ? list[0] : list) as TAttachmentList;
-
-    const doc = source["Подстановка"]["Документ"];
+export function mapDocument1110362(node: XmlNode): TDocumentAttachment {
+    const file = (node["Файл"] ?? {}) as Record<string, unknown>;
+    const doc = (file["Документ"] ?? {}) as TDocumentXml;
     const content = doc["СодИнфПрв"];
 
     // Ответственное лицо перевозчика.
@@ -198,9 +191,9 @@ export function mapDocument1110362(attachment: TDocumentAttachment): TDocumentAt
         "Документ": {
             "Вложение": [
                 {
-                    "ВерсияФормата": source["ВерсияФормата"],
-                    "Тип": source["Тип"],
-                    "Подтип": source["Подтип"],
+                    "ВерсияФормата": "5.01",
+                    "Тип": DocumentType.EZZ,
+                    "Подтип": "1110362",
                     "Подстановка": substitution,
                 },
             ],

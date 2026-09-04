@@ -16,6 +16,7 @@
  */
 
 import { DocumentType, type TDocumentAttachment } from '../../shared';
+import type { XmlNode } from '../../../helpers';
 
 type Substitution = Record<string, unknown>;
 
@@ -140,12 +141,6 @@ type TDocumentXml = {
     "ПодпИнфГО"?: TSignerXml;
 };
 
-type TAttachmentList = {
-    "ВерсияФормата": string;
-    "Тип": DocumentType;
-    "Подтип": string;
-    "Подстановка": { "Документ": TDocumentXml };
-};
 
 // ─── Вспомогательные конвертеры ─────────────────────────────────────────────
 
@@ -282,11 +277,9 @@ function mapSigner(signer: TSignerXml | undefined): Record<string, unknown> | un
  * Конвертирует вложение ЭЗЗ 1110361 из XML-тегов в семантические ключи,
  * принимаемые `СБИС.СгенерироватьВложение`.
  */
-export function mapDocument1110361(attachment: TDocumentAttachment): TDocumentAttachment {
-    const list = attachment["Документ"]["Вложение"];
-    const source = (Array.isArray(list) ? list[0] : list) as TAttachmentList;
-
-    const doc = source["Подстановка"]["Документ"];
+export function mapDocument1110361(node: XmlNode): TDocumentAttachment {
+    const file = (node["Файл"] ?? {}) as Record<string, unknown>;
+    const doc = (file["Документ"] ?? {}) as TDocumentXml;
     const content = doc["СодИнфГО"];
 
     // Маршрут: отправление + пункты погрузки/выгрузки.
@@ -373,9 +366,9 @@ export function mapDocument1110361(attachment: TDocumentAttachment): TDocumentAt
         "Документ": {
             "Вложение": [
                 {
-                    "ВерсияФормата": source["ВерсияФормата"],
-                    "Тип": source["Тип"],
-                    "Подтип": source["Подтип"],
+                    "ВерсияФормата": "5.01",
+                    "Тип": DocumentType.EZZ,
+                    "Подтип": "1110361",
                     "Подстановка": substitution,
                 },
             ],

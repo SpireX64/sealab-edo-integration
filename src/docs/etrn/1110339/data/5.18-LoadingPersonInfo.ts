@@ -50,15 +50,17 @@ export type TLoadingPersonInfo =
     }
 
 export function formatLoadingPersonInfo(data: TLoadingPersonInfo) {
+    // СовпГОП: "1" — совпадает с грузоотправителем, "2" — не совпадает.
+    // `formatFlag(!value, 1)` даёт true→"1", false→"2" (сдвиг инвертирован).
     if (data.matchesShipper) {
         return {
-            "СовпГОП": formatFlag(data.matchesShipper, 1),
+            "СовпГОП": formatFlag(!data.matchesShipper, 1),
             "ИдентРекГО": formatIssuerIdentity(data.shipperIdentity),
         }
     }
 
     return {
-        "СовпГОП": formatFlag(data.matchesShipper, 1),
+        "СовпГОП": formatFlag(!data.matchesShipper, 1),
         "РекЛицПогрГр": formatPartyDetails(data.personDetails),
         "ОснПогрГр": formatSettlementDoc(data.authorityDoc),
         "РабЛицПогрГр": formatLoadingPersonWorker(data.worker),

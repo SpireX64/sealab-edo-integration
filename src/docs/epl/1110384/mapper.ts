@@ -8,12 +8,11 @@
  *   { "Документ": { "ПризнакОкончанияРейса" },
  *     "Приемка": { "Заезд", "Ответственный" } }
  *
- * Внимание: конструктор 1110384 кладёт содержимое в `Подстановка.Файл.Документ`
- * (в отличие от 1110380–1110383, где `Подстановка.Документ`), поэтому конвертер
- * читает источник из обоих вариантов.
+ * Содержимое лежит в `Подстановка.Документ` (как и у 1110380–1110383).
  */
 
 import { DocumentType, type TDocumentAttachment } from '../../shared';
+import type { XmlNode } from '../../../helpers';
 
 type Substitution = Record<string, unknown>;
 
@@ -36,12 +35,6 @@ type TDocumentXml = {
     "ПодпИнфЗаезд"?: TSignerXml;
 };
 
-type TAttachmentList = {
-    "ВерсияФормата": string;
-    "Тип": DocumentType;
-    "Подтип": string;
-    "Подстановка": { "Документ"?: TDocumentXml; "Файл"?: { "Документ"?: TDocumentXml } };
-};
 
 function mapResponsible(person: TAuthorizedPersonXml | undefined): Record<string, unknown> | undefined {
     if (!person) return undefined;
@@ -55,14 +48,11 @@ function mapResponsible(person: TAuthorizedPersonXml | undefined): Record<string
     return result;
 }
 
-export function mapDocument1110384(attachment: TDocumentAttachment): TDocumentAttachment {
-    const list = attachment["Документ"]["Вложение"];
-    const source = (Array.isArray(list) ? list[0] : list) as TAttachmentList;
+export function mapDocument1110384(node: XmlNode): TDocumentAttachment {
+    const file = (node["Файл"] ?? {}) as Record<string, unknown>;
+    const doc = (file["Документ"] ?? {}) as TDocumentXml;
 
-    const doc = source["Подстановка"]["Документ"]
-        ?? source["Подстановка"]["Файл"]?.["Документ"];
-
-    const content = doc?.["СодИнфЗаезд"];
+    const content = doc["СодИнфЗаезд"];
     const odometer = content?.["СвОдомЗаезд"] ?? content?.["СвОдомСдачТС"];
 
     const substitution: Substitution = {
@@ -90,9 +80,9 @@ export function mapDocument1110384(attachment: TDocumentAttachment): TDocumentAt
         "Документ": {
             "Вложение": [
                 {
-                    "ВерсияФормата": source["ВерсияФормата"],
-                    "Тип": source["Тип"],
-                    "Подтип": source["Подтип"],
+                    "ВерсияФормата": "5.01",
+                    "Тип": DocumentType.EPL,
+                    "Подтип": "1110384",
                     "Подстановка": substitution,
                 },
             ],

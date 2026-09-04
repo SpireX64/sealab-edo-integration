@@ -33,6 +33,6 @@ export function formatContacts(data: TContacts) {
     return {
         "Тлф": data.phones,
         "ЭлПочта": data.emails?.length ? data.emails : undefined,
-        "ИнКонт": data.otherContacts,
+        "ИнКонт": data.otherContacts ? [data.otherContacts] : undefined,
     }
 }

@@ -6,7 +6,7 @@
  * (ЭПЛ, 1110382) (таб-9.2)
  */
 
-import { Document, DocumentType } from '../../shared'
+import { fileNode, type TFileXmlMeta } from '../../shared'
 import { formatFileIdentification, type TFileIdentification } from './data/9.3-FileIdentification';
 import { formatTechnicalCheckContent, type TTechnicalCheckContent } from './data/9.4-TechnicalCheckContent';
 import { formatTechnicalCheckSigner, type TTechnicalCheckSigner } from './data/9.9-TechnicalCheckSigner';
@@ -38,13 +38,9 @@ export type TDocument1110382 = {
     signer: TTechnicalCheckSigner
 }
 
-export const Document1110382 = (data: TDocument1110382) => Document({
-    type: DocumentType.EPL,
-    subtype: "1110382",
-}, {
-    "Документ": {
+export const Document1110382 = (data: TDocument1110382, meta: TFileXmlMeta = {}) =>
+    fileNode("1110382", "5.01", {
         "ИдИнфСоб": formatFileIdentification(data.fileIdentification),
         "СодИнфТехСост": formatTechnicalCheckContent(data.content),
         "ПодпИнфТехСост": formatTechnicalCheckSigner(data.signer),
-    }
-})
+    }, meta)

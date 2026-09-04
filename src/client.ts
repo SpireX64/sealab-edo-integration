@@ -7,13 +7,13 @@ import { VehiclesApi } from "./api/vehicles";
 import { SignApi } from "./api/sign";
 import type { ISabyTransport } from "./api/types";
 import type {
-    TDocumentAttachment,
     TDocumentCard,
     TExecuteActionOptions,
-    TGeneratedAttachment,
     TListChangesOptions,
     TLoginCredentials,
     TPrepareActionOptions,
+    TReadyAttachment,
+    TWriteAttachmentOptions,
     TWriteDocumentOptions,
 } from "./types";
 
@@ -136,48 +136,19 @@ export class SabyTmsClient implements ISabyTransport {
     }
 
     /**
-     * Генерирует XML-вложение (титул документа) из структуры документа.
-     *
-     * @param attachment - Результат вызова конструктора документа из `src/docs/`
-     *   (например, `Document1110380(data)`).
-     * @returns Сгенерированное вложение (XML в base64) с эхом `Тип`/`Подтип`,
-     *   для передачи в {@link SabyTmsClient#writeDocument} или
-     *   {@link SabyTmsClient#writeAttachment}.
-     *
-     * @see СБИС.СгенерироватьВложение
-     */
-    public async generateAttachment(attachment: TDocumentAttachment): Promise<TGeneratedAttachment> {
-        const generated = await this._serviceRequest<TGeneratedAttachment>("СБИС.СгенерироватьВложение", attachment);
-
-        let inner: any = attachment.Документ.Вложение;
-        if (Array.isArray(inner)) inner = inner[0]
-
-        return {
-            ...generated,
-            "Тип": inner.Тип,
-            "Подтип": inner.Подтип,
-        };
-    }
-
-    /**
      * Создаёт новый документ (титул Т1).
      *
-     * Тип документа (`Документ.Тип`) и название регламента выводятся
-     * автоматически из вложения, а организация — берётся из {@link SabyTmsClient#login}.
+     * Тело документа (`Вложение` / `Регламент` / `Тип`) уже собрано фабрикой
+     * {@link toAttachment} — здесь добавляется только `НашаОрганизация`
+     * (реквизиты организации из {@link SabyTmsClient#login}).
      *
-     * @param attachment - Сгенерированное вложение — результат {@link SabyTmsClient#generateAttachment}.
-     * @param options - Дополнительные поля документа.
+     * @param document - Готовое тело документа — результат `toAttachment(Document*(...))`.
+     * @param options - Семантические и дополнительные поля документа (обычно не нужны).
      * @returns Карточка созданного документа (передавайте её в последующие методы).
      *
      * @see СБИС.ЗаписатьДокумент
      */
-    public writeDocument(attachment: TGeneratedAttachment, options: TWriteDocumentOptions = {}): Promise<TDocumentCard> {
-        attachment.Тип
-
-        const meta = DOCUMENT_TYPE_TO_SABY[attachment.Тип];
-        if (!meta) {
-            throw new Error(`Неизвестный тип вложения: ${String(attachment.Тип)}. Ожидается результат generateAttachment(...).`);
-        }
+    public writeDocument(document: TReadyAttachment, options: TWriteDocumentOptions = {}): Promise<TDocumentCard> {
         if (!this._organization) {
             throw new Error("Организация не задана — вызовите login(...) с полем organization.");
         }
@@ -185,9 +156,7 @@ export class SabyTmsClient implements ISabyTransport {
         return this._serviceRequest("СБИС.ЗаписатьДокумент", {
             "Документ": {
                 "НашаОрганизация": this._organization,
-                "Вложение": { "Вложение": attachment.Вложение },
-                "Регламент": { "Название": meta.regulationName },
-                "Тип": meta.type,
+                ...document,
                 ...options.extra,
             },
         })
@@ -196,16 +165,27 @@ export class SabyTmsClient implements ISabyTransport {
     /**
      * Добавляет титул (Т2+) к существующему документу.
      *
-     * @param document - Входящий документ (карточка из {@link SabyTmsClient#listChanges}).
-     * @param attachment - Сгенерированное вложение — результат {@link SabyTmsClient#generateAttachment}.
+     * Вложение титула собрано фабрикой {@link toAttachment} — здесь берётся
+     * только его `Вложение` (файл обмена в base64) и прикрепляется к
+     * `Идентификатору` родительского документа.
+     *
+     * @param document - Входящий документ (карточка из {@link SabyTmsClient#listChanges}
+     *   или результат {@link SabyTmsClient#writeDocument}).
+     * @param attachment - Готовое вложение — результат `toAttachment(Document*(...))`.
+     * @param options - Семантические и дополнительные поля титула (обычно не нужны).
      *
      * @see СБИС.ЗаписатьВложение
      */
-    public writeAttachment(document: TDocumentCard, attachment: TGeneratedAttachment): Promise<TDocumentCard> {
+    public writeAttachment(
+        document: TDocumentCard,
+        attachment: TReadyAttachment,
+        options: TWriteAttachmentOptions = {},
+    ): Promise<TDocumentCard> {
         return this._serviceRequest("СБИС.ЗаписатьВложение", {
             "Документ": {
                 "Идентификатор": document.Идентификатор,
-                "Вложение": { "Вложение": attachment.Вложение },
+                "Вложение": attachment.Вложение,
+                ...options.extra,
             },
         })
     }
@@ -213,16 +193,29 @@ export class SabyTmsClient implements ISabyTransport {
     /**
      * Подготавливает действие (подпись) и возвращает хеш для подписания.
      *
+     * Сертификат подписанта можно указать любым способом — отпечатком
+     * (`certificateThumbprint` / `certificate.Отпечаток`) или реквизитами
+     * `ФИО` / `Должность` / `ИНН` (`certificate`). Если ничего не указать,
+     * сервер подставит доступный сертификат самостоятельно и вернёт его в ответе.
+     *
      * @param document - Карточка документа (результат {@link SabyTmsClient#writeDocument}).
      * @param options - Действие (`@see EtRnAction`/`EzzAction`/`EplAction`) и
-     *   отпечаток сертификата КЭП подписанта.
+     *   реквизиты сертификата КЭП подписанта.
      *
      * @see СБИС.ПодготовитьДействие
      */
     public prepareAction(document: TDocumentCard, options: TPrepareActionOptions): Promise<unknown> {
+        const certificate: Record<string, unknown> = { ...options.certificate };
+        if (options.certificateThumbprint !== undefined) {
+            certificate["Отпечаток"] = options.certificateThumbprint;
+        }
+
         const action: Record<string, unknown> = {
             "Название": options.action,
-            "Сертификат": { "Отпечаток": options.certificateThumbprint },
+        }
+        // Сертификат опускаем, если реквизиты не заданы: сервер выберет его сам.
+        if (Object.keys(certificate).length > 0) {
+            action["Сертификат"] = certificate;
         }
         if (options.comment !== undefined) {
             action["Комментарий"] = options.comment

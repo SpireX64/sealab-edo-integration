@@ -10,6 +10,7 @@
  */
 
 import { DocumentType, type TDocumentAttachment } from '../../shared';
+import type { XmlNode } from '../../../helpers';
 
 type Substitution = Record<string, unknown>;
 
@@ -41,12 +42,6 @@ type TDocumentXml = {
     "ПодпИнфВыезд"?: TSignerXml;
 };
 
-type TAttachmentList = {
-    "ВерсияФормата": string;
-    "Тип": DocumentType;
-    "Подтип": string;
-    "Подстановка": { "Документ": TDocumentXml };
-};
 
 function mapResponsible(person: TAuthorizedPersonXml | undefined): Record<string, unknown> | undefined {
     if (!person) return undefined;
@@ -60,11 +55,9 @@ function mapResponsible(person: TAuthorizedPersonXml | undefined): Record<string
     return result;
 }
 
-export function mapDocument1110383(attachment: TDocumentAttachment): TDocumentAttachment {
-    const list = attachment["Документ"]["Вложение"];
-    const source = (Array.isArray(list) ? list[0] : list) as TAttachmentList;
-
-    const doc = source["Подстановка"]["Документ"];
+export function mapDocument1110383(node: XmlNode): TDocumentAttachment {
+    const file = (node["Файл"] ?? {}) as Record<string, unknown>;
+    const doc = (file["Документ"] ?? {}) as TDocumentXml;
     const content = doc["СодИнфВыезд"];
 
     const odometer = content?.["СвОдомВыезд"] ?? content?.["СвОдомПриемТС"];
@@ -94,9 +87,9 @@ export function mapDocument1110383(attachment: TDocumentAttachment): TDocumentAt
         "Документ": {
             "Вложение": [
                 {
-                    "ВерсияФормата": source["ВерсияФормата"],
-                    "Тип": source["Тип"],
-                    "Подтип": source["Подтип"],
+                    "ВерсияФормата": "5.01",
+                    "Тип": DocumentType.EPL,
+                    "Подтип": "1110383",
                     "Подстановка": substitution,
                 },
             ],

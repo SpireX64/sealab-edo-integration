@@ -3,7 +3,7 @@
  * (ЭЗЗ, 1110361) (таб-5.2)
  */
 
-import { Document, DocumentStructure, DocumentType } from '../../shared'
+import { fileNode, type TFileXmlMeta } from '../../shared'
 import { formatDocumentRequisites, type TDocumentRequisites } from './data/5.16-DocumentRequisites';
 import { formatShipperContent, type TShipperContent } from './data/5.3-ShipperContent';
 import { formatShipperSigner, type TShipperSigner } from './data/5.13-ShipperSigner';
@@ -46,16 +46,11 @@ export type TDocument1110361 = {
     signer: TShipperSigner
 }
 
-export const Document1110361 = (data: TDocument1110361) => Document({
-    type: DocumentType.EZZ,
-    subtype: "1110361",
-    structure: DocumentStructure.List
-}, {
-    "Документ": {
+export const Document1110361 = (data: TDocument1110361, meta: TFileXmlMeta = {}) =>
+    fileNode("1110361", "5.01", {
         "НаимЭкСубСост": data.compilerName,
         "ОснДовОргСост": data.compilerAuthority && formatDocumentRequisites(data.compilerAuthority),
         "ДогОргПрвз": data.transportContract && formatDocumentRequisites(data.transportContract),
         "СодИнфГО": formatShipperContent(data.content),
         "ПодпИнфГО": formatShipperSigner(data.signer),
-    }
-})
+    }, meta)

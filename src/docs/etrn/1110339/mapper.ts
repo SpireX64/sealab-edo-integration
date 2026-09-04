@@ -25,10 +25,9 @@
  */
 
 import { DocumentType, type TDocumentAttachment } from '../../shared';
+import type { XmlNode } from '../../../helpers';
 
 // ─── Формы значений, которые выдаёт конструктор (для чтения) ────────────────
-
-type Substitution = Record<string, unknown>;
 
 /** Поля адреса РФ (АдрРФТип), выдаваемые `formatAddress`/`formatConcreteAddress`. */
 const RUSSIAN_ADDRESS_KEYS = [
@@ -158,21 +157,15 @@ function fixNode(node: unknown): unknown {
  * Конвертирует вложение ЭТрН 1110339 в форму, полностью разворачиваемую
  * `СБИС.СгенерироватьВложение`, не изменяя типы и конструкторы.
  */
-export function mapDocument1110339(attachment: TDocumentAttachment): TDocumentAttachment {
-    const source = attachment["Документ"]["Вложение"] as {
-        "ВерсияФормата": string;
-        "Тип": DocumentType;
-        "Подтип": string;
-        "Подстановка": Substitution;
-    };
+export function mapDocument1110339(node: XmlNode): TDocumentAttachment {
+    const file = (node["Файл"] ?? {}) as Record<string, unknown>;
+    const docNode = (file["Документ"] ?? {}) as Record<string, unknown>;
 
-    const subtype = Object.keys(source["Подстановка"])[0] ?? source["Подтип"];
-    const file = source["Подстановка"][subtype] as {
-        "ВерсФорм": string;
-        "Файл": { "Документ": Record<string, unknown> };
-    };
+    const subtype = String(docNode["КНД"] ?? "1110339");
+    const content = { ...docNode };
+    delete content["КНД"];
 
-    const document = fixNode(file["Файл"]["Документ"]) as Record<string, unknown>;
+    const document = fixNode(content) as Record<string, unknown>;
 
     // Точечная правка: контакты в «Сведениях о переадресовке» называются КонтПА.
     const instructions = document["СодИнфГО"] as Record<string, unknown> | undefined;
@@ -186,12 +179,12 @@ export function mapDocument1110339(attachment: TDocumentAttachment): TDocumentAt
     return {
         "Документ": {
             "Вложение": {
-                "ВерсияФормата": source["ВерсияФормата"],
-                "Тип": source["Тип"],
-                "Подтип": source["Подтип"],
+                "ВерсияФормата": "5.01",
+                "Тип": DocumentType.ETRN,
+                "Подтип": subtype,
                 "Подстановка": {
                     [subtype]: {
-                        "ВерсФорм": file["ВерсФорм"],
+                        "ВерсФорм": "5.01",
                         "Файл": { "Документ": document },
                     },
                 },

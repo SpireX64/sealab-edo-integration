@@ -37,7 +37,7 @@ export type TDeparturePoint = {
 export function formatDeparturePoint(data: TDeparturePoint) {
     return {
         "АдрКоммент": data.addressComment,
-        "ГЛН": data.gln,
+        "ГЛН": data.gln && [data.gln],
         "Коорд": data.coordinates && formatCoordinates(data.coordinates),
         "Адрес": formatAddress(data.address),
     }

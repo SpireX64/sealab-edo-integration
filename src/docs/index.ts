@@ -55,13 +55,9 @@ export { Document1110384 } from './epl/1110384'
 export type { TDocument1110384 } from './epl/1110384'
 export * as EPL1110384 from './epl/1110384'
 
-// Конвертеры (мапперы) — приводят сформированные конструкторами вложения
-// к семантическим ключам, принимаемым `СБИС.СгенерироватьВложение`.
-export { mapDocument1110339 } from './etrn/1110339/mapper'
-export { mapDocument1110361 } from './ezz/1110361/mapper'
-export { mapDocument1110362 } from './ezz/1110362/mapper'
-export { mapDocument1110380 } from './epl/1110380/mapper'
-export { mapDocument1110381 } from './epl/1110381/mapper'
-export { mapDocument1110382 } from './epl/1110382/mapper'
-export { mapDocument1110383 } from './epl/1110383/mapper'
-export { mapDocument1110384 } from './epl/1110384/mapper'
+// Метаданные формирования XML-файла обмена (конструкторы `Document*`).
+export type { TFileXmlMeta } from './shared'
+
+// Фабрика готового тела документа (имя файла + base64 + Тип/Регламент) из XmlNode.
+export { toAttachment } from './shared'
+export type { TReadyAttachment } from './shared'

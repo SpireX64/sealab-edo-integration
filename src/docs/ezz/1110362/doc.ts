@@ -3,7 +3,7 @@
  * (ЭЗЗ, 1110362) (таб-7.2)
  */
 
-import { Document, DocumentType } from '../../shared'
+import { fileNode, type TFileXmlMeta } from '../../shared'
 import { formatDate, formatTime } from '../../../helpers'
 import { formatDocumentRequisites, type TDocumentRequisites } from '../1110361/data/5.16-DocumentRequisites';
 import { formatShipperFileId, type TShipperFileId } from './data/7.3-ShipperFileId';
@@ -52,11 +52,8 @@ export type TDocument1110362 = {
     signer: TCarrierSigner
 }
 
-export const Document1110362 = (data: TDocument1110362) => Document({
-    type: DocumentType.EZZ,
-    subtype: "1110362",
-}, {
-    "Документ": {
+export const Document1110362 = (data: TDocument1110362, meta: TFileXmlMeta = {}) =>
+    fileNode("1110362", "5.01", {
         "ДатИнфГО": formatDate(data.createdAt),
         "ВрИнфГО": formatTime(data.createdAt),
         "НаимЭкСубСост": data.compilerName,
@@ -64,5 +61,4 @@ export const Document1110362 = (data: TDocument1110362) => Document({
         "ИдИнфГО": formatShipperFileId(data.shipperFileId),
         "СодИнфПрв": formatCarrierContent(data.content),
         "ПодпИнфПрв": formatCarrierSigner(data.signer),
-    }
-})
+    }, meta)

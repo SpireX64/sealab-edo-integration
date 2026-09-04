@@ -3,7 +3,7 @@
  * (ЭТрН, 1110341) (таб-13.2)
  */
 
-import { Document, DocumentStructure, DocumentType } from '../../shared'
+import { fileNode, type TFileXmlMeta } from '../../shared'
 import { formatDate, formatTime } from '../../../helpers'
 import { formatCarrierAcceptanceFileId, type TCarrierAcceptanceFileId } from './data/13.3-CarrierAcceptanceFileId';
 import { formatConsigneeReceiptInfo, type TConsigneeReceiptInfo } from './data/13.4-ConsigneeReceiptInfo';
@@ -50,12 +50,8 @@ export type TDocument1110341 = {
     signer: TConsigneeSigner
 }
 
-export const Document1110341 = (data: TDocument1110341) => Document({
-    type: DocumentType.ETRN,
-    subtype: "1110341",
-    structure: DocumentStructure.File
-}, {
-    "Документ": {
+export const Document1110341 = (data: TDocument1110341, meta: TFileXmlMeta = {}) =>
+    fileNode("1110341", "5.01", {
         "НаимЭконСубСост": data.compilerName,
         "ОснДоверОргСост": data.compilerAuthority && formatDocumentRequisites(data.compilerAuthority),
         "ИдИнфПрвПрием": formatCarrierAcceptanceFileId(data.carrierAcceptanceFileId),
@@ -63,5 +59,4 @@ export const Document1110341 = (data: TDocument1110341) => Document({
         "ВрИнфГП": formatTime(data.createdAt),
         "СодИнфГП": formatConsigneeReceiptInfo(data.consigneeInfo),
         "Подписант": formatConsigneeSigner(data.signer),
-    }
-})
+    }, meta)

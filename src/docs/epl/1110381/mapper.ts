@@ -16,6 +16,7 @@
  */
 
 import { DocumentType, type TDocumentAttachment } from '../../shared';
+import type { XmlNode } from '../../../helpers';
 
 type Substitution = Record<string, unknown>;
 
@@ -84,12 +85,6 @@ type TDocumentXml = {
     "ПодпИнфМО"?: TSignerXml;
 };
 
-type TAttachmentList = {
-    "ВерсияФормата": string;
-    "Тип": DocumentType;
-    "Подтип": string;
-    "Подстановка": { "Документ": TDocumentXml };
-};
 
 // ─── Вспомогательные конвертеры ─────────────────────────────────────────────
 
@@ -168,11 +163,9 @@ function mapDriver(driver: TDriverExamXml | undefined): Record<string, unknown> 
  * Конвертирует вложение ЭПЛ 1110381 из XML-тегов в семантические ключи,
  * принимаемые `СБИС.СгенерироватьВложение`.
  */
-export function mapDocument1110381(attachment: TDocumentAttachment): TDocumentAttachment {
-    const list = attachment["Документ"]["Вложение"];
-    const source = (Array.isArray(list) ? list[0] : list) as TAttachmentList;
-
-    const doc = source["Подстановка"]["Документ"];
+export function mapDocument1110381(node: XmlNode): TDocumentAttachment {
+    const file = (node["Файл"] ?? {}) as Record<string, unknown>;
+    const doc = (file["Документ"] ?? {}) as TDocumentXml;
     const content = doc["СодИнфМО"];
 
     const substitution: Substitution = {
@@ -203,9 +196,9 @@ export function mapDocument1110381(attachment: TDocumentAttachment): TDocumentAt
         "Документ": {
             "Вложение": [
                 {
-                    "ВерсияФормата": source["ВерсияФормата"],
-                    "Тип": source["Тип"],
-                    "Подтип": source["Подтип"],
+                    "ВерсияФормата": "5.01",
+                    "Тип": DocumentType.EPL,
+                    "Подтип": "1110381",
                     "Подстановка": substitution,
                 },
             ],

@@ -6,36 +6,14 @@
  * справочники, а не в доменные сервисы.
  */
 
-import { DocumentType } from "./docs/shared";
-
 // ─── Тип документа в карточке Saby ───────────────────────────────────────────
+//
+// `DOCUMENT_TYPE_TO_SABY` и `SabyDocumentType` живут в `./docs/shared` —
+// там же, где `DocumentType` и фабрика `toAttachment`, которая выводит из
+// них `Документ.Тип` / `Документ.Регламент.Название`.
 
-/**
- * Маппинг `DocumentType` (тип вложения) → параметры записи документа.
- *
- * Единый источник истины: `Документ.Тип` (`type`) и
- * `Документ.Регламент.Название` (`regulationName`) выводятся отсюда.
- */
-export const DOCUMENT_TYPE_TO_SABY = {
-    [DocumentType.ETRN]: {
-        type: "ConsignmentNote",
-        regulationName: "Транспортная накладная",
-    },
-    [DocumentType.EZZ]: {
-        type: "TransportOrder",
-        regulationName: "Заказ на перевозку",
-    },
-    [DocumentType.EPL]: {
-        type: "Waybill",
-        regulationName: "ЭПЛ",
-    },
-} as const satisfies Record<DocumentType, { type: string; regulationName: string }>;
-
-/**
- * Тип документа в карточке Saby (`Документ.Тип` при записи).
- * Выводится из {@link DOCUMENT_TYPE_TO_SABY} — не дублирует `DocumentType`.
- */
-export type SabyDocumentType = (typeof DOCUMENT_TYPE_TO_SABY)[keyof typeof DOCUMENT_TYPE_TO_SABY]["type"];
+export { DOCUMENT_TYPE_TO_SABY } from "./docs/shared";
+export type { SabyDocumentType } from "./docs/shared";
 
 // ─── Действия ЭТрН ───────────────────────────────────────────────────────────
 

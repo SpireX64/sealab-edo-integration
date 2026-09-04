@@ -43,6 +43,6 @@ export function formatShipperInfo(data: TShipperInfo) {
         "ИнфДляУчаст": mapArrayIfNotEmpty(data.participantInfo, formatParticipantInfo),
         "ИдСв": formatParticipantIdentification(data.identificationDetails),
         "Адрес": data.address && formatAddress(data.address),
-        "Конт": formatContacts(data.contacts),
+        "Контакт": formatContacts(data.contacts),
     }
 }

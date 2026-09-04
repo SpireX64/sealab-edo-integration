@@ -3,7 +3,7 @@
  * (ЭТрН, 1110340) (таб-7.2)
  */
 
-import { Document, DocumentStructure, DocumentType } from '../../shared'
+import { fileNode, type TFileXmlMeta } from '../../shared'
 import { formatDateTimeWithUtc } from '../../../helpers'
 import { formatShipperFileId, type TShipperFileId } from './data/7.3-ShipperFileId';
 import { formatCarrierWaybillInfo, type TCarrierWaybillInfo } from './data/7.4-CarrierWaybillInfo';
@@ -38,20 +38,14 @@ export type TDocument1110340 = {
     signer: TCarrierSigner
 }
 
-export const Document1110340 = (data: TDocument1110340) => {
+export const Document1110340 = (data: TDocument1110340, meta: TFileXmlMeta = {}) => {
     const dt = formatDateTimeWithUtc(data.documentDateTime)
 
-    return Document({
-        type: DocumentType.ETRN,
-        subtype: "1110340",
-        structure: DocumentStructure.File,
-    }, {
-        "Документ": {
-            "ДатИнфПрвПрием": dt.dateTime,
-            "НалКоорТочВрИнфПрв": dt.utc,
-            "ИдИнфГО": formatShipperFileId(data.shipperFileId),
-            "СодИнфПрвПрием": formatCarrierWaybillInfo(data.carrierInfo),
-            "Подписант": formatCarrierSigner(data.signer),
-        }
-    })
+    return fileNode("1110340", "5.01", {
+        "ДатИнфПрвПрием": dt.dateTime,
+        "НалКоорТочВрИнфПрв": dt.utc,
+        "ИдИнфГО": formatShipperFileId(data.shipperFileId),
+        "СодИнфПрвПрием": formatCarrierWaybillInfo(data.carrierInfo),
+        "Подписант": formatCarrierSigner(data.signer),
+    }, meta)
 }

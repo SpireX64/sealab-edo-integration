@@ -28,21 +28,24 @@ export type {
 
 // Типы клиента
 export type {
-    TAttachmentFile,
-    TDocumentAttachment,
+    TCertificateRef,
     TDocumentCard,
     TDocumentCardAttachment,
     TDocumentState,
     TExecuteActionOptions,
-    TGeneratedAttachment,
     TListChangesOptions,
     TLoginCredentials,
     TPrepareActionOptions,
+    TWriteAttachmentOptions,
     TWriteDocumentOptions,
 } from "./types";
 
 // Саб-клиенты (сотрудники, ТС, подпись)
 export * from "./api";
+
+// Генерация XML
+export { toXml, formatFileDate, encodeWindows1251, toBase64Xml } from "./helpers";
+export type { XmlNode, TXmlOptions } from "./helpers";
 
 // Документы и их типы
 export * from "./docs";

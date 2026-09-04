@@ -113,13 +113,17 @@ export function formatWaybillContent(data: TWaybillContent) {
         throw new TypeError("Требуется указать хотя бы одного водителя")
     }
 
+    const departurePoints = data.departurePoints ?? [];
+    const [origin, ...routePoints] = departurePoints;
+
     return {
         "УИД_ПЛ": data.waybillId,
         "ОбМедОсмПосле": formatFlag(!data.isPostTripMedicalExamRequired, 1),
         "ВидПрв": formatTransportKind(data.transportKind),
         "ВидКП": data.commercialTransportKind && formatCommercialTransportKind(data.commercialTransportKind),
         "ВидСообщ": formatMessageKind(data.messageKind),
-        "МестОтпр": mapArrayIfNotEmpty(data.departurePoints, formatDeparturePoint),
+        "МестОтпр": origin && formatDeparturePoint(origin),
+        "АдрПункт": mapArrayIfNotEmpty(routePoints, formatDeparturePoint),
         "СрокПЛ": formatWaybillValidity(data.validity),
         "СвЛицПЛ": formatWaybillIssuer(data.issuer),
         "СвГО": mapArrayIfNotEmpty(data.shippers, formatShipperInfo),

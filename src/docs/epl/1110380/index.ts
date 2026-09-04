@@ -6,7 +6,10 @@
 
 // Документ
 export { Document1110380 } from './doc'
-export type { TDocument1110380 } from './doc'
+export type { TDocument1110380, TFileMeta1110380 } from './doc'
+
+// Семантическая подстановка (для ЗаписатьДокумент / СгенерироватьВложение)
+export { toSubstitution } from './substitution'
 
 // Енумы
 export {
