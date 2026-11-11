@@ -23,7 +23,8 @@ export type TSettlementDoc = {
     name?: string
 
     /**
-     * Номер документа. При отсутствии указывается "Без номера"
+     * Номер документа. Если документ действительно не имеет номера,
+     * передаётся явное значение "Без номера".
      * 
      * Обязателен, если не указан {id}
      */
@@ -44,7 +45,7 @@ export type TSettlementDoc = {
 }
 
 export function formatSettlementDoc({id, name, documentNumber, documentDate, partyDetails, extra}: TSettlementDoc) {
-    if (!id && !name && !documentNumber && !documentDate) {
+    if (!id?.trim() && (!name?.trim() || !documentNumber?.trim() || !documentDate)) {
         throw new TypeError("Требуется указать данные о документе или идентификатор его файла")
     }
 
@@ -55,7 +56,7 @@ export function formatSettlementDoc({id, name, documentNumber, documentDate, par
     return {
         "ИдДок": id,
         "НаимДок": name,
-        "НомерДок": documentNumber ?? "Без номера",
+        "НомерДок": documentNumber,
         "ДатаДок": documentDate && formatDate(documentDate),
         "ИдРекСост": partyDetails.map(formatIssuerIdentity),
         "ДопСведДок": extra,

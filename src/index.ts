@@ -17,7 +17,12 @@ export type {
     TOrganizationInput,
 } from "./organization";
 
-export { DOCUMENT_TYPE_TO_SABY, EtRnAction, EplAction, EzzAction } from "./saby";
+export {
+    DOCUMENT_TYPE_TO_SABY,
+    EtRnAction,
+    EplAction,
+    EzzAction,
+} from "./saby";
 export type {
     SabyDocumentType,
     TEplAction,
@@ -44,8 +49,20 @@ export type {
 export * from "./api";
 
 // Генерация XML
-export { toXml, formatFileDate, encodeWindows1251, toBase64Xml } from "./helpers";
+export {
+    toXml,
+    formatFileDate,
+    encodeWindows1251,
+    toBase64Xml,
+} from "./helpers";
 export type { XmlNode, TXmlOptions } from "./helpers";
+
+// Классификаторы
+export {
+    ContainerType,
+    ContainerTypeCodes,
+} from "./docs/ezz/1110361/dict/ContainerType";
+export type { TContainerTypeEntry } from "./docs/ezz/1110361/dict/ContainerType";
 
 // Документы и их типы
 export * from "./docs";

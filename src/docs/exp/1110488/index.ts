@@ -1,0 +1,6 @@
+export {Document1110488,type TDocument1110488} from './doc'
+export * from './consts'
+export type * from './data/Content'
+export type {TClientFileId} from '../1110487/data/Content'
+export type * from '../1110486/data/Signer'
+export type {TCorrection} from '../1110486/data/DocumentRequisites'

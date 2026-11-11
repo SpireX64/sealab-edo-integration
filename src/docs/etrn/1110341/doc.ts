@@ -11,6 +11,9 @@ import { formatConsigneeSigner, type TConsigneeSigner } from './data/13.9-Consig
 import { formatDocumentRequisites, type TDocumentRequisites } from './data/13.17-DocumentRequisites';
 
 export type TDocument1110341 = {
+    /** Наименование документа по факту хозяйственной жизни (1–255 символов). */
+    documentName: string
+
     /**
      * Наименование экономического субъекта – составителя файла обмена
      * информации грузополучателя.
@@ -50,8 +53,12 @@ export type TDocument1110341 = {
     signer: TConsigneeSigner
 }
 
-export const Document1110341 = (data: TDocument1110341, meta: TFileXmlMeta = {}) =>
-    fileNode("1110341", "5.01", {
+export const Document1110341 = (data: TDocument1110341, meta: TFileXmlMeta = {}) => {
+    if (!data.documentName?.trim() || data.documentName.length > 255) {
+        throw new Error("Необходимо наименование документа длиной 1–255 символов")
+    }
+    return fileNode("1110341", "5.01", {
+        "ПоФактХЖ": data.documentName,
         "НаимЭконСубСост": data.compilerName,
         "ОснДоверОргСост": data.compilerAuthority && formatDocumentRequisites(data.compilerAuthority),
         "ИдИнфПрвПрием": formatCarrierAcceptanceFileId(data.carrierAcceptanceFileId),
@@ -59,4 +66,5 @@ export const Document1110341 = (data: TDocument1110341, meta: TFileXmlMeta = {})
         "ВрИнфГП": formatTime(data.createdAt),
         "СодИнфГП": formatConsigneeReceiptInfo(data.consigneeInfo),
         "Подписант": formatConsigneeSigner(data.signer),
-    }, meta)
+    }, { ...meta, documentCreatedAt: meta.documentCreatedAt ?? data.createdAt })
+}

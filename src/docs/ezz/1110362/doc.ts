@@ -54,8 +54,8 @@ export type TDocument1110362 = {
 
 export const Document1110362 = (data: TDocument1110362, meta: TFileXmlMeta = {}) =>
     fileNode("1110362", "5.01", {
-        "ДатИнфГО": formatDate(data.createdAt),
-        "ВрИнфГО": formatTime(data.createdAt),
+        "ДатИнфПрв": formatDate(data.createdAt),
+        "ВрИнфПрв": formatTime(data.createdAt),
         "НаимЭкСубСост": data.compilerName,
         "ОснДовОргСост": data.compilerAuthority && formatDocumentRequisites(data.compilerAuthority),
         "ИдИнфГО": formatShipperFileId(data.shipperFileId),

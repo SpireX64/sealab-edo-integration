@@ -57,13 +57,13 @@ export function formatIssuerIdentity(issuer: TIssuerIdentity) {
     switch (issuer.type) {
         case IssuerType.Individual:
         case IssuerType.SoleProprietor:
-            return { "ИННФЛ": issuer.id }
+            return { "ИННФЛ": [issuer.id] }
 
         case IssuerType.LegalEntity:
-            return { "ИННЮЛ": issuer.id }
+            return { "ИННЮЛ": [issuer.id] }
 
         case IssuerType.ExecutiveAuthority:
-            return { "НаимОИВ": issuer.id }
+            return { "НаимОИВ": [issuer.id] }
 
         case IssuerType.ForeignEntity: {
             const { legalEntity, name, country, id } = issuer.id;

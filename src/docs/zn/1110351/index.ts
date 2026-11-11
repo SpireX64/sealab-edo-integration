@@ -1,0 +1,5 @@
+export { Document1110351,type TDocument1110351 } from './doc'
+export { FreighterSignerStatus } from './consts'
+export type { TChartererFileId } from './data/ChartererFileId'
+export type { TSoleProprietor, TFreighter, TAcceptance, TDriver, TVehicles, TOtherConditions, TPayment, TFreighterContent } from './data/Content'
+export type { TFreighterSigner } from './data/FreighterSigner'

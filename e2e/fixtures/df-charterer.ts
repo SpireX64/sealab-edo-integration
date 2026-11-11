@@ -1,0 +1,15 @@
+/** Синтетический договор фрахтования. */
+import { CharterFunction,AuthorityConfirmationMethod,AddressType,MunicipalDistrictKind,type TDocument1110373 } from '../../src/docs/df/1110373'
+export const df1110373Fixture:TDocument1110373 = {
+    documentFunction:CharterFunction.Cargo,createdAt:new Date('2026-09-09T07:00:00Z'),compilerName:'ООО «ТЕСТ СОСТАВИТЕЛЬ»',compilerIsCharterer:false,
+    compilerAuthority:{id:'TEST-COMPILER-AUTHORITY',issuers:[{kind:'foreign',foreign:{legalEntity:true,country:'Тестовая страна',name:'Тестовый иностранный составитель',id:'TEST-FOREIGN',extra:'Тест'}}]},
+    content:{charterId:'00000000-0000-4000-8000-000000000600',durationHours:8,otherConditions:'Тестовые согласованные условия',vehicleType:'Грузовой фургон',
+        charterer:{kind:'legalEntity',legalEntity:{name:'ООО «ТЕСТ ФРАХТОВАТЕЛЬ»',inn:'7700000000',otherDetails:'Тест',address:{addressType:AddressType.RussianAddress,russianAddress:{postalCode:'101000',regionCode:'77',city:'Тестовый город',street:'Тестовая',house:'1',otherInfo:'Синтетический адрес'}},contacts:{phones:['+70000000000'],emails:['test@example.test']}}},
+        freighter:{kind:'soleProprietor',soleProprietor:{inn:'770000000000',ogrnip:'300000000000001',fullName:{lastName:'Тестов',firstName:'Тест'},contacts:{phones:['+70000000000']}}},
+        cargo:{descriptions:[{name:'Тестовое оборудование',commodityCode:'8501',condition:'Исправное',packagingMethod:'Коробки',packagingType:'00',density:250,canDistributeAxleLoad:true,additionalInfo:'Тест',volume:2,packageCount:1,markings:['ТЕСТ'],dimensions:{height:1,length:2,width:1},containers:[{sequenceNumber:1,identifier:'TEST0000001'}],weight:{grossKg:500,netKg:480,palletCount:1,tareKg:20},declaredValue:{amount:10000,currencyCode:'643',currencyName:'Российский рубль'}}],totalDeclaredValue:{amount:10000,currencyCode:'643',currencyName:'Российский рубль'}},
+        submission:{submittedAt:new Date('2026-09-10T06:00:00Z'),route:{text:'Тестовый склад А — тестовый склад Б'},address:{gln:'4600000000000',comment:'Тест',coordinates:{latitude:'55.7',longitude:'37.6'},address:{addressType:AddressType.FiasAddress,fiasAddress:{id:'00000000-0000-4000-8000-000000000601',postalCode:'101000',regionCode:'77',municipalDistrict:{kindCode:MunicipalDistrictKind.MunicipalDistrict,name:'Тестовый район'},locality:{kind:'г',name:'Тестовый'},landPlot:'1',buildings:[{elementType:'д',elementNumber:'1'}],buildingPremises:{elementType:'оф',elementNumber:'1'}}}}},
+        payment:{serviceCost:10000,tollRoadCost:0,customsCost:0,cleaningCost:1000,calculation:'10000 + 1000',total:11000,infoField:[{textEntries:[{identifier:'Тест',content:'Расчёт'}]}]},
+        infoField:[{textEntries:[{identifier:'Тест',content:'Не оформлять реальную перевозку'}]}],
+    },
+    signer:{position:'Ответственный',authorityConfirmationMethod:AuthorityConfirmationMethod.ElectronicPOAInSystemByDoc,fullName:{lastName:'Тестов',firstName:'Тест'},electronicPOAs:[{number:'00000000-0000-4000-8000-000000000602',issueDate:new Date('2026-01-01Z'),internalNumber:'МЧД-001',internalRegistrationDate:new Date('2026-01-01Z'),storageSystemInfo:'https://mchd.example.test/'}]},
+}

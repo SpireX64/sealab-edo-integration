@@ -39,7 +39,7 @@ export function formatReaddressingInfo(data: TReaddressingInfo) {
     return {
         "ЛицоПА": formatReaddressingAuthority(data.authority),
         "СпосПерУкПА": data.instructionDeliveryMethod,
-        "Контакт": formatContacts(data.contacts),
+        "КонтПА": formatContacts(data.contacts),
         "ДокПерПолнПА": data.authorityDoc && formatSettlementDoc(data.authorityDoc),
     }
 }

@@ -4,6 +4,7 @@
  * (ЭПЛ, 1110381) (таб-7.2)
  */
 
+import { formatDate, formatTime } from '../../../helpers'
 import { fileNode, type TFileXmlMeta } from '../../shared'
 import { formatShipperFileId, type TShipperFileId } from './data/7.3-ShipperFileId';
 import { formatMedicalExamContent, type TMedicalExamContent } from './data/7.4-MedicalExamContent';
@@ -33,9 +34,13 @@ export type TDocument1110381 = {
     signer: TMedicalExamSigner
 }
 
-export const Document1110381 = (data: TDocument1110381, meta: TFileXmlMeta = {}) =>
-    fileNode("1110381", "5.01", {
+export const Document1110381 = (data: TDocument1110381, meta: TFileXmlMeta = {}) => {
+    const createdAt = meta.documentCreatedAt ?? new Date()
+    return fileNode("1110381", "5.01", {
+        "ДатИнфМО": formatDate(createdAt),
+        "ВрИнфМО": formatTime(createdAt),
         "ИдИнфСоб": formatShipperFileId(data.shipperFileId),
         "СодИнфМО": formatMedicalExamContent(data.content),
         "ПодпИнфМО": formatMedicalExamSigner(data.signer),
-    }, meta)
+    }, { ...meta, documentCreatedAt: createdAt })
+}

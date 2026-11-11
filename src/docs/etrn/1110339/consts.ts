@@ -128,16 +128,16 @@ export enum ShipperSignerStatus {
 export function formatSignerStatus(status: ShipperSignerStatus): string {
     switch (status) {
         case ShipperSignerStatus.ShipperWithoutPOA:
-            return "лицо, действующее от имени грузоотправителя без доверенности"
+            return "1"
         case ShipperSignerStatus.ShipperElectronicPOA:
-            return "лицо, действующее от имени грузоотправителя на основании электронной доверенности"
+            return "2"
         case ShipperSignerStatus.ShipperPaperPOA:
-            return "лицо, действующее от имени грузоотправителя на основании бумажной доверенности"
+            return "3"
         case ShipperSignerStatus.LoaderWithoutPOA:
-            return "лицо, действующее от имени лица, осуществляющего погрузку груза в транспортное средство, без доверенности"
+            return "4"
         case ShipperSignerStatus.LoaderElectronicPOA:
-            return "лицо, действующее от имени лица, осуществляющего погрузку груза в транспортное средство, на основании электронной доверенности"
+            return "5"
         case ShipperSignerStatus.LoaderPaperPOA:
-            return "лицо, действующее от имени лица, осуществляющего погрузку груза в транспортное средство, на основании бумажной доверенности"
+            return "6"
     }
 }

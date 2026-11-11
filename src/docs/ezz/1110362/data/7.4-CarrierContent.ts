@@ -3,7 +3,7 @@
  * (СодИнфПрв, таб-7.4)
  */
 
-import { formatFlag, mapArrayIfNotEmpty } from '../../../../helpers'
+import { mapArrayIfNotEmpty } from '../../../../helpers'
 import { formatCarrierOrgPerson, type TCarrierOrgPerson } from './7.5-CarrierOrgPerson';
 import { formatDriverInfo, type TDriverInfo } from './7.6-DriverInfo';
 import { formatCarrierAuthorizedPerson, type TCarrierAuthorizedPerson } from './7.7-CarrierAuthorizedPerson';
@@ -100,7 +100,7 @@ export function formatCarrierContent(data: TCarrierContent) {
 
     return {
         "УИД_Зак": data.uniqueId,
-        "СодОпер": formatFlag(data.isAccepted, 1),
+        "СодОпер": data.isAccepted ? "1" : "2",
         "ПричОтк": data.rejectionReason,
         "СвЛицОргПрвз": data.orgPerson && formatCarrierOrgPerson(data.orgPerson),
         "СвВодит": mapArrayIfNotEmpty(data.drivers, formatDriverInfo),

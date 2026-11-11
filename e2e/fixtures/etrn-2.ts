@@ -16,6 +16,7 @@ import {
 } from "../../src/docs/etrn/1110341";
 
 export const etrn1110340Fixture: TDocument1110340 = {
+    documentName: "Транспортная накладная",
     documentDateTime: new Date("2026-08-13T13:00:00+03:00"),
     shipperFileId: {
         fileId: "ON_TRNACLGROT____0_20260813_",
@@ -33,6 +34,7 @@ export const etrn1110340Fixture: TDocument1110340 = {
 };
 
 export const etrn1110341Fixture: TDocument1110341 = {
+    documentName: "Транспортная накладная",
     compilerName: 'Общество с ограниченной ответственностью "Получатель"',
     carrierAcceptanceFileId: {
         fileId: "ON_TRNACLGRT_____0_20260813_",

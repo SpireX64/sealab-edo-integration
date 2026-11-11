@@ -44,7 +44,7 @@ export type TPenaltyInfo = {
 }
 
 export function formatPenaltyInfo(data: TPenaltyInfo) {
-    if (!data.rubAmount && !data.foreignAmount) {
+    if (data.rubAmount == null && data.foreignAmount == null) {
         throw new TypeError(
             "Требуется указать итоговый размер штрафа в рублях или иностранной валюте"
         )

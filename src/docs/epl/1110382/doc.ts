@@ -6,6 +6,7 @@
  * (ЭПЛ, 1110382) (таб-9.2)
  */
 
+import { formatDate, formatTime } from '../../../helpers'
 import { fileNode, type TFileXmlMeta } from '../../shared'
 import { formatFileIdentification, type TFileIdentification } from './data/9.3-FileIdentification';
 import { formatTechnicalCheckContent, type TTechnicalCheckContent } from './data/9.4-TechnicalCheckContent';
@@ -38,9 +39,13 @@ export type TDocument1110382 = {
     signer: TTechnicalCheckSigner
 }
 
-export const Document1110382 = (data: TDocument1110382, meta: TFileXmlMeta = {}) =>
-    fileNode("1110382", "5.01", {
+export const Document1110382 = (data: TDocument1110382, meta: TFileXmlMeta = {}) => {
+    const createdAt = meta.documentCreatedAt ?? new Date()
+    return fileNode("1110382", "5.01", {
+        "ДатИнфТехСост": formatDate(createdAt),
+        "ВрИнфТехСост": formatTime(createdAt),
         "ИдИнфСоб": formatFileIdentification(data.fileIdentification),
         "СодИнфТехСост": formatTechnicalCheckContent(data.content),
         "ПодпИнфТехСост": formatTechnicalCheckSigner(data.signer),
-    }, meta)
+    }, { ...meta, documentCreatedAt: createdAt })
+}

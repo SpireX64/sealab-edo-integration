@@ -54,15 +54,15 @@ export function formatIssuerRequisites(data: TIssuerRequisites) {
     switch (data.issuerType) {
         case IssuerType.Individual:
         case IssuerType.SoleProprietor:
-            return { "ИННФЛ": data.inn }
+            return { "ИННФЛ": [data.inn] }
 
         case IssuerType.LegalEntity:
-            return { "ИННЮЛ": data.inn }
+            return { "ИННЮЛ": [data.inn] }
 
         case IssuerType.ForeignEntity:
             return { "ДаннИно": formatForeignEntityNotRegistered(data.foreignEntity) }
 
         case IssuerType.ExecutiveAuthority:
-            return { "НаимОИВ": data.name }
+            return { "НаимОИВ": [data.name] }
     }
 }

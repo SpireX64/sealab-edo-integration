@@ -57,7 +57,7 @@ export type TConsigneeAcceptance = {
 
     /**
      * Объем грузовых мест в кубических метрах.
-     * (Число, 7.13)
+     * (Число, 17.3)
      */
     volume?: number
 
@@ -97,7 +97,7 @@ export function formatConsigneeAcceptance(data: TConsigneeAcceptance) {
         "ОбщСвСост": data.cargoCondition,
         "МасБрутЗначПрием": data.grossWeight.toFixed(3),
         "МасНетЗначПрием": data.netWeight?.toFixed(3),
-        "Объем": data.volume?.toFixed(13),
+        "Объем": data.volume?.toFixed(3),
         "АдрВыгруз": formatAddress(data.unloadingAddress),
         "СвПринПоНаим": mapArrayIfNotEmpty(data.acceptedCargoByName, formatAcceptedCargoByName),
         "ИнфПол": mapArrayIfNotEmpty(data.infoField, formatInfoField),

@@ -112,10 +112,10 @@ export enum CarrierSignerStatus {
 export function formatCarrierSignerStatus(status: CarrierSignerStatus): string {
     switch (status) {
         case CarrierSignerStatus.CarrierWithoutPOA:
-            return "лицо, действующее от имени перевозчика без доверенности"
+            return "1"
         case CarrierSignerStatus.CarrierElectronicPOA:
-            return "лицо, действующее от имени перевозчика на основании электронной доверенности"
+            return "2"
         case CarrierSignerStatus.CarrierPaperPOA:
-            return "лицо, действующее от имени перевозчика на основании бумажной доверенности"
+            return "3"
     }
 }

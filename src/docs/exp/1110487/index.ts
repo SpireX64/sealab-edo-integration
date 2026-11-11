@@ -1,0 +1,6 @@
+export {Document1110487,type TDocument1110487} from './doc'
+export * from './consts'
+export type * from './data/Content'
+export type * from './data/Party'
+export type * from '../1110486/data/Signer'
+export type * from '../1110486/data/DocumentRequisites'

@@ -6,6 +6,7 @@
  * (ЭПЛ, 1110383) (таб-11.2)
  */
 
+import { formatDate, formatTime } from '../../../helpers'
 import { fileNode, type TFileXmlMeta } from '../../shared'
 import { TripStartSign } from './consts'
 import { formatTechnicalCheckFileId, type TTechnicalCheckFileId } from './data/11.3-TechnicalCheckFileId';
@@ -53,6 +54,7 @@ export type TDocument1110383 = {
 }
 
 export const Document1110383 = (data: TDocument1110383, meta: TFileXmlMeta = {}) => {
+    const createdAt = meta.documentCreatedAt ?? new Date()
     const isParking = data.content.tripStartSign === TripStartSign.ParkingDeparture
 
     if (isParking && !data.technicalCheckFileId) {
@@ -71,8 +73,10 @@ export const Document1110383 = (data: TDocument1110383, meta: TFileXmlMeta = {})
         : { "ИдИнфСоб": formatShipperFileId(data.shipperFileId!) }
 
     return fileNode("1110383", "5.01", {
+        "ДатИнфВыезд": formatDate(createdAt),
+        "ВрИнфВыезд": formatTime(createdAt),
         ...identification,
         "СодИнфВыезд": formatDepartureContent(data.content),
         "ПодпИнфВыезд": formatDepartureSigner(data.signer),
-    }, meta)
+    }, { ...meta, documentCreatedAt: createdAt })
 }

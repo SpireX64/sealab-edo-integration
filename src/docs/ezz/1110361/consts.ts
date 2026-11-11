@@ -138,3 +138,17 @@ export enum IssuerType {
     /** Орган исполнительной власти */
     ExecutiveAuthority = "ExecutiveAuthority",
 }
+
+/** Функция файла обмена информации грузоотправителя (таб-5.2). */
+export enum DocumentFunction {
+    Order = "Order",
+    Request = "Request",
+}
+
+export function formatDocumentFunction(value: DocumentFunction): string {
+    switch (value) {
+        case DocumentFunction.Order: return "Заказ"
+        case DocumentFunction.Request: return "Заявка"
+        default: throw new Error("Не указана допустимая функция ЭЗЗ")
+    }
+}

@@ -20,10 +20,10 @@ export enum ConsigneeSignerStatus {
 export function formatConsigneeSignerStatus(status: ConsigneeSignerStatus): string {
     switch (status) {
         case ConsigneeSignerStatus.ConsigneeWithoutPOA:
-            return "лицо, действующее от имени грузополучателя без доверенности"
+            return "1"
         case ConsigneeSignerStatus.ConsigneeElectronicPOA:
-            return "лицо, действующее от имени грузополучателя на основании электронной доверенности"
+            return "2"
         case ConsigneeSignerStatus.ConsigneePaperPOA:
-            return "лицо, действующее от имени грузополучателя на основании бумажной доверенности"
+            return "3"
     }
 }

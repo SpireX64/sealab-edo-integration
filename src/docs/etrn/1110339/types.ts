@@ -16,7 +16,7 @@ export type TRange = {
 // ─── TPersonFullName ───────────────────────────────────────
 // Реэкспорт общего типа из docs/etrn/common
 
-export { type TPersonFullName, formatPersonFullName } from '../../common/PersonFullName'
+export { type TPersonFullName, formatPersonFullNameFields as formatPersonFullName } from '../../common/PersonFullName'
 
 // ─── TForeignCurrencyInfo ──────────────────────────────────
 // Реэкспорт общего типа из docs/etrn/common
@@ -51,17 +51,17 @@ export type TAddress =
 
 export function formatAddress(address: TAddress) {
     if (typeof address === "string") {
-        return { "КодГАР": address }
+        return { "КодГАР": [address] }
     }
 
     if ("countryCode" in address) {
-        return {
+        return { "АдресИнф": {
             "КодСтр": address.countryCode,
             "АдрТекст": address.addressText,
-        }
+        } }
     }
 
-    return {
+    return { "АдресРФ": {
         "Индекс": address.postalCode,
         "КодРегион": address.regionCode,
         "Район": address.district,
@@ -71,6 +71,6 @@ export function formatAddress(address: TAddress) {
         "Дом": address.house,
         "Корпус": address.building,
         "Кварт": address.apartment,
-    }
+    } }
 }
 

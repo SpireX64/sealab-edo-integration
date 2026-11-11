@@ -6,6 +6,7 @@
  * (ЭПЛ, 1110384) (таб-13.2)
  */
 
+import { formatDate, formatTime } from '../../../helpers'
 import { fileNode, type TFileXmlMeta } from '../../shared'
 import { formatDepartureFileId, type TDepartureFileId } from './data/13.3-DepartureFileId';
 import { formatArrivalContent, type TArrivalContent } from './data/13.4-ArrivalContent';
@@ -40,9 +41,13 @@ export type TDocument1110384 = {
     signer: TArrivalSigner
 }
 
-export const Document1110384 = (data: TDocument1110384, meta: TFileXmlMeta = {}) =>
-    fileNode("1110384", "5.01", {
+export const Document1110384 = (data: TDocument1110384, meta: TFileXmlMeta = {}) => {
+    const createdAt = meta.documentCreatedAt ?? new Date()
+    return fileNode("1110384", "5.01", {
+        "ДатИнфЗаезд": formatDate(createdAt),
+        "ВрИнфЗаезд": formatTime(createdAt),
         "ИдИнфВыезд": formatDepartureFileId(data.departureFileId),
         "СодИнфЗаезд": formatArrivalContent(data.content),
         "ПодпИнфЗаезд": formatArrivalSigner(data.signer),
-    }, meta)
+    }, { ...meta, documentCreatedAt: createdAt })
+}

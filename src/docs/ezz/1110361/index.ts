@@ -10,6 +10,7 @@ export type { TDocument1110361 } from './doc'
 
 // Енумы
 export {
+    DocumentFunction,
     Authority,
     OperationType,
     MassDeterminationMethod,

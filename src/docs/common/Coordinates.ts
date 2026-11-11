@@ -5,16 +5,21 @@
  * Общий тип для документов ЭТрН (1110339, 1110341) и ЭЗЗ (1110361).
  */
 
-const REGEX_COORDINATE = /^(\d{2,3})\.\d{1,13}$/
+const REGEX_COORDINATE = /^(-?)(\d{1,3})\.(\d{1,13})$/
 
 function validateCoordinate(name: 'latitude' | 'longitude', value: string): string {
     const match = REGEX_COORDINATE.exec(value)
 
     if (match) {
-        const angle = parseInt(match[1] as string)
+        const angle = Number(value)
         const angleMax = name === 'latitude' ? 90 : 180
-        if (Math.abs(angle) <= angleMax) {
-            return value
+        const integer = match[2] as string
+        const fraction = match[3] as string
+        const maxIntegerDigits = name === 'latitude' ? 2 : 3
+        if (integer.length <= maxIntegerDigits && Math.abs(angle) <= angleMax) {
+            // Дополнение нулями сохраняет значение без округления и обеспечивает
+            // минимальную длину 15 символов, установленную КоордТип в XSD.
+            return `${match[1]}${integer}.${fraction.padEnd(13, '0')}`
         }
     }
 

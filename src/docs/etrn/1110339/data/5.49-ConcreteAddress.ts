@@ -19,9 +19,9 @@ export type TConcreteAddress = {
 
 export function formatConcreteAddress({gln, coords, comment, address}: TConcreteAddress) {
     return {
-        ...formatAddress(address),
         "АдрКоммент": comment,
-        "ГЛН": gln,
+        "ГЛН": gln ? [gln] : undefined,
         "Коорд": coords && formatCoordinates(coords),
+        ...formatAddress(address),
     }
 }

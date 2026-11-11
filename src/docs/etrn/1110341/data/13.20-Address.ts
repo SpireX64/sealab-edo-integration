@@ -70,13 +70,13 @@ export function formatAddress(data: TAddress) {
             addressFields = { "АдресИнф": formatForeignAddressInfo(data.foreignAddressInfo) }
             break
         case 'gar':
-            addressFields = { "КодГАР": data.garCode }
+            addressFields = { "КодГАР": [data.garCode] }
             break
     }
 
     return {
         "АдрКоммент": data.comment,
-        "ГЛН": data.gln,
+        "ГЛН": data.gln ? [data.gln] : undefined,
         "Коорд": data.coordinates && formatCoordinates(data.coordinates),
         ...addressFields,
     }

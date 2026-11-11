@@ -1,6 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { encodeWindows1251, formatFileDate, toXml, type XmlNode } from "../helpers";
+import {
+    encodeWindows1251,
+    formatFileDate,
+    toXml,
+    type XmlNode,
+} from "../helpers";
 
 export enum DocumentType {
     /** ЭТрН - Транспортная накладная */
@@ -8,7 +13,7 @@ export enum DocumentType {
     /** ЭЗЗ - Заказ заявка на перевозку */
     EZZ = "ЗаказЗаявка",
     /** ЭПЛ - Путевой лист */
-    EPL = "ЭПЛ"
+    EPL = "ЭПЛ",
 }
 
 /**
@@ -32,18 +37,38 @@ export type TFileXmlMeta = {
  */
 const FILE_ID_PREFIX: Readonly<Record<string, string>> = {
     // ЭТрН
-    "1110339": "ON_TRNACLGROT",  // Т1 — информация грузоотправителя
-    "1110340": "ON_TRNACLGRPO",  // Т2 — информация перевозчика о приёме груза
-    "1110341": "ON_TRNACLPPRIN", // Т3 — информация грузополучателя
+    "1110339": "ON_TRNACLGROT", // Т1 — информация грузоотправителя
+    "1110340": "ON_TRNACLPPRIN", // Т2 — информация перевозчика о приёме груза
+    "1110341": "ON_TRNACLGRPO", // Т3 — информация грузополучателя
+    "1110346": "ON_TRNPUDGO", // Финансовый титул грузоотправителя
+    "1110345": "ON_TRNPUDPER", // Финансовый титул перевозчика
+    "1110344": "ON_TRNZAMEN", // Замена водителей/ТС
+    "1110343": "ON_TRNPEREADR", // Переадресовка
+    "1110342": "ON_TRNACLPVYN", // Выдача груза перевозчиком
+    "1110490": "ON_SKLADRASP", // Складская расписка
+    "1110489": "ON_EXPRASP", // Экспедиторская расписка
+    "1110488": "ON_POREXPOTZ", // Поручение экспедитору — отзыв
+    "1110487": "ON_POREXPEXP", // Поручение экспедитору — экспедитор
+    "1110486": "ON_POREXPKLT", // Поручение экспедитору — клиент
+    "1110374": "ON_DOGFRASHCH", // Договор фрахтования — фрахтовщик
+    "1110373": "ON_DOGFRAKHTEL", // Договор фрахтования — фрахтователь
+    "1110353": "ON_ZAKAZNARVOZ", // Заказ-наряд — завершение
+    "1110352": "ON_ZAKAZNARPOD", // Заказ-наряд — подача ТС
+    "1110351": "ON_ZAKAZNARSOG", // Заказ-наряд — согласование
+    "1110350": "ON_ZAKAZNAR", // Заказ-наряд — фрахтователь
+    "1110349": "ON_SOPVEDGP", // ЭСВ — грузополучатель
+    "1110348": "ON_SOPVEDGO", // ЭСВ — грузоотправитель
+    "1110347": "ON_SOPVEDPER", // ЭСВ — перевозчик
     // ЭЗЗ
-    "1110361": "ON_ZAKZVGO",     // Т1 — информация грузоотправителя
-    "1110362": "ON_ZAKZVPER",    // Т2 — информация перевозчика
+    "1110361": "ON_ZAKZVGO", // Т1 — информация грузоотправителя
+    "1110362": "ON_ZAKZVPER", // Т2 — информация перевозчика
     // ЭПЛ
-    "1110380": "ON_PTLSSOBTS",   // Т1 — обстоятельства и особенности рейса
-    "1110381": "ON_PTLSPRMO",    // Т2 — предрейсовый медосмотр
-    "1110382": "ON_PTLSVIPTS",   // Т3 — техсостояние и выпуск ТС
-    "1110383": "ON_PTLSODVZD",   // Т4 — одометр при выезде
-    "1110384": "ON_PTLSODPARK",  // Т5 — одометр при заезде
+    "1110380": "ON_PTLSSOBTS", // Т1 — обстоятельства и особенности рейса
+    "1110381": "ON_PTLSPRMO", // Т2 — предрейсовый медосмотр
+    "1110382": "ON_PTLSVIPTS", // Т3 — техсостояние и выпуск ТС
+    "1110383": "ON_PTLSODVZD", // Т4 — одометр при выезде
+    "1110385": "ON_PTLSPOSMO", // Т6 — послерейсовый медосмотр
+    "1110384": "ON_PTLSODPARK", // Т5 — одометр при заезде
 };
 
 /**
@@ -71,12 +96,12 @@ export function fileNode(
     const prefix = FILE_ID_PREFIX[subtype] ?? `ON_${subtype}`;
 
     return {
-        "Файл": {
-            "ВерсФорм": version,
-            "ИдФайл": `${prefix}____${meta.senderId ?? ""}_0_${formatFileDate(documentCreatedAt)}_${documentId}`,
-            "ВерсПрог": meta.programTag,
-            "Документ": {
-                "КНД": subtype,
+        Файл: {
+            ВерсФорм: version,
+            ИдФайл: `${prefix}____${meta.senderId ?? ""}_0_${formatFileDate(documentCreatedAt)}_${documentId}`,
+            ВерсПрог: meta.programTag,
+            Документ: {
+                КНД: subtype,
                 ...content,
             },
         },
@@ -92,6 +117,11 @@ const SUBTYPE_TO_DOCUMENT_TYPE: Readonly<Record<string, DocumentType>> = {
     "1110339": DocumentType.ETRN,
     "1110340": DocumentType.ETRN,
     "1110341": DocumentType.ETRN,
+    "1110342": DocumentType.ETRN,
+    "1110343": DocumentType.ETRN,
+    "1110344": DocumentType.ETRN,
+    "1110345": DocumentType.ETRN,
+    "1110346": DocumentType.ETRN,
     // ЭЗЗ
     "1110361": DocumentType.EZZ,
     "1110362": DocumentType.EZZ,
@@ -101,6 +131,7 @@ const SUBTYPE_TO_DOCUMENT_TYPE: Readonly<Record<string, DocumentType>> = {
     "1110382": DocumentType.EPL,
     "1110383": DocumentType.EPL,
     "1110384": DocumentType.EPL,
+    "1110385": DocumentType.EPL,
 };
 
 /**
@@ -123,13 +154,48 @@ export const DOCUMENT_TYPE_TO_SABY = {
         type: "Waybill",
         regulationName: "ЭПЛ",
     },
-} as const satisfies Record<DocumentType, { type: string; regulationName: string }>;
+} as const satisfies Record<
+    DocumentType,
+    { type: string; regulationName: string }
+>;
 
 /**
  * Тип документа в карточке Saby (`Документ.Тип` при записи).
  * Выводится из {@link DOCUMENT_TYPE_TO_SABY} — не дублирует `DocumentType`.
  */
-export type SabyDocumentType = (typeof DOCUMENT_TYPE_TO_SABY)[keyof typeof DOCUMENT_TYPE_TO_SABY]["type"];
+export type SabyDocumentType =
+    (typeof DOCUMENT_TYPE_TO_SABY)[keyof typeof DOCUMENT_TYPE_TO_SABY]["type"];
+
+/**
+ * Элемент вложения (титула) документа, формируемый мапперами
+ * `mapDocument*` для `СБИС.СгенерироватьВложение`.
+ *
+ * @typeParam TSubstitution - тип содержимого «Подстановка».
+ */
+export type TDocumentAttachmentElement<
+    TSubstitution = Record<string, unknown>,
+> = {
+    ВерсияФормата: string;
+    Тип: DocumentType;
+    Подтип: string;
+    Подстановка: TSubstitution;
+};
+
+/**
+ * Структура вложения (титула) документа, формируемая мапперами
+ * `mapDocument*` для `СБИС.СгенерироватьВложение`.
+ *
+ * Вложение может быть одним элементом (ЭТрН) или массивом (ЭПЛ/ЭЗЗ).
+ *
+ * @typeParam TSubstitution - тип содержимого «Подстановка».
+ */
+export type TDocumentAttachment<TSubstitution = Record<string, unknown>> = {
+    Документ: {
+        Вложение:
+            | TDocumentAttachmentElement<TSubstitution>
+            | TDocumentAttachmentElement<TSubstitution>[];
+    };
+};
 
 /**
  * Готовое тело документа для `СБИС.ЗаписатьДокумент` / `СБИС.ЗаписатьВложение`.
@@ -141,14 +207,14 @@ export type SabyDocumentType = (typeof DOCUMENT_TYPE_TO_SABY)[keyof typeof DOCUM
  */
 export type TReadyAttachment = {
     /** Тип документа в карточке Saby (ConsignmentNote / TransportOrder / Waybill). */
-    "Тип": SabyDocumentType;
+    Тип: SabyDocumentType;
     /** Название регламента документооборота. */
-    "Регламент": { "Название": string };
+    Регламент: { Название: string };
     /** Файл обмена: имя `<ИдФайл>.xml` + содержимое XML в base64. */
-    "Вложение": {
-        "Файл": {
-            "ДвоичныеДанные": string;
-            "Имя": string;
+    Вложение: {
+        Файл: {
+            ДвоичныеДанные: string;
+            Имя: string;
         };
     }[];
 };
@@ -173,7 +239,9 @@ export type TReadyAttachment = {
 export function toAttachment(node: XmlNode): TReadyAttachment {
     const file = node["Файл"] as Record<string, unknown> | undefined;
     if (!file || typeof file !== "object") {
-        throw new Error("Ожидается XML-узел <Файл> — результат конструктора Document*.");
+        throw new Error(
+            "Ожидается XML-узел <Файл> — результат конструктора Document*.",
+        );
     }
 
     const document = file["Документ"] as Record<string, unknown> | undefined;
@@ -193,20 +261,20 @@ export function toAttachment(node: XmlNode): TReadyAttachment {
     const base64 = encodeWindows1251(xml).toString("base64");
 
     return {
-        "Тип": saby.type,
-        "Регламент": { "Название": saby.regulationName },
-        "Вложение": [
+        Тип: saby.type,
+        Регламент: { Название: saby.regulationName },
+        Вложение: [
             {
-                "Файл": {
-                    "ДвоичныеДанные": base64,
-                    "Имя": `${fileId}.xml`,
+                Файл: {
+                    ДвоичныеДанные: base64,
+                    Имя: `${fileId}.xml`,
                 },
             },
         ],
     };
 }
 
-/** 
+/**
  * Класс заглушка для типов и значений
  * @example
  * { "НеизвЗнач": TODO }
@@ -217,6 +285,6 @@ export function toAttachment(node: XmlNode): TReadyAttachment {
  */
 export class TODO {
     constructor() {
-        throw new Error("TODO: Not implemented type")
+        throw new Error("TODO: Not implemented type");
     }
 }

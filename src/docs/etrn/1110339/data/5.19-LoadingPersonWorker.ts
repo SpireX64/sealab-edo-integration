@@ -50,9 +50,9 @@ export function formatLoadingPersonWorker(data: TLoadingPersonWorker) {
 
     return {
         "Должность": data.position,
-        "ФИО": formatPersonFullName(data.fullName),
         "ИныеСвед": data.extra,
-        "ОДолжОб": data.jobDuties ?? "Должностные обязанности",
+        "ОДолжОб": data.otherAuthorityDoc ? undefined : [data.jobDuties ?? "Должностные обязанности"],
         "ОПИное": data.otherAuthorityDoc && formatSettlementDoc(data.otherAuthorityDoc),
+        "ФИО": formatPersonFullName(data.fullName),
     }
 }

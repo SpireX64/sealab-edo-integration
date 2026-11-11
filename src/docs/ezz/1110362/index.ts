@@ -17,6 +17,7 @@ export {
     AuthorityConfirmationMethod,
     IssuerType,
     OwnershipType,
+    TaxRate,
     ParticipantType,
     AddressType,
     MunicipalDistrictKind,
@@ -24,6 +25,14 @@ export {
 } from './consts'
 
 // Типы таблиц
+export type { TShipperFileId } from './data/7.3-ShipperFileId'
+export type { TCarrierContent } from './data/7.4-CarrierContent'
+export type { TCarrierOrgPerson } from './data/7.5-CarrierOrgPerson'
+export type { TDriverInfo } from './data/7.6-DriverInfo'
+export type { TCarrierAuthorizedPerson } from './data/7.7-CarrierAuthorizedPerson'
+export type { TVehicleInfo } from './data/7.8-VehicleInfo'
+export type { TPaymentInfo } from './data/7.9-PaymentInfo'
+export type { TCarrierSigner } from './data/7.10-CarrierSigner'
 export type { TElectronicPOA } from './data/7.11-ElectronicPOA'
 export type { TPaperPOA } from './data/7.12-PaperPOA'
 export type { TVehicleDetails } from './data/7.13-VehicleDetails'

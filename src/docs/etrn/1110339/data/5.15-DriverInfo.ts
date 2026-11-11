@@ -15,6 +15,9 @@ export type TDriverInfo = {
      */
     driverLicenseNumber?: string
 
+    /** Серия ВУ (1-20 символов). Обязательна при отсутствии ИНН. */
+    driverLicenseSeries?: string
+
     /**
      * Дата выдачи водительского удостоверения.
      * Обязательна при отсутствии {inn}.
@@ -23,7 +26,7 @@ export type TDriverInfo = {
 
     /**
      * ИНН физического лица.
-     * Обязателен при отсутствии {driverLicenseNumber} и {driverLicenseDate}.
+     * Обязателен при отсутствии полного набора номера, серии и даты выдачи ВУ.
      */
     inn?: string
 
@@ -44,20 +47,16 @@ export type TDriverInfo = {
 }
 
 export function formatDriverInfo(data: TDriverInfo) {
-    if (!data.inn && (!data.driverLicenseNumber || !data.driverLicenseDate)) {
-        throw new TypeError(
-            "Требуется указать ИНН или номер и дату выдачи водительского удостоверения"
-        )
+    if (data.driverLicenseSeries !== undefined && (!data.driverLicenseSeries.trim() || data.driverLicenseSeries.length > 20)) {
+        throw new TypeError("Серия водительского удостоверения должна содержать от 1 до 20 символов")
     }
-
-    if (!data.driverLicenseNumber && !data.driverLicenseDate && !data.inn) {
-        throw new TypeError(
-            "Требуется указать ИНН или номер и дату выдачи водительского удостоверения"
-        )
+    if (!data.inn?.trim() && (!data.driverLicenseNumber?.trim() || !data.driverLicenseSeries?.trim() || !data.driverLicenseDate)) {
+        throw new TypeError("Требуется указать ИНН или номер, серию и дату выдачи водительского удостоверения")
     }
 
     return {
         "НомВУ": data.driverLicenseNumber,
+        "СерВУ": data.driverLicenseSeries,
         "ДатаВыдВУ": data.driverLicenseDate && formatDate(data.driverLicenseDate),
         "ИННФЛ": data.inn,
         "СвСпИдПодп": data.simpleSignIdMethod,

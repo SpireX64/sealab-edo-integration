@@ -50,6 +50,7 @@ export type TDocumentRequisites = {
 }
 
 export function formatDocumentRequisites(data: TDocumentRequisites) {
+    if (!data.issuerRequisites?.length) throw new TypeError("Не указаны реквизиты составителей документа")
     if (!data.id && (!data.name || !data.documentNumber || !data.documentDate)) {
         throw new TypeError(
             "Требуется указать идентификатор документа (id) " +
@@ -59,7 +60,7 @@ export function formatDocumentRequisites(data: TDocumentRequisites) {
 
     return {
         "НаимДок": data.name,
-        "НомерДок": data.documentNumber ?? "Без номера",
+        "НомерДок": data.documentNumber,
         "ДатаДок": data.documentDate && formatDate(data.documentDate),
         "ИдДок": data.id,
         "ДопСведДок": data.additionalDetails,

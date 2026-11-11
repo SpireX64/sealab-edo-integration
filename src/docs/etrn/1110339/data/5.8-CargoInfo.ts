@@ -17,9 +17,12 @@ export type TCargoInfo = {
 }
 
 export function formatCargoInfo({ description, totalDeclaredValue, infoField }: TCargoInfo) {
+    if (description.length === 0) {
+        throw new TypeError("Требуется хотя бы одно описание груза")
+    }
     return {
         "ОпГруз": description.map(formatCargoDescription),
-        "ОбщСтоим": totalDeclaredValue && formatDeclaredValueInfo(totalDeclaredValue),
-        "ИнфПоле": infoField?.map(formatInfoField),
+        "ОбЦеннГр": totalDeclaredValue && formatDeclaredValueInfo(totalDeclaredValue),
+        "ИнфПол": infoField?.map(formatInfoField),
     }
 }

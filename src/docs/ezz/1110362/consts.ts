@@ -19,7 +19,7 @@ export {
 } from '../1110361/consts'
 
 /**
- * Налоговая ставка.
+ * Налоговая ставка: XSD ON_ZAKZVPER_1_969_02_05_01_03 (с 01.01.2026).
  */
 export enum TaxRate {
     /** 0% */
@@ -32,6 +32,24 @@ export enum TaxRate {
     TenOverHundredTen = "TenOverHundredTen",
     /** 20/120 */
     TwentyOverHundredTwenty = "TwentyOverHundredTwenty",
+    /** 5% */
+    FivePercent = "FivePercent",
+    /** 7% */
+    SevenPercent = "SevenPercent",
+    /** 9,09% */
+    NinePointZeroNinePercent = "NinePointZeroNinePercent",
+    /** 16,67% */
+    SixteenPointSixtySevenPercent = "SixteenPointSixtySevenPercent",
+    /** 18,03% */
+    EighteenPointZeroThreePercent = "EighteenPointZeroThreePercent",
+    /** 22% */
+    TwentyTwoPercent = "TwentyTwoPercent",
+    /** 5/105 */
+    FiveOverHundredFive = "FiveOverHundredFive",
+    /** 7/107 */
+    SevenOverHundredSeven = "SevenOverHundredSeven",
+    /** 22/122 */
+    TwentyTwoOverHundredTwentyTwo = "TwentyTwoOverHundredTwentyTwo",
     /** без НДС */
     WithoutVAT = "WithoutVAT",
     /** НДС исчисляется налоговым агентом */
@@ -50,6 +68,24 @@ export function formatTaxRate(value: TaxRate): string {
             return "10/110"
         case TaxRate.TwentyOverHundredTwenty:
             return "20/120"
+        case TaxRate.FivePercent:
+            return "5%"
+        case TaxRate.SevenPercent:
+            return "7%"
+        case TaxRate.NinePointZeroNinePercent:
+            return "9,09%"
+        case TaxRate.SixteenPointSixtySevenPercent:
+            return "16,67%"
+        case TaxRate.EighteenPointZeroThreePercent:
+            return "18,03%"
+        case TaxRate.TwentyTwoPercent:
+            return "22%"
+        case TaxRate.FiveOverHundredFive:
+            return "5/105"
+        case TaxRate.SevenOverHundredSeven:
+            return "7/107"
+        case TaxRate.TwentyTwoOverHundredTwentyTwo:
+            return "22/122"
         case TaxRate.WithoutVAT:
             return "без НДС"
         case TaxRate.VatCalculatedByTaxAgent:

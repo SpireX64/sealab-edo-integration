@@ -8,8 +8,6 @@ import { formatDocumentRequisites, type TDocumentRequisites } from './13.17-Docu
 import { formatPenaltyInfo, type TPenaltyInfo } from './13.8-ConsigneePenaltyCalc';
 import { formatInfoField, type TInfoField } from './13.16-InfoField';
 
-const DEFAULT_CIRCUMSTANCES = "просрочка доставки грузов"
-
 export type TConsigneeNote = {
     /**
      * Дата и время отметки.
@@ -18,10 +16,10 @@ export type TConsigneeNote = {
 
     /**
      * Описание обстоятельств, послуживших основанием для отметки.
-     * При отсутствии указывается «просрочка доставки грузов».
+     * Передаётся фактическое обстоятельство; отсутствие данных не означает просрочку.
      * (1-2000 символов)
      */
-    circumstances?: string
+    circumstances: string
 
     /**
      * Сведения о коммерческих и иных актах, в том числе о выгрузке груза.
@@ -49,12 +47,15 @@ export type TConsigneeNote = {
 }
 
 export function formatConsigneeNote(data: TConsigneeNote) {
+    if (!data.circumstances?.trim() || data.circumstances.length > 2000) {
+        throw new TypeError("Требуется описание фактических обстоятельств отметки (1-2000 символов)")
+    }
     const dt = formatDateTimeWithUtc(data.notedAt)
 
     return {
         "ДатВрОтмет": dt.dateTime,
         "НалКоорТочВрОтм": dt.utc,
-        "ОбстОтмет": data.circumstances ?? DEFAULT_CIRCUMSTANCES,
+        "ОбстОтмет": data.circumstances,
         "СвАкт": mapArrayIfNotEmpty(data.commercialActs, formatDocumentRequisites),
         "РазмШтр": mapArrayIfNotEmpty(data.penaltyCalculation, formatPenaltyInfo),
         "СвАктВзв": mapArrayIfNotEmpty(data.weighingActs, formatDocumentRequisites),

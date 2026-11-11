@@ -43,7 +43,7 @@ export function formatVehicleParams(data: TVehicleParams) {
         data.ownershipType === VehicleOwnershipType.Leasing ||
         data.ownershipType === VehicleOwnershipType.GratuitousUse
 
-    if (needsOwnershipDocs && !data.ownershipDocs) {
+    if (needsOwnershipDocs && !data.ownershipDocs?.length) {
         throw new TypeError(
             "Требуется указать документы-основания владения ТС " +
             "при типе владения: аренда, лизинг или безвозмездное пользование"

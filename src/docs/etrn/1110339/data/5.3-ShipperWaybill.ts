@@ -29,14 +29,14 @@ export type TShipperWaybill = {
         id?: number
 
         /** Порядковый номер транспортной накладной (1-1000) */
-        number: number;
+        number: string | number;
 
         /** Дата составления транспортной накладной */
         date: Date;
     },
     order: {
         /** Порядковый номер заказа/заявки (1-1000) */
-        number: number
+        number: string | number
 
         /** Дата заказа/заявки */
         date: Date;
@@ -96,12 +96,17 @@ export type TShipperWaybill = {
      * Исправление.
      * (таб-5.43)
      */
-    correction: TWaybillCorrection
+    correction?: TWaybillCorrection
 }
 
 export function formatShipperWaybill(data: TShipperWaybill) {
     if (data.shipper.isForwarder && !data.customer) {
         throw new TypeError("Требуется указать сведения о заказчике услуг")
+    }
+
+    const isContainer = data.cargo.some(c => c.description.some(d => d.name === "Контейнер"))
+    if (isContainer && !data.accompanyingDocs?.containerManifest) {
+        throw new TypeError("Требуется указать реквизиты сопроводительной ведомости для контейнеров")
     }
 
     return {
@@ -112,14 +117,14 @@ export function formatShipperWaybill(data: TShipperWaybill) {
         "НомЗак": data.order.number,
         "ДатаЗак": formatDate(data.order.date),
         "ИдЗак": data.order.file && formatOrderFile(data.order.file),
-        "ИспрТрН": formatWaybillCorrection(data.correction),
+        "ИспрТрН": data.correction && formatWaybillCorrection(data.correction),
         "СвГО": formatShipperInfo(data.shipper),
         "СвЗак": data.customer && formatTransportCustomerInfo(data.customer),
         "СвГП": formatConsigneeInfo(data.consignee),
         "СвГруз": data.cargo.map(formatCargoInfo),
         "СопрДок": data.accompanyingDocs && formatAccompaningDocs(
             data.accompanyingDocs,
-            data.cargo.some(c => c.description.some(d => d.name === "Контейнер")),
+            isContainer,
         ),
         "УказГО": formatShipperInstructions(data.shipperInstructions),
         "СвПер": formatPartyDetails(data.carrier),

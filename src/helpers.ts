@@ -98,15 +98,14 @@ export function formatDateTimeUTC(date: Date): string {
 
 /**
  * Форматирует дату/время с флагом наличия UTC.
- * Возвращает { dateTime: строка ДД.ММ.ГГГГТЧЧ:ММ:СС±ЧЧ:ММ, utc: "0"|"1" }.
- * isUtc (флаг = "1") означает, что у переданного Date нет таймзоны (смещение = 0).
+ * Возвращает { dateTime: строка ДД.ММ.ГГГГТЧЧ:ММ:СС±ЧЧ:ММ, utc: "1" }.
+ * Флаг означает наличие указанного UTC-смещения, а не равенство смещения нулю.
+ * formatDateTimeUTC всегда указывает смещение, в том числе +00:00.
  */
 export function formatDateTimeWithUtc(date: Date) {
-    const isUtc = date.getTimezoneOffset() === 0
-
     return {
         dateTime: formatDateTimeUTC(date),
-        utc: formatFlag(isUtc),
+        utc: "1",
     }
 }
 

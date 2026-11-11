@@ -1,0 +1,5 @@
+export { Document1110348, type TDocument1110348 } from './doc'
+export { ShipperSignerStatus } from './consts'
+export type { TShipperSigner } from './data/ShipperSigner'
+export type { TCarrierFileId } from './data/CarrierFileId'
+export type { TShipperContent,TTemperatureConditions,TShipperInstructions,TContainerTransfer,TCargoWeight,TLoading,TCorrection,TConcreteAddress,TInfoField } from './data/Content'

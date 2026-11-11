@@ -1,0 +1,12 @@
+/** Коды приказа ФНС ЕД-1-26/277@. */
+export enum TransportMode { Road=1,InlandWaterway=2,Air=3,Rail=4,Sea=5 }
+export enum CarriageType { WithoutContainer=0,LoadedContainers=1,EmptyContainersAsCargo=2 }
+export enum NotificationParty { Shipper=1,Client=2,Other=3 }
+export enum StateRegistration { NotRequired=0,Registered=1,IdentifiersPending=2 }
+export enum ContainerUse { Cargo=1,Packaging=2 }
+export enum ContainerProvider { Client=1,Forwarder=2 }
+export enum ReceiptPlace { Shipper=1,Forwarder=2 }
+export enum DeliveryPlace { Consignee=1,Forwarder=2 }
+export { AuthorityConfirmationMethod,formatAuthorityConfirmationMethod } from '../../ezz/1110361/consts'
+export enum SignatureType { Qualified=1,Unqualified=3 }
+export { MunicipalDistrictKind,SettlementKind } from '../../epl/1110380/consts'

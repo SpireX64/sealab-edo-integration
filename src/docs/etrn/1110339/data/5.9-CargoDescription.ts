@@ -20,10 +20,10 @@ export type TCargoDescription = {
     name: string
 
     /**
-     * Код товарной номенклатуры
+     * Необязательный код товарной номенклатуры (по XSD)
      * (4 символа)
      */
-    tnVedCode: string
+    tnVedCode?: string
 
     /**
      * Состояние груза

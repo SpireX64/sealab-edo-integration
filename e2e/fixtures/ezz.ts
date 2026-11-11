@@ -8,6 +8,7 @@
 
 import {
     Document1110361,
+    DocumentFunction,
     Authority,
     OperationType,
     MassDeterminationMethod,
@@ -18,6 +19,8 @@ import {
 } from "../../src/docs/ezz/1110361";
 
 export const ezzFixture: TDocument1110361 = {
+    documentFunction: DocumentFunction.Order,
+    createdAt: new Date('2026-08-13T08:00:00Z'),
     compilerName: 'Общество с ограниченной ответственностью "Ромашка"',
 
     content: {
